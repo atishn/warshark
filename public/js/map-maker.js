@@ -215,6 +215,11 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 		jsPlumb.draggable(jsPlumb.getSelector(".node"));
 	}
 
+	$scope.save = function () {
+		console.log('clicked save');
+	}
+
+
 	$scope.addRegion = function() {
 
 		// if not adding a region (color picker takes a sec to bind), and the new region input vals pass validation...
