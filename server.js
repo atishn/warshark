@@ -1,7 +1,8 @@
 /**
  * Requirements
  */
-var express = require('express');
+var express = require('express'),
+    map = require('./routes/maps')
 
 /** 
  *	Create app
@@ -20,6 +21,7 @@ app.set('view options', { layout: false });
  */ 
 app.use( express.static(__dirname + '/public') );
 
+app.use ( express.bodyParser());
 /**
  * Routes
  */
@@ -45,6 +47,9 @@ app.get('/game/:id', function(req, res, next) {
 app.get('/mapmaker', function(req, res, next) {
 	res.render('map-maker');
 });
+
+app.get('/api/map/:name', map.findByName);
+app.post('/api/map', map.addMap)
 
 // handle everything else that a route can't be found for
 app.get('*', function(req, res){
