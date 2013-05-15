@@ -1,10 +1,10 @@
 /**
 	@author: 	Cho 'papi san' Snyder csnyder@hugeinc.com
 	@overview: 	Warfish mapmaker. ui that generates an object the backend 
-				will consume to determine "right" or "wrong" moves based on the its configuration
+				will consume to determine "right" or "wrong" moves based on its configuration
 
 				You can make new nodes, connect them (ie be able to attack and defend), 
-				and generate regions with bonuses to assign to those nodes
+				and assign generated node regions
 
 	@requires   jquery, plump.js, angular.js, collidesWith.js, angular-resource.js, jscolor.js 
 **/
@@ -18,7 +18,7 @@
 // Instantiating the app "Mapmaker"
 var Mapmaker = angular.module('Mapmaker', ['ngResource']);
 
-// Angular's way of doing global variables shared between controllers and directives, called a service. I like the completely random use of factory
+// Global vars, shared between directives and controllers
 Mapmaker.factory('MapmakerService', [function(){
   	return { 
   		activeRegionID : 0,
@@ -32,7 +32,7 @@ Mapmaker.factory('MapmakerService', [function(){
 // Validation
 Mapmaker.directive('inputRequired', function(MapmakerService) {
 	return {
-		restrict: 'A', // I will never get why they did it like this. this only applies to attributes I guess?
+		restrict: 'A', // This is a thing... good thing the documentation is horrible.
 		link: function(scope, elm, attrs) {
 			var $addRegionButton = $('#add-region');
 
