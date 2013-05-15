@@ -17,8 +17,14 @@
 	-webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    -webkit-transition: background-color .5s ease-in-out; 
-	-moz-transition: background-color .5s ease-in-out;
+    -webkit-transition: background-color .5s ease-in-out, border 1s, -webkit-border-radius 1s; 
+	-moz-transition: background-color .5s ease-in-out, border 1s,  -moz-border-radius 1s;
+}
+
+#map .node.active {
+	border: 1px solid red;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 }
 
 #map .node .tool-tip {
@@ -58,9 +64,6 @@
 
 .map-section {
 	padding: 20px 10px;
-}
-
-.region-wrapper {
 	border: 1px solid #ddd;
 }
 
@@ -83,7 +86,7 @@
 .regions {
 	list-style: none;
 	margin: 10px 0 0 10px;
-	padding: 0;
+	padding: 0 0 20px;
 }
 
 .regions li {

@@ -10,8 +10,10 @@
 **/
 
 /**
-	TODO: 	add nodes.name to $scope.nodes
-			at least pull out all tooltip ui states into a directive
+	TODO: 	Need to change ux, maybe make everything 90% width, put controls as a band on top, 
+			and map on bottom. Also it confused Jose. I am ashamed.
+
+			pull out all tooltip ui states into a directive
 			pull out all style/dom manipulation into directives if possible
 **/
 
@@ -22,6 +24,7 @@ var Mapmaker = angular.module('Mapmaker', ['ngResource']);
 Mapmaker.factory('MapmakerService', [function(){
   	return { 
   		activeRegionID : 0,
+  		activeNodeID: 0,
   		activeRegionName : 'Rob Opolis',
   		regionAddable: true,
   		activeRegionBonus : 3,
@@ -29,23 +32,24 @@ Mapmaker.factory('MapmakerService', [function(){
   	};
 }]);
 
-// Validation
-Mapmaker.directive('inputRequired', function(MapmakerService) {
+// Region validation
+Mapmaker.directive('regionRequired', function(MapmakerService) {
 	return {
-		restrict: 'A', // This is a thing... good thing the documentation is horrible.
+		restrict: 'A', 
 		link: function(scope, elm, attrs) {
-			var $addRegionButton = $('#add-region');
+			var $submitButton = $('#add-region');
 
-			$addRegionButton.bind('click', function() {
+			$submitButton.bind('click', function() {
 				validate();
 			});
 
 			elm.bind('click, keyup', function() {
 				validate();
+				MapmakerService.regionAddable = true;
 			});
 
 			function validate() {
-				MapmakerService.regionAddable = true;
+				
 				elm.each(function() {
 					var $this = $(this);
 					if ($this.val() === '') {
@@ -53,6 +57,40 @@ Mapmaker.directive('inputRequired', function(MapmakerService) {
 						MapmakerService.regionAddable = false;
 					} else {
 						$this.parent().removeClass('required');
+					}
+				});
+			}
+		}
+	}
+});
+
+// TODO: not DRY, but I tried, and the elm binding is weird, maybe look at Tim's thing and see how to pass link functions
+// Node validation
+Mapmaker.directive('nodeRequired', function(MapmakerService) {
+	return {
+		restrict: 'A', 
+		link: function(scope, elm, attrs) {
+			var $submitButton = $('#add-node');
+
+			$submitButton.bind('click', function() {
+				validate();
+			});
+
+			elm.bind('click, keyup', function() {
+				validate();
+				MapmakerService.nodeAddable = true;
+			});
+
+			function validate() {
+				
+				elm.each(function() {
+					var $this = $(this);
+					if ($this.val() === '') {
+						$this.parent().addClass('required');
+						MapmakerService.nodeAddable = false;
+					} else {
+						$this.parent().removeClass('required');
+						MapmakerService.nodeAddable = true;
 					}
 				});
 			}
@@ -123,20 +161,25 @@ Mapmaker.directive('accordian', function() {
     }
 });
 
-// Making nodes editable via the assign regions checkbox
+// Making nodes editable via the assign regions, or assign name checkbox
 Mapmaker.directive('nodeEditable', function(MapmakerService) {
 	return {
         restrict: 'A',
         link: function(scope, elm, attrs) {
-        	
+
         	elm.bind('click', function() {
-        		var editable = $('#assign-regions').prop('checked');
-        		if (editable) {
-        			MapmakerService.nodeEditing = elm.attr('id').replace('node','');
+        		var thisID = elm.attr('id').replace('node','');
+        		var regionEditable = $('#assign-region').prop('checked');
+        		var nameEditable = $('#assign-name').prop('checked');
+        		
+        		MapmakerService.nodeEditing = thisID;
+
+        		if (regionEditable || nameEditable) {
         			setTimeout(function() {
         				$(document).trigger('nodeEdited');
         			}, 300);
         		}
+
         	});
         }
     }
@@ -150,6 +193,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 	$scope.regions = [];
 
 	$scope.activeRegionID = 0;
+	$scope.activeNodeName = 'Chaumobile';
 	$scope.activeRegionName = MapmakerService.activeRegionName;
 	$scope.activeRegionBonus = MapmakerService.activeRegionBonus;
 
@@ -338,6 +382,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 					$scope.nodes[i].region = MapmakerService.activeRegionID;
 					$scope.nodes[i].regionName = MapmakerService.activeRegionName;
 					$scope.nodes[i].regionBonus = MapmakerService.activeRegionBonus;
+					$scope.nodes[i].name = $scope.activeNodeName;
 
 					$scope.upDateNodeColor();
 					$scope.$digest(); // should prolly read more about this
@@ -368,27 +413,31 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 
 	// the most important object of all ($scope.nodes), this object is what I will send to the backend
 	$scope.addNode = function() {
-		$scope.nodes.push({
-			'id': $scope.nodes.length,
-			'positionX' : 0,
-			'positionY' : 0,
-			'region' : MapmakerService.activeRegionID,
-			'regionName' : $scope.activeRegionName,
-			'regionBonus' : $scope.activeRegionBonus,
-			'neighbors' : []
-		});
+		if (MapmakerService.nodeAddable) {
+			$scope.nodes.push({
+				'id': $scope.nodes.length,
+				'positionX' : 0,
+				'positionY' : 0,
+				'name': $scope.activeNodeName,
+				'region' : MapmakerService.activeRegionID,
+				'regionName' : $scope.activeRegionName,
+				'regionBonus' : $scope.activeRegionBonus,
+				'neighbors' : []
+			});
 
-		// TODO: changing dom again
-		setTimeout(function() {
-			$('.tool-tip').addClass('visualy-hidden');
-		}, 2000);
+			// TODO: changing dom again
+			setTimeout(function() {
+				$('.tool-tip').addClass('visualy-hidden');
+			}, 2000);
+			
+			setTimeout(
+				function() {
+					jsPlumb.draggable(jsPlumb.getSelector(".node"));
+					$scope.upDateNodeColor();
+				}
+			, 300)
+		}
 		
-		setTimeout(
-			function() {
-				jsPlumb.draggable(jsPlumb.getSelector(".node"));
-				$scope.upDateNodeColor();
-			}
-		, 300)
 		
 	}
 
