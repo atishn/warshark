@@ -1,0 +1,142 @@
+#map {
+	background-position: center;
+	height: 500px;
+	background-repeat: no-repeat;
+	width: 100%;
+	border: 1px solid #ddd;
+	position:relative;
+}
+
+#map .node {
+	background-color:#fff;
+	height:20px;
+	width:20px;
+	border:1px solid #000;
+	text-align: center;
+	position: absolute;
+	-webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-transition: background-color .5s ease-in-out; 
+	-moz-transition: background-color .5s ease-in-out;
+}
+
+#map .node .tool-tip {
+	position: absolute;
+	width:200px;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border:1px solid #ddd;
+    text-align: left;
+    left: 25px;
+    bottom: 25px;
+    padding: 10px;
+    box-shadow: 5px 5px rgba(10,10,50,0.2);
+    -webkit-transition: all .5s ease-in-out; 
+	-moz-transition: left opacity .5s ease-in-out;
+	z-index: 1000;
+	background-color: rgb(0, 109, 204);
+	color:#fff;
+
+}
+
+#map .node .visualy-hidden {
+	opacity: 0;
+	left:250%;
+	z-index: -2;
+}
+
+#map ._jsPlumb_endpoint {
+	opacity:.5;
+	-webkit-transition: opacity 1s ease-in-out; 
+	-moz-transition: opacity 1s ease-in-out;
+}
+
+#map ._jsPlumb_endpoint.show {
+	opacity:1;
+}
+
+.map-section {
+	padding: 20px 10px;
+}
+
+.region-wrapper {
+	border: 1px solid #ddd;
+}
+
+.region-label {
+	padding:20px 0 0;
+}
+
+.map-section .control-group {
+	margin-bottom: 10px;
+}
+
+#map-controls input[type="text"] {
+	width: 150px;
+}
+
+.assign-regions {
+	margin-top: 10px;
+}
+
+.regions {
+	list-style: none;
+	margin: 10px 0 0 10px;
+	padding: 0;
+}
+
+.regions li {
+	padding:10px;
+	cursor: pointer;
+}
+
+.regions li label {
+	margin:0;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.regions li.selected {
+	background-color: rgb(0, 109, 204);
+	color:#fff;
+	font-weight: bold;
+}
+
+.regions .region-color {
+	height: 14px;
+	width: 14px;
+	background-color: #fff;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.assign-regions {
+	padding-top:20px;
+}
+
+.info-link {
+	cursor: pointer;
+	z-index: 200;
+	position: relative;
+}
+
+.info-hidden {
+	height: 0;
+	opacity: 0;
+	position: relative;
+	z-index: -10
+}
+
+
+.info-show {
+	-webkit-transition: all 1s ease-in-out; 
+	-moz-transition: all 1s ease-in-out;
+	height: auto;
+	position: relative;
+	opacity: 1;
+}
+
+.submit {
+	padding:20px 0;
+}

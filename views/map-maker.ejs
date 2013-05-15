@@ -1,0 +1,155 @@
+<!doctype html>
+
+	<head>
+		<title>Warshark</title>
+		<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="stylesheet" href="/css/map-maker.css" />
+	</head>
+
+	<body ng-app="Mapmaker">
+
+		<header>
+			Warshark
+		</header>
+
+		<div class="container">
+			
+			<ul class="main-nav nav nav-tabs">
+				<li class="active">
+					<a href="#tab1">Home</a>
+				</li>
+				<li>
+					<a href="/compete">Compete</a>
+				</li>
+				<li>
+					<a href="/browse">Browse</a>
+				</li>
+				<li>
+					<a href="/settings">Settings</a>
+				</li>
+			</ul>
+
+			<div class="row" ng-controller="MapmakerCtrl">
+				<div class="span3">
+					<form enctype="multipart/form-data" id="map-controls" class="form-horizontal" method="post">
+						<input type="file" id="map-file" name="uploaded-map" />
+						<h4 accordian="true" class="info-link">Node Manager</h4>
+						
+						<div class="form-horizontal info-hidden info">
+							<p>Add a node and drag and drop for map position.<p>
+							<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
+						</div>
+
+						<div class="control-group map-section region-wrapper"> 
+							<button id="add-node" ng-click="addNode()">Add Node</button>
+						</div>
+
+						<h4 accordian="true" class="info-link">Region Manager</h4>
+
+						<div class="form-horizontal info-hidden info">
+							<p>Any Node added will inherit the  blue bg selected region!<p>
+							<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
+						</div>
+
+						<div class="form-horizontal map-section region-wrapper">
+							
+							<div class="control-group"> 
+								<input input-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><label>Region Name</label>
+							</div>
+
+							<div class="control-group"> 
+								<input input-required="true" type="number" min="0" ng-model="activeRegionBonus" ng-change="updateRegionBonus()" class="active-region-bonus small" /><label>Unit bonus</label>
+							</div>
+
+							<button id="add-region" ng-click="addRegion()">Add Region</button>
+							
+							<label class="region-label">
+								Regions
+							</label>
+							<ul class="regions">
+
+								<li ng-repeat="region in regions" class="region" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
+									<div region-editable="true">
+										
+										Bonus: <label class="region-bonus">{{region.bonus}}</label>
+										<!-- {{region.id}}
+										{{region.color}} -->
+									</div>
+
+									<span class="hidden">
+										<input id="jscolor{{$index}}">
+									</span>
+									
+									<input class="region-color" id="jscolorPicker{{$index}}"></input>
+									<label class="region-name">{{region.name}}</label>
+									
+								</li>
+							</ul>
+
+							<div class="form-horizontal">
+
+								<label class="checkbox assign-regions">
+									<input type="checkbox" id="assign-regions" /> Assign Regions 
+								</label>
+
+							</div>
+
+							<div class="form-horizontal">
+								When this is checked, any node you click will be assigned the selected region
+							</div>
+							
+						</div>
+
+						<div class="form-horizontal">
+						
+							<div class="control-group submit"> 
+								<input type="submit" id="submit" />
+							</div>
+
+						</div>
+					</form>
+				</div>
+
+				<div class="span9">
+					<div id="map" style="background-image:url(/img/level4.jpg); background-size:600px auto">
+							
+						<div node-editable="true" ng-repeat="node in nodes" tool-tip="true" class="node" id="node{{node.id}}" ng-mouseup="upDatePosition(node.id);" ng-mouseover="wirePlumbPoints(node.id); showPlumbPoints(node.id)" ng-mouseout="hidePlumbPoints()">
+							{{node.id}}
+							<div class="tool-tip">
+								<label>Region Name: {{node.regionName}}</label>
+								<label>Region Bonus: {{node.regionBonus}}</label>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row hidden">
+				<div class="span12">
+					Example:
+					<img width="600" src="/img/map-maker-regioun-config.png" />
+				</div>
+			</div>
+		</div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+		<script src="/js/libs/bootstrap.min.js"></script>
+
+		<script src="/js/helpers/file.js"></script>
+
+		<script src="/js/libs/lodash.js"></script>
+		<script src="/js/libs/angular.js"></script>
+		<script src="/js/libs/angular-resource.js"></script>
+
+		<script src="/js/libs/jscolor/jscolor.js"></script>
+		<script src="/js/libs/jquery.jsPlumb-1.3.16-all-min.js"></script>
+		<script src="/js/libs/jquery-collidesWith-1.1.js"></script>
+
+		<script src="/js/map-maker.js"></script>
+	</body>
+</html>

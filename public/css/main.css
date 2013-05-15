@@ -1,0 +1,46 @@
+header {
+	background: rgb(0, 109, 204);
+	color: #fff;
+	font-family: 'Fugaz One', cursive;
+	font-size: 20px;
+	line-height: 2;
+	padding: 0 20px;
+	text-shadow: 0 0 3px #333;
+}
+.main-nav {
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+.login-box {
+	margin-top: 40px;
+	padding: 20px 20px 5px 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.login-box input {
+	width: 245px;
+}
+.login-box button {
+	margin-top: 10px;
+}
+.start-a-game {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 20px;
+	margin-bottom: 15px;
+}
+.start-a-game a {
+	display: block;
+	text-align: center;
+}
+.hidden {
+	display: none;
+}
+input.small {
+	width:30px;
+}
+.required input{
+	border:1px solid red;
+}
+.required {
+	color:red;
+}
