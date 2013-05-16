@@ -34,7 +34,15 @@
 			<div class="row" ng-controller="MapmakerCtrl">
 				<div class="span3">
 					<form enctype="multipart/form-data" id="map-controls" class="form-horizontal" method="post">
+						<div class="form-horizontal">
+							<div class="control-group submit"> 
+								<input id="map-name" ng-model="mapName" value="My first Map!" type="text" />
+								<label>Map Name</label>
+							</div>
+						</div>
+
 						<input type="file" id="map-file" name="uploaded-map" />
+						
 						<h4 accordian="true" class="info-link">Node Manager</h4>
 						
 						<div class="form-horizontal info-hidden info-show info">
@@ -119,10 +127,14 @@
 						</div>
 
 						<div class="form-horizontal">
-						
+
+							<div class="control-group submit"> 
+								<button id="save" save-enabled="true">Save</button>
+							</div>
+<!-- 
 							<div class="control-group submit"> 
 								<input type="submit" id="submit" ng-click="save()"/>
-							</div>
+							</div> -->
 
 						</div>
 					</form>

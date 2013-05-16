@@ -21,6 +21,7 @@
 var Mapmaker = angular.module('Mapmaker', ['ngResource']);
 
 // Global vars, shared between directives and controllers
+// TODO: should put update functions here
 Mapmaker.factory('MapmakerService', [function(){
   	return { 
   		activeRegionID : 0,
@@ -31,6 +32,18 @@ Mapmaker.factory('MapmakerService', [function(){
   		nodeEditing : 0
   	};
 }]);
+
+// Save Button
+Mapmaker.directive('saveEnabled', function() {
+	return {
+		restrict: 'A',
+		link: function(scope, elm, attrs) {
+			elm.bind('click', function() {
+				$(document).trigger('save');
+			});
+		}
+	}
+});
 
 // Region validation
 Mapmaker.directive('regionRequired', function(MapmakerService) {
@@ -120,10 +133,8 @@ Mapmaker.directive('regionEditable', function(MapmakerService) {
 			});
 
 			function makeFirstRegionActiveOnload() {
-				
 				if ($('.region').length === 1) {
 					$('.region:first').addClass('selected');
-					loaded = true;
 				}
 			}
 			
@@ -187,7 +198,7 @@ Mapmaker.directive('nodeEditable', function(MapmakerService) {
 
 
 // Mapmaker controller
-Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource) {
+Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource, $http) {
 
 	$scope.nodes = [];
 	$scope.regions = [];
@@ -196,6 +207,8 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 	$scope.activeNodeName = 'Chaumobile';
 	$scope.activeRegionName = MapmakerService.activeRegionName;
 	$scope.activeRegionBonus = MapmakerService.activeRegionBonus;
+
+	$scope.mapName = 'My first Map!';
 
 	var $nodeEndpoints = [],
 		nodeTimeout = 0,
@@ -245,6 +258,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 		setTimeout(file.bindInputs, 0);
 		
 		$scope.listenForEditedNode();
+		$scope.listenForSave();
 		$scope.bindConnectors();
 		$scope.addRegion();
 		$scope.upDateRegionColor();
@@ -259,10 +273,27 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 		jsPlumb.draggable(jsPlumb.getSelector(".node"));
 	}
 
-	$scope.save = function () {
-		console.log('clicked save');
-	}
+	$scope.listenForSave = function() {
 
+		var boardData = {
+			'name': $scope.mapName,
+			'nodes': $scope.nodes
+		}
+
+		$(document).bind('save', function() {
+			$http({
+				    url: "/api/map",
+				    method: "POST",
+				    data: boardData
+				}).success(function(data, status, headers, config) {
+				    alert('SUCCESS');
+				    //$scope.data = data;
+				}).error(function(data, status, headers, config) {
+				    console.log(dataForJose);
+				    //$scope.status = status;
+				});
+		});
+	}
 
 	$scope.addRegion = function() {
 
@@ -376,7 +407,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource)
 		}, 3000);
 	}
 
-	// when you check assign nodes this this listens for the directive trigger (Mapmaker.directive('nodeEditable')
+	// when you check assign nodes this this listens for the directive trigger (Mapmaker.directive('nodeEditable'))
 	$scope.listenForEditedNode = function() {
 		$(document).bind('nodeEdited', function() {
 			
