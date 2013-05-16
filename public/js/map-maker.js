@@ -182,7 +182,7 @@ Mapmaker.directive('nodeEditable', function(MapmakerService) {
         		var thisID = elm.attr('id').replace('node','');
         		var regionEditable = $('#assign-region').prop('checked');
         		var nameEditable = $('#assign-name').prop('checked');
-        		
+
         		MapmakerService.nodeEditing = thisID;
 
         		if (regionEditable || nameEditable) {
@@ -280,6 +280,8 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 			'nodes': $scope.nodes
 		}
 
+		console.log('BOARD DATA', boardData);
+
 		$(document).bind('save', function() {
 			$http({
 				    url: "/api/map",
@@ -289,7 +291,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 				    alert('SUCCESS');
 				    //$scope.data = data;
 				}).error(function(data, status, headers, config) {
-				    console.log(dataForJose);
+				    console.log(boardData);
 				    //$scope.status = status;
 				});
 		});
@@ -410,7 +412,6 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 	// when you check assign nodes this this listens for the directive trigger (Mapmaker.directive('nodeEditable'))
 	$scope.listenForEditedNode = function() {
 		$(document).bind('nodeEdited', function() {
-			
 			for (var i=0; i<$scope.nodes.length; i++) {
 
 				if ($scope.nodes[i].id === parseInt(MapmakerService.nodeEditing)) {
