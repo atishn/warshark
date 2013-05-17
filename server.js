@@ -2,7 +2,7 @@
  * Requirements
  */
 var express = require('express'),
-    map = require('./routes/maps')
+    map = require('./routes/maps');
 
 /** 
  *	Create app
@@ -21,7 +21,7 @@ app.set('view options', { layout: false });
  */ 
 app.use( express.static(__dirname + '/public') );
 
-app.use ( express.bodyParser());
+app.use ( express.bodyParser() );
 /**
  * Routes
  */
@@ -30,18 +30,12 @@ app.get('/', function(req, res, next) {
 });
 
 app.get('/home', function(req, res, next) {
-
-	var games = require('./public/mock/game-list.json');
-	
-	res.render('home', {
-		games: games
-	});
+	var games = require('./public/mock/game-list.json');	
+	res.render('home', { games: games } );
 });
 
 app.get('/game/:id', function(req, res, next) {
-	res.render('game', {
-		id: req.params.id
-	});
+	res.render('game', { id: req.params.id } );
 });
 
 app.get('/mapmaker', function(req, res, next) {
@@ -49,7 +43,7 @@ app.get('/mapmaker', function(req, res, next) {
 });
 
 app.get('/api/map/:name', map.findByName);
-app.post('/api/map', map.addMap)
+app.post('/api/map', map.addMap);
 
 // handle everything else that a route can't be found for
 app.get('*', function(req, res){
