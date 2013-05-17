@@ -33,6 +33,7 @@ Mapmaker.factory('MapmakerService', [function(){
   	};
 }]);
 
+// TODO: in retrospect I should have made nodes and regions a serviced object.
 // Save Button
 Mapmaker.directive('saveEnabled', function() {
 	return {
@@ -165,8 +166,30 @@ Mapmaker.directive('accordian', function() {
 	return {
         restrict: 'A',
         link: function(scope, elm, attrs) {
-        	elm.bind('click', function() {
-        		elm.next('.info-hidden').toggleClass('info-show');
+        	
+        	var $hidden = elm.next('.info-hidden');
+        	var height = 0;
+
+        	$('#add-region').bind('click', function() {
+        		setTimeout(function() {
+        			height = $hidden.children('.drop-wrapper').height();
+        			$hidden.css('height', height + 'px');
+        		}, 300)
+        		
+        	});
+
+        	elm.bind('click', function(e) {
+        		e.preventDefault();
+
+        		height = $hidden.children('.drop-wrapper').height();
+
+        		$hidden.toggleClass('info-show');
+        		if ($hidden.hasClass('info-show')) {
+        			$hidden.css('height', height + 'px');
+        		} else {
+        			$hidden.css('height', '0');
+        		}
+        		
         	});
         }
     }

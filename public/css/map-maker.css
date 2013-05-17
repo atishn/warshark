@@ -1,6 +1,6 @@
 #map {
 	background-position: center;
-	height: 500px;
+	height: 563px;
 	background-repeat: no-repeat;
 	width: 100%;
 	border: 1px solid #ddd;
@@ -62,6 +62,10 @@
 	opacity:1;
 }
 
+#map-controls .span3 {
+	position:relative;
+}
+
 .map-section {
 	padding: 20px 10px;
 	border: 1px solid #ddd;
@@ -87,10 +91,14 @@
 	list-style: none;
 	margin: 10px 0 0 10px;
 	padding: 0 0 20px;
+	width: 100%;
+	float: left;
 }
 
 .regions li {
 	padding:10px;
+	float:left;
+	width: 28%;
 	cursor: pointer;
 }
 
@@ -98,12 +106,16 @@
 	margin:0;
 	vertical-align: middle;
 	display: inline-block;
+	width:70%;
 }
 
 .regions li.selected {
-	background-color: rgb(0, 109, 204);
-	color:#fff;
+	background-color: #fff;
+	border: #eee;
+	color: #000;
 	font-weight: bold;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
 }
 
 .regions .region-color {
@@ -122,24 +134,31 @@
 	cursor: pointer;
 	z-index: 200;
 	position: relative;
+	margin-top: 0;
 }
 
 .info-hidden {
 	height: 0;
 	opacity: 0;
-	position: relative;
-	z-index: -10
+	left: 0px;
+	position: absolute;
+	z-index: -10;
+	width: 220px;
+	background-color:#fff;
+	padding: 20px;
 }
 
+.region-hidden{
+	width: 440px;
+}
 
 .info-show {
 	-webkit-transition: all 1s ease-in-out; 
 	-moz-transition: all 1s ease-in-out;
-	height: auto;
-	position: relative;
+	overflow: hidden;
+	left: -20px;
+	z-index: 20;
 	opacity: 1;
-}
-
-.submit {
-	padding:20px 0;
+	background-color: #08c;
+	color:#fff;
 }

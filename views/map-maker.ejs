@@ -31,117 +31,135 @@
 				</li>
 			</ul>
 
-			<div class="row" ng-controller="MapmakerCtrl">
+			<div class="row" ng-controller="MapmakerCtrl" id="map-controls">
 				<div class="span3">
-					<form enctype="multipart/form-data" id="map-controls" class="form-horizontal" method="post">
-						<div class="form-horizontal">
-							<div class="control-group submit"> 
-								<input id="map-name" ng-model="mapName" value="My first Map!" type="text" />
-								<label>Map Name</label>
-							</div>
-						</div>
 
-						<input type="file" id="map-file" name="uploaded-map" />
-						
-						<h4 accordian="true" class="info-link">Node Manager</h4>
-						
-						<div class="form-horizontal info-hidden info-show info">
-							<p>Add a node and drag and drop for map position.<p>
-							<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
-						</div>
+					<h4 accordian="true" class="info-link"><a href="#">Map Manager</a></h4>
 
-
-						<div class="control-group map-section"> 
-							
-							<div class="control-group"> 
-								<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" /><label>Node Name</label>
-							</div>
-							<div class="control-group"> 
-								<button id="add-node" ng-click="addNode()">Add Node</button>
-							</div>
-
-							<div class="form-horizontal">
-
-								<label class="checkbox assign-name">
-									<input type="checkbox" id="assign-name" /> Assign Node Name 
-								</label>
-
+					<div class="info-hidden info">
+						<div class="drop-wrapper">
+							<form enctype="multipart/form-data" id="" class="form-horizontal" method="post">
 								<div class="form-horizontal">
-									When this is checked, any node you click will be assigned this node name
+									<div class="control-group submit"> 
+										<input id="map-name" ng-model="mapName" value="My first Map!" type="text" />
+										<label>Map Name</label>
+									</div>
+								</div>
+								<input type="file" id="map-file" name="uploaded-map" />
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					
+					<h4 accordian="true" class="info-link"><a href="#">Node Manager</a></h4>
+					
+					<div class="info-hidden info">
+						<div class="drop-wrapper">
+							<div class="form-horizontal">
+								<p>Add a node and drag and drop for map position.<p>
+								<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
+							</div>
+
+							<div class="control-group"> 
+								
+								<div class="control-group"> 
+									<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" /><label>Node Name</label>
+								</div>
+								<div class="control-group"> 
+									<button id="add-node" ng-click="addNode()">Add Node</button>
 								</div>
 
-							</div>
-						</div>
+								<div class="form-horizontal">
 
-						<h4 accordian="true" class="info-link">Region Manager</h4>
+									<label class="checkbox assign-name">
+										<input type="checkbox" id="assign-name" /> Assign Node Name 
+									</label>
 
-						<div class="form-horizontal info-hidden info-show info">
-							<p>Any Node added will inherit the  blue bg selected region!<p>
-							<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
-						</div>
-
-						<div class="form-horizontal map-section">
-							
-							<div class="control-group"> 
-								<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><label>Region Name</label>
-							</div>
-
-							<div class="control-group"> 
-								<input region-required="true" type="number" min="0" ng-model="activeRegionBonus" ng-change="updateRegionBonus()" class="active-region-bonus small" /><label>Unit bonus</label>
-							</div>
-
-							<button id="add-region" ng-click="addRegion()">Add Region</button>
-							
-							<label class="region-label">
-								Regions
-							</label>
-							<ul class="regions">
-
-								<li ng-repeat="region in regions" class="region" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
-									<div region-editable="true">
-										Bonus: <label class="region-bonus">{{region.bonus}}</label>
+									<div class="form-horizontal">
+										When this is checked, any node you click will be assigned this node name
 									</div>
 
-									<span class="hidden">
-										<input id="jscolor{{$index}}">
-									</span>
-									
-									<input class="region-color" id="jscolorPicker{{$index}}"></input>
-									<label class="region-name">{{region.name}}</label>
-									
-								</li>
-							</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<h4 accordian="true" class="info-link"><a href="#">Region Manager</a></h4>
+
+					<div class="info-hidden info region-hidden">
+						<div class="drop-wrapper">
+							<div class="form-horizontal">
+								<p>Any Node added will inherit the selected region!<p>
+								<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
+							</div>
 
 							<div class="form-horizontal">
+								
+								<div class="control-group"> 
+									<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><label>Region Name</label>
+								</div>
 
-								<label class="checkbox assign-region">
-									<input type="checkbox" id="assign-region" /> Assign Regions 
+								<div class="control-group"> 
+									<input region-required="true" type="number" min="0" ng-model="activeRegionBonus" ng-change="updateRegionBonus()" class="active-region-bonus small" /><label>Unit bonus</label>
+								</div>
+
+								<button id="add-region" ng-click="addRegion()">Add Region</button>
+								
+								<label class="region-label">
+									Regions
 								</label>
+								<ul class="regions">
 
-							</div>
+									<li ng-repeat="region in regions" class="region" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
+										<div region-editable="true">
+											Bonus: <label class="region-bonus">{{region.bonus}}</label>
+										</div>
 
-							<div class="form-horizontal">
-								When this is checked, any node you click will be assigned the selected region
+										<span class="hidden">
+											<input id="jscolor{{$index}}">
+										</span>
+										
+										<input class="region-color" id="jscolorPicker{{$index}}"></input>
+										<label class="region-name">{{region.name}}</label>
+										
+									</li>
+								</ul>
+
+								<div class="form-horizontal">
+
+									<label class="checkbox assign-region">
+										<input type="checkbox" id="assign-region" /> Assign Regions 
+									</label>
+
+								</div>
+
+								<div class="form-horizontal">
+									When this is checked, any node you click will be assigned the selected region
+								</div>
+								
 							</div>
-							
 						</div>
-
-						<div class="form-horizontal">
-
-							<div class="control-group submit"> 
-								<button id="save" save-enabled="true">Save</button>
-							</div>
-<!-- 
-							<div class="control-group submit"> 
-								<input type="submit" id="submit" ng-click="save()"/>
-							</div> -->
-
-						</div>
-					</form>
+					</div>
 				</div>
 
-				<div class="span9">
-					<div id="map" style="background-image:url(/img/level4.jpg); background-size:600px auto">
+				<div class="span3">
+					<div class="form-horizontal">
+
+						<div class="control-group submit"> 
+							<button id="save" save-enabled="true">Save</button>
+						</div>
+<!-- 
+						<div class="control-group submit"> 
+							<input type="submit" id="submit" ng-click="save()"/>
+						</div> -->
+
+					</div>
+				</div>
+
+				<div class="span12">
+					<div id="map" style="background-image:url(/img/marshmellow-map.png); background-size:100% auto">
 							
 						<div node-editable="true" ng-repeat="node in nodes" tool-tip="true" class="node" id="node{{node.id}}" ng-mouseup="upDatePosition(node.id);" ng-mouseover="wirePlumbPoints(node.id); showPlumbPoints(node.id)" ng-mouseout="hidePlumbPoints()">
 							{{node.id}}
