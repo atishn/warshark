@@ -31,13 +31,13 @@
 				</li>
 			</ul>
 
-			<div class="row" ng-controller="MapmakerCtrl" id="map-controls">
-				<div class="span12">
+			<div ng-controller="MapmakerCtrl" id="map-controls">
+				<div class="well">
 
 					<form enctype="multipart/form-data" id="map-form" class="form-horizontal" method="post">
 						<div class="row">
 						<div class="span3">
-							<h4 accordian="true" class="info-link">Map Info</h4>
+							<h4>Map Info</h4>
 						</div>
 						<div class="span3">
 							<div class="control-group submit"> 
@@ -47,119 +47,158 @@
 						<div class="span3">
 							<input type="file" id="map-file" name="uploaded-map" />
 						</div>
+						<div class="span2">
+							<div class="form-horizontal">
+
+								<div class="control-group submit"> 
+									<button id="save" save-enabled="true">Save</button>
+								</div>
+		<!-- 
+								<div class="control-group submit"> 
+									<input type="submit" id="submit" ng-click="save()"/>
+								</div> -->
+
+							</div>
+						</div>
 					</div>
 					</form>
 				</div>
-				<div class="12">
-					<div class="span3">
-						<h4 class="">Add a Node</h4>
-						<a accordian="true" href="#" class="info-link"> huh?</a>
-						<div class="info-hidden info">
-							<div class="drop-wrapper">
-								<div class="form-horizontal">
-									<p>Add a node and drag and drop for map position.<p>
-									<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="control-group"> 
-							<div class="control-group"> 
-								<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" />
-								<label class="checkbox assign-name" class="info-link">
-							<input type="checkbox" id="assign-name" /> <a href="#" accordian="true" >Assign Node Name</a> 
-							<div class="form-horizontal info-hidden info">
+				<div class="well">
+					<div class="row">
+						<div class="span3">
+							<h4 class="">Add a Node</h4>
+							<a accordian="true" href="#" class="info-link"> huh?</a>
+							<div class="info-hidden info">
 								<div class="drop-wrapper">
-									When this is checked, any node you click will be assigned this node name
+									<div class="form-horizontal">
+										<p>Add a node and drag and drop for map position.<p>
+										<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
+									</div>
 								</div>
 							</div>
-						</label>
+						</div>
+						<div class="span3">
+							<div class="control-group"> 
+								<div class="control-group"> 
+									<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" />
+									<label class="checkbox assign-name" class="info-link">
+										<input type="checkbox" id="assign-name" /> <a href="#" accordian="true" >Assign Node Name</a> 
+										<div class="form-horizontal info-hidden info">
+											<div class="drop-wrapper">
+												When this is checked, any node you click will be assigned this node name
+											</div>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="span3">
+							TODO: put region drop down here
+						</div>
+						<div class="span2">
+							<div class="control-group"> 
+								 
+								<button id="add-node" ng-click="addNode()">Add Node</button>
+							
 							</div>
 						</div>
 					</div>
-					<div class="span3">
-						<div class="control-group"> 
-							 
-						<button id="add-node" ng-click="addNode()">Add Node</button>
-						
-					</div>
 				</div>
-						
-				</div>
-				<div class="span12">
-					<h4 accordian="true" class="info-link"><a href="#">Region Manager</a></h4>
+				
+				<div class="well">
+					<div class="row">
+						<div class="span3">
+							<h4>Region Manager</a></h4>
 
-					<div class="info-hidden info region-hidden">
-						<div class="drop-wrapper">
-							<div class="form-horizontal">
-								<p>Any Node added will inherit the selected region!<p>
-								<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
+							<a href="#" accordian="true" class="info-link">What am I doing?</a>
+
+							<div class="info-hidden info region-hidden">
+								<div class="drop-wrapper">
+									
+									<p>Any Node added will inherit the selected region!</p>
+									<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
+									
+								</div>
 							</div>
-
+						</div>
+						<div class="span3">
 							<div class="form-horizontal">
-								
 								<div class="control-group"> 
-									<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><label>Region Name</label>
+									<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><!-- <label>Region Name</label> -->
 								</div>
-
-								<div class="control-group"> 
-									<input region-required="true" type="number" min="0" ng-model="activeRegionBonus" ng-change="updateRegionBonus()" class="active-region-bonus small" /><label>Unit bonus</label>
-								</div>
-
-								<button id="add-region" ng-click="addRegion()">Add Region</button>
-								
-								<label class="region-label">
-									Regions
-								</label>
-								<ul class="regions">
-
-									<li ng-repeat="region in regions" class="region" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
-										<div region-editable="true">
-											Bonus: <label class="region-bonus">{{region.bonus}}</label>
-										</div>
-
-										<span class="hidden">
-											<input id="jscolor{{$index}}">
-										</span>
-										
-										<input class="region-color" id="jscolorPicker{{$index}}"></input>
-										<label class="region-name">{{region.name}}</label>
-										
-									</li>
-								</ul>
-
 								<div class="form-horizontal">
 
 									<label class="checkbox assign-region">
-										<input type="checkbox" id="assign-region" /> Assign Regions 
+										<input type="checkbox" id="assign-region" /><a accordian="true" href="#"class="info-link">Assign Regions</a>
+										<div class="form-horizontal info-hidden info">
+									<div class="drop-wrapper">
+										When this is checked, any node you click will be assigned the selected region
+									</div>
+								</div>
 									</label>
 
 								</div>
 
-								<div class="form-horizontal">
-									When this is checked, any node you click will be assigned the selected region
-								</div>
 								
 							</div>
 						</div>
-					</div>
-				</div>
-
-				<div class="span3">
-					<div class="form-horizontal">
-
-						<div class="control-group submit"> 
-							<button id="save" save-enabled="true">Save</button>
+						<div class="span3">
+							<div class="control-group"> 
+								<input region-required="true" type="number" min="0" ng-model="activeRegionBonus" ng-change="updateRegionBonus()" class="active-region-bonus small" /><label>Unit bonus</label>
+							</div>
 						</div>
-<!-- 
-						<div class="control-group submit"> 
-							<input type="submit" id="submit" ng-click="save()"/>
-						</div> -->
-
+						<div class="span2">
+							<button id="add-region" ng-click="addRegion()">Add Region</button>
+						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="span12 info-link" accordian="true">
+						<div class="span3">
+							<label class="region-label">
+								Regions
+							</label>
+						</div>
+					</div>
+				
+					<div class="span12" >
+						<div class="drop-wrapper">
+							<ul class="regions">
 
+								<li ng-repeat="region in regions" class="region span3" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
+									<div region-editable="true">
+										Bonus: <label class="region-bonus">{{region.bonus}}</label>
+									</div>
+
+									<span class="hidden">
+										<input id="jscolor{{$index}}">
+									</span>
+									
+									<input class="region-color" id="jscolorPicker{{$index}}"></input>
+									<label class="region-name">{{region.name}}</label>
+									
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<!-- <div class="span12">
+						<div class="form-horizontal">
+
+							<label class="checkbox assign-region">
+								<input type="checkbox" id="assign-region" /> Assign Regions 
+							</label>
+
+						</div>
+
+						<div class="form-horizontal">
+							When this is checked, any node you click will be assigned the selected region
+						</div>
+						
+					</div> -->
+				</div>
+					
 				<div class="span12">
 					<div id="map" style="background-image:url(/img/marshmellow-map.png); background-size:100% auto">
 							

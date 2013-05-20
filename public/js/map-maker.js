@@ -15,6 +15,9 @@
 
 			pull out all tooltip ui states into a directive
 			pull out all style/dom manipulation into directives if possible
+
+			Basically my biggest fuck ups with angular is how coupled everything is with binding, in any case,
+			never touch the dom from the controller, so that the directive can fire an event 5 times when it's bound. that was sarcasm.
 **/
 
 // Instantiating the app "Mapmaker"
@@ -26,11 +29,11 @@ Mapmaker.factory('MapmakerService', [function(){
   	return { 
   		activeRegionID : 0,
   		activeNodeID: 0,
-  		activeRegionName : 'Rob Opolis',
+  		activeRegionName : 'Region Name',
   		regionAddable: true,
   		activeRegionBonus : 3,
-  		nodeEditing : 0,
-  		activeNodeName : 'Node Name'
+  		nodeEditing : 0
+  		//activeNodeName : 'Node Name'
   	};
 }]);
 
@@ -185,6 +188,7 @@ Mapmaker.directive('accordian', function() {
         	$('#add-region').bind('click', function() {
         		setTimeout(function() {
         			height = $hidden.children('.drop-wrapper').height();
+
         			$hidden.css('height', height + 'px');
         		}, 300)
         		
@@ -194,7 +198,6 @@ Mapmaker.directive('accordian', function() {
         		e.preventDefault();
 
         		height = $hidden.children('.drop-wrapper').height();
-
         		$hidden.toggleClass('info-show');
         		if ($hidden.hasClass('info-show')) {
         			$hidden.css('height', height + 'px');
@@ -239,11 +242,11 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 	$scope.regions = [];
 
 	$scope.activeRegionID = 0;
-	$scope.activeNodeName = MapmakerService.activeNodeName;
+	$scope.activeNodeName = 'Node Name!';
 	$scope.activeRegionName = MapmakerService.activeRegionName;
 	$scope.activeRegionBonus = MapmakerService.activeRegionBonus;
 
-	$scope.mapName = 'My first Map!';
+	$scope.mapName = 'Enter a map name!';
 
 	var $nodeEndpoints = [],
 		nodeTimeout = 0,

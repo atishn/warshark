@@ -102,7 +102,7 @@
 .regions li {
 	padding:10px;
 	float:left;
-	width: 28%;
+	width: 20%;
 	cursor: pointer;
 }
 
@@ -120,6 +120,8 @@
 	font-weight: bold;
 	-webkit-border-radius: 4px;
     -moz-border-radius: 4px;
+    background-color: #08c;
+	color:#fff;
 }
 
 .regions .region-color {
@@ -163,7 +165,7 @@
 	-moz-transition: all .8s ease-in-out;
 	overflow: hidden;
 	left: -20px;
-	z-index: 20;
+	z-index: 990;
 	opacity: 1;
 	background-color: #08c;
 	color:#fff;
