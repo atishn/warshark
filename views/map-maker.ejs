@@ -32,60 +32,62 @@
 			</ul>
 
 			<div class="row" ng-controller="MapmakerCtrl" id="map-controls">
-				<div class="span3">
+				<div class="span12">
 
-					<h4 accordian="true" class="info-link"><a href="#">Map Manager</a></h4>
-
-					<div class="info-hidden info">
-						<div class="drop-wrapper">
-							<form enctype="multipart/form-data" id="" class="form-horizontal" method="post">
-								<div class="form-horizontal">
-									<div class="control-group submit"> 
-										<input id="map-name" ng-model="mapName" value="My first Map!" type="text" />
-										<label>Map Name</label>
-									</div>
-								</div>
-								<input type="file" id="map-file" name="uploaded-map" />
-							</form>
+					<form enctype="multipart/form-data" id="map-form" class="form-horizontal" method="post">
+						<div class="row">
+						<div class="span3">
+							<h4 accordian="true" class="info-link">Map Info</h4>
+						</div>
+						<div class="span3">
+							<div class="control-group submit"> 
+								<input id="map-name" ng-model="mapName" value="Map Name" type="text" />
+							</div>
+						</div>
+						<div class="span3">
+							<input type="file" id="map-file" name="uploaded-map" />
 						</div>
 					</div>
+					</form>
 				</div>
-				<div class="span3">
-					
-					<h4 accordian="true" class="info-link"><a href="#">Node Manager</a></h4>
-					
-					<div class="info-hidden info">
-						<div class="drop-wrapper">
-							<div class="form-horizontal">
-								<p>Add a node and drag and drop for map position.<p>
-								<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
+				<div class="12">
+					<div class="span3">
+						<h4 class="">Add a Node</h4>
+						<a accordian="true" href="#" class="info-link"> huh?</a>
+						<div class="info-hidden info">
+							<div class="drop-wrapper">
+								<div class="form-horizontal">
+									<p>Add a node and drag and drop for map position.<p>
+									<p>Connect the node endpoints (green) to say what nodes can attack what! zomg</p>
+								</div>
 							</div>
-
+						</div>
+					</div>
+					<div class="span3">
+						<div class="control-group"> 
 							<div class="control-group"> 
-								
-								<div class="control-group"> 
-									<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" /><label>Node Name</label>
+								<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" />
+								<label class="checkbox assign-name" class="info-link">
+							<input type="checkbox" id="assign-name" /> <a href="#" accordian="true" >Assign Node Name</a> 
+							<div class="form-horizontal info-hidden info">
+								<div class="drop-wrapper">
+									When this is checked, any node you click will be assigned this node name
 								</div>
-								<div class="control-group"> 
-									<button id="add-node" ng-click="addNode()">Add Node</button>
-								</div>
-
-								<div class="form-horizontal">
-
-									<label class="checkbox assign-name">
-										<input type="checkbox" id="assign-name" /> Assign Node Name 
-									</label>
-
-									<div class="form-horizontal">
-										When this is checked, any node you click will be assigned this node name
-									</div>
-
-								</div>
+							</div>
+						</label>
 							</div>
 						</div>
 					</div>
+					<div class="span3">
+						<div class="control-group"> 
+							 
+						<button id="add-node" ng-click="addNode()">Add Node</button>
+						
+					</div>
 				</div>
-				<div class="span3">
+						
+				</div>
+				<div class="span12">
 					<h4 accordian="true" class="info-link"><a href="#">Region Manager</a></h4>
 
 					<div class="info-hidden info region-hidden">
@@ -164,7 +166,7 @@
 						<div node-editable="true" ng-repeat="node in nodes" tool-tip="true" class="node" id="node{{node.id}}" ng-mouseup="upDatePosition(node.id);" ng-mouseover="wirePlumbPoints(node.id); showPlumbPoints(node.id)" ng-mouseout="hidePlumbPoints()">
 							{{node.id}}
 							<div class="tool-tip">
-								<label>Region Name: {{node.name}}</label>
+								<label>Node Name: <input id="node-name{{node.id}}" type="text" ng-model="node.name" /></label>
 								<label>Region Name: {{node.regionName}}</label>
 								<label>Region Bonus: {{node.regionBonus}}</label>
 							</div>

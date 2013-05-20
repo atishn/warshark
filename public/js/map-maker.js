@@ -29,7 +29,8 @@ Mapmaker.factory('MapmakerService', [function(){
   		activeRegionName : 'Rob Opolis',
   		regionAddable: true,
   		activeRegionBonus : 3,
-  		nodeEditing : 0
+  		nodeEditing : 0,
+  		activeNodeName : 'Node Name'
   	};
 }]);
 
@@ -110,6 +111,17 @@ Mapmaker.directive('nodeRequired', function(MapmakerService) {
 			}
 		}
 	}
+});
+
+Mapmaker.directive('updateNodeName', function(MapmakerService) {
+	return {
+		restrict: 'A',
+        link: function(scope, elm, attrs) {
+        	elm.bind('click change', function() {
+        		MapmakerService.activeNodeName = elm.val();
+        	});
+        }
+    }
 });
 
 // Region interactions
@@ -227,7 +239,7 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 	$scope.regions = [];
 
 	$scope.activeRegionID = 0;
-	$scope.activeNodeName = 'Chaumobile';
+	$scope.activeNodeName = MapmakerService.activeNodeName;
 	$scope.activeRegionName = MapmakerService.activeRegionName;
 	$scope.activeRegionBonus = MapmakerService.activeRegionBonus;
 
@@ -411,6 +423,12 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 
 	$scope.updateRegionFieldName = function() {
 		$scope.activeRegionName = MapmakerService.activeRegionName;
+	}
+
+	$scope.updateActiveNodeName = function(id) {
+		// so much work for nothing :P
+		// var $thisNode = $('#node' + id);
+		// $scope.activeNodeName = $thisNode.find('#node-name' + id).val();
 	}
 
 	$scope.updateRegionFieldBonus = function() {

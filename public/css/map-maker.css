@@ -66,6 +66,10 @@
 	position:relative;
 }
 
+#map-controls #map-form {
+	margin-bottom: 0;
+}
+
 .map-section {
 	padding: 20px 10px;
 	border: 1px solid #ddd;
@@ -152,9 +156,11 @@
 	width: 440px;
 }
 
+.inline {display: inline-block;}
+
 .info-show {
-	-webkit-transition: all 1s ease-in-out; 
-	-moz-transition: all 1s ease-in-out;
+	-webkit-transition: all .8s ease-in-out; 
+	-moz-transition: all .8s ease-in-out;
 	overflow: hidden;
 	left: -20px;
 	z-index: 20;
