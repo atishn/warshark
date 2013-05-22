@@ -51,7 +51,7 @@
 							<div class="form-horizontal">
 
 								<div class="control-group submit"> 
-									<button id="save" save-enabled="true">Save</button>
+									<button id="save" save-enabled="true">Save Map</button>
 								</div>
 		<!-- 
 								<div class="control-group submit"> 
@@ -108,16 +108,20 @@
 				<div class="well">
 					<div class="row">
 						<div class="span3">
-							<h4>Region Manager</a></h4>
+							<h4>Region</a></h4>
 
 							<a href="#" accordian="true" class="info-link">What am I doing?</a>
 
 							<div class="info-hidden info region-hidden">
 								<div class="drop-wrapper">
 									
-									<p>Any Node added will inherit the selected region!</p>
-									<p>Changing that region's name or bonus will update the region's nodes on the fly.</p>
-									
+									<p>
+										Any added node will inherit the region info to the right!</p>
+									<p>
+										Changing this region's name or bonus will update nodes associated with that region on the fly.</p>
+									<p>
+										As you add regions, it will be added to the <a region-toggle="true" href="#">region well</a> on the bottom of your screen.
+									</p>
 								</div>
 							</div>
 						</div>
@@ -144,20 +148,18 @@
 							</div>
 						</div>
 						<div class="span2">
-							<button id="add-region" ng-click="addRegion()">Add Region</button>
+							<button id="add-region" region-toggle="true" ng-click="addRegion()">Add Region</button>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="span12 info-link" accordian="true">
-						<div class="span3">
+				<div class="row closed" id="regions-wrapper">
+					<div class="span12 region-sticky">
+						<div class="span3 region-toggle">
 							<label class="region-label">
-								Regions
+								<button region-toggle="true">Toggle Regions</button>
 							</label>
 						</div>
-					</div>
-				
-					<div class="span12" >
+					
 						<div class="drop-wrapper">
 							<ul class="regions">
 
@@ -194,19 +196,20 @@
 						
 					</div> -->
 				</div>
-					
-				<div class="span12">
-					<div id="map" style="background-image:url(/img/marshmellow-map.png); background-size:100% auto">
-							
-						<div node-editable="true" ng-repeat="node in nodes" tool-tip="true" class="node" id="node{{node.id}}" ng-mouseup="upDatePosition(node.id);" ng-mouseover="wirePlumbPoints(node.id); showPlumbPoints(node.id)" ng-mouseout="hidePlumbPoints()">
-							{{node.id}}
-							<div class="tool-tip">
-								<label>Node Name: <input id="node-name{{node.id}}" type="text" ng-model="node.name" /></label>
-								<label>Region Name: {{node.regionName}}</label>
-								<label>Region Bonus: {{node.regionBonus}}</label>
+				<div class="row">
+					<div class="span12">
+						<div id="map" style="background-image:url(/img/marshmellow-map.png); background-size:100% auto">
+								
+							<div node-editable="true" ng-repeat="node in nodes" tool-tip="true" class="node" id="node{{node.id}}" ng-mouseup="upDatePosition(node.id);" ng-mouseover="wirePlumbPoints(node.id); showPlumbPoints(node.id)" ng-mouseout="hidePlumbPoints()">
+								{{node.id}}
+								<div class="tool-tip">
+									<label>Node Name: <input id="node-name{{node.id}}" type="text" ng-model="node.name" /></label>
+									<label>Region Name: {{node.regionName}}</label>
+									<label>Region Bonus: {{node.regionBonus}}</label>
+								</div>
 							</div>
+							
 						</div>
-						
 					</div>
 				</div>
 

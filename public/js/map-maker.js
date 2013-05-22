@@ -50,6 +50,33 @@ Mapmaker.directive('saveEnabled', function() {
 	}
 });
 
+Mapmaker.directive('regionToggle', function(MapmakerService) {
+	return {
+		restrict: 'A', 
+		link: function(scope, elm, attrs) {
+			elm.bind('click', function(e){
+				e.preventDefault();
+
+				var $wrapper = $('#regions-wrapper'),
+					$map = $('#map');
+
+				var height = $wrapper.height();
+
+				if (elm.attr('id') === 'add-region') {
+					$wrapper.removeClass('closed');
+				} else {
+					$wrapper.toggleClass('closed');
+				}
+
+				height = $wrapper.height();
+
+				$map.css('margin-bottom', height + 50 + 'px');
+				
+			});
+		}
+	}
+});
+
 // Region validation
 Mapmaker.directive('regionRequired', function(MapmakerService) {
 	return {
