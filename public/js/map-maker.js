@@ -55,14 +55,16 @@ Mapmaker.directive('regionToggle', function(MapmakerService) {
 		restrict: 'A', 
 		link: function(scope, elm, attrs) {
 			elm.bind('click', function(e){
-				e.preventDefault();
-
+				if (elm.attr('id') !== 'assign-regions') {
+					e.preventDefault();
+				}
+				
 				var $wrapper = $('#regions-wrapper'),
 					$map = $('#map');
 
 				var height = $wrapper.height();
 
-				if (elm.attr('id') === 'add-region') {
+				if (elm.attr('id') === 'add-region' || elm.attr('id') === 'assign-regions') {
 					$wrapper.removeClass('closed');
 				} else {
 					$wrapper.toggleClass('closed');
