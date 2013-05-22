@@ -82,18 +82,20 @@
 								<div class="control-group"> 
 									<input node-required="true" type="text" ng-model="activeNodeName" class="medium active-node-name" />
 									<label class="checkbox assign-name" class="info-link">
-										<input type="checkbox" id="assign-name" /> <a href="#" accordian="true" >Assign Node Name</a> 
+										<!-- <input type="checkbox" id="assign-name" /> <a href="#" accordian="true" >Assign Node Name</a> 
 										<div class="form-horizontal info-hidden info">
 											<div class="drop-wrapper">
 												When this is checked, any node you click will be assigned this node name
 											</div>
-										</div>
+										</div> -->
 									</label>
 								</div>
 							</div>
 						</div>
 						<div class="span3">
-							TODO: put region drop down here
+							
+							<a href="#" region-toggle="true">Selected region:</a> <label>{{activeRegionName}} {{activeRegionBonus}}</label>
+								
 						</div>
 						<div class="span2">
 							<div class="control-group"> 
@@ -108,7 +110,7 @@
 				<div class="well">
 					<div class="row">
 						<div class="span3">
-							<h4>Region</a></h4>
+							<h4><a href="#" region-toggle="true">Selected region</a></h4>
 
 							<a href="#" accordian="true" class="info-link">What am I doing?</a>
 
@@ -116,9 +118,9 @@
 								<div class="drop-wrapper">
 									
 									<p>
-										Any added node will inherit the region info to the right!</p>
+										Any added node will inherit the selected region info to the right!</p>
 									<p>
-										Changing this region's name or bonus will update nodes associated with that region on the fly.</p>
+										Changing this region's name or bonus will update nodes associated with that region (hover over a node if you need to remember what it's assoiated with).</p>
 									<p>
 										As you add regions, it will be added to the <a region-toggle="true" href="#">region well</a> on the bottom of your screen.
 									</p>
@@ -127,20 +129,19 @@
 						</div>
 						<div class="span3">
 							
-								<div class="control-group"> 
-									<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><!-- <label>Region Name</label> -->
+							<div class="control-group"> 
+								<input region-required="true" type="text" ng-model="activeRegionName" ng-change="updateRegionName()" class="medium active-region-name" /><!-- <label>Region Name</label> -->
 
-									<label class="checkbox assign-region">
-										<input type="checkbox" id="assign-regions" region-toggle="true" /><a accordian="true" href="#" class="info-link">Assign Regions</a>
-										<div class="info-hidden info">
-											<div class="drop-wrapper">
-												When this is checked, any node you click will be assigned the selected region in region well.
-											</div>
+								<label class="checkbox assign-region">
+									<input type="checkbox" id="assign-regions" region-toggle="true" /><a accordian="true" href="#" class="info-link">Assign Regions</a>
+									<div class="info-hidden info">
+										<div class="drop-wrapper">
+											When this is checked, any node you click will be assigned the selected region in region well.
 										</div>
-									</label>
-								</div>
+									</div>
+								</label>
+							</div>
 								
-
 						</div>
 						<div class="span3">
 							<div class="control-group"> 

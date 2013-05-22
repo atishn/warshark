@@ -58,7 +58,7 @@ Mapmaker.directive('regionToggle', function(MapmakerService) {
 				if (elm.attr('id') !== 'assign-regions') {
 					e.preventDefault();
 				}
-				
+
 				var $wrapper = $('#regions-wrapper'),
 					$map = $('#map');
 
@@ -247,13 +247,14 @@ Mapmaker.directive('nodeEditable', function(MapmakerService) {
 
         	elm.bind('click', function() {
         		var thisID = elm.attr('id').replace('node','');
-        		var regionEditable = $('#assign-region').prop('checked');
+        		var regionEditable = $('#assign-regions').prop('checked');
         		var nameEditable = $('#assign-name').prop('checked');
 
         		MapmakerService.nodeEditing = thisID;
 
         		if (regionEditable || nameEditable) {
         			setTimeout(function() {
+
         				$(document).trigger('nodeEdited');
         			}, 300);
         		}
