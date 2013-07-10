@@ -172,6 +172,14 @@
 	color:#fff;
 }
 
+.regions .region-bonus-wrapper {
+	padding-left: 34px;
+}
+
+.regions .region-bonus-wrapper label {
+	width: auto;
+}
+
 .regions .region-color {
 	height: 14px;
 	width: 14px;

@@ -94,7 +94,7 @@
 						</div>
 						<div class="span3">
 							
-							<a href="#" region-toggle="true">Selected region:</a> <label>{{activeRegionName}} {{activeRegionBonus}}</label>
+							<a href="#" region-toggle="true">Selected region:</a> <label>"{{activeRegionName}}" bonus: {{activeRegionBonus}}!</label>
 								
 						</div>
 						<div class="span2">
@@ -120,7 +120,7 @@
 									<p>
 										Any added node will inherit the selected region info to the right!</p>
 									<p>
-										Changing this region's name or bonus will update nodes associated with that region (hover over a node if you need to remember what it's assoiated with).</p>
+										Changing this region's name or bonus will update nodes associated with that region (hover over a node if you need to remember what region it's in).</p>
 									<p>
 										As you add regions, it will be added to the <a region-toggle="true" href="#">region well</a> on the bottom of your screen.
 									</p>
@@ -136,7 +136,7 @@
 									<input type="checkbox" id="assign-regions" region-toggle="true" /><a accordian="true" href="#" class="info-link">Assign Regions</a>
 									<div class="info-hidden info">
 										<div class="drop-wrapper">
-											When this is checked, any node you click will be assigned the selected region in region well.
+											When this is checked, any node you click will be assigned the selected region in the region well.
 										</div>
 									</div>
 								</label>
@@ -165,16 +165,17 @@
 							<ul class="regions">
 
 								<li ng-repeat="region in regions" class="region span3" ng-click="updateRegionFieldName(); updateRegionFieldBonus()">
-									<div region-editable="true">
-										Bonus: <label class="region-bonus">{{region.bonus}}</label>
-									</div>
-
+									
 									<span class="hidden">
 										<input id="jscolor{{$index}}">
 									</span>
 									
 									<input class="region-color" id="jscolorPicker{{$index}}"></input>
-									<label class="region-name">{{region.name}}</label>
+									<label region-editable="true" class="region-name">{{region.name}}</label>
+
+									<div region-editable="true" class="region-bonus-wrapper">
+										Bonus: <label class="region-bonus">{{region.bonus}}</label>
+									</div>
 									
 								</li>
 							</ul>
