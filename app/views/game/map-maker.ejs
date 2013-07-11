@@ -1,20 +1,11 @@
 <!doctype html>
 
-	<head>
-		<title>Warshark</title>
-		<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/css/main.css" />
-		<link rel="stylesheet" href="/css/map-maker.css" />
-	</head>
-
+<html>
+    <% include ../includes/head %>
 	<body ng-app="Mapmaker">
 
-		<header>
-			Warshark
-		</header>
-
-		<div class="container">
+        <% include ../includes/header %>
+        <div class="container">
 			
 			<ul class="main-nav nav nav-tabs">
 				<li class="active">
@@ -53,7 +44,7 @@
 								<div class="control-group submit"> 
 									<button id="save" save-enabled="true">Save Map</button>
 								</div>
-		<!-- 
+		                        <!--
 								<div class="control-group submit"> 
 									<input type="submit" id="submit" ng-click="save()"/>
 								</div> -->
@@ -214,7 +205,6 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="row hidden">
@@ -225,7 +215,7 @@
 			</div>
 		</div>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 		<script src="/js/libs/bootstrap.min.js"></script>
 

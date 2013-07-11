@@ -1,20 +1,12 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Warshark</title>
-		<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/css/main.css" />
-	</head>
+    <% include ../includes/head %>
+    <body>
 
-	<body>
+        <% include ../includes/header %>
 
-		<header>
-			Warshark
-		</header>
+        <div class="container">
 
-		<div class="container">
-			
 			<ul class="main-nav nav nav-tabs">
 				<li class="active">
 					<a href="#tab1">Home</a>
@@ -37,9 +29,6 @@
 			</div>
 		</div>
 
-		<script src="/js/libs/bootstrap.min.js"></script>
-		<script src="/js/libs/lodash.js"></script>
-		<script src="/js/libs/angular.js"></script>
-		<script src="/js/game-board.js"></script>
+        <% include ../includes/footer %>
 	</body>
 </html>
