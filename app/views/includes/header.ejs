@@ -1,0 +1,12 @@
+<header>
+    Warshark
+
+    <% if(req.isAuthenticated()) { %>
+
+    <div class="logout" style="text-align: right">
+        <a title="Profile" href="/users/<%= req.user.id %>" >Profile </a>
+        <a href="/logout">Logout</a>
+    </div>
+    <% } %>
+
+</header>

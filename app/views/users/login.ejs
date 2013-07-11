@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<% include ../includes/head %>
+<body>
+
+<% include ../includes/header %>
+
+
+<div class="container">
+    <div class="span4 offset4">
+
+        <div class="offset1 span5">
+            <a href="/auth/facebook"><img src="/img/facebook.png"></a>
+            <a href="/auth/github"><img src="/img/github.png"></a>
+            <a href="/auth/twitter"><img src="/img/twitter.png"></a>
+            <a href="/auth/google"><img src="/img/google.png"></a>
+        </div>
+
+        <div class="login-box">
+            <form method="post" action="/users/session">
+                <div class="field">
+                    <label for="handle">Handle/email: </label>
+                    <input id="email" type="text" name="email" placeholder="Email"/>
+                </div>
+                <div class="field">
+                    <label for="password">Password: </label>
+                    <input id="password" type="password" name="password" placeholder="Password"/>
+                </div>
+                <button class="btn btn-success">Login</button>
+                &nbsp; or &nbsp;
+                <a href="/signup" class="show-signup">sign up</a>
+            </form>
+        </div>                                                img
+     </div>
+</div>
+
+<% include ../includes/footer %>
+
+</body>
+</html>

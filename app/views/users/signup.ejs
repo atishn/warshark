@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<% include ../includes/head %>
+
+
+<body>
+
+<% include ../includes/header %>
+
+<div class="container">
+    <div class="span4 offset4">
+
+        <div class="login-box">
+
+            <!--<form method="post" action="/users/session">-->
+                <!--<div class="field">-->
+                    <!--<label for="handle">Handle/email: </label>-->
+                    <!--<input id="email" type="text" name="email" placeholder="Email"/>-->
+                <!--</div>-->
+                <!--<div class="field">-->
+                    <!--<label for="password">Password: </label>-->
+                    <!--<input id="password" type="password" name="password" placeholder="Password"/>-->
+                <!--</div>-->
+                <!--<button class="btn btn-success">Login</button>-->
+                <!--&nbsp; or &nbsp;-->
+                <!--<a href="/signup" class="show-signup">sign up</a>-->
+            <!--</form>-->
+
+
+            <form action="/users" method="post" class="signup form-horizontal">
+                <div class="field"><label for="name" class="control-label">Full name</label>
+
+                    <div class="controls"><input id="name" type="text" name="name" placeholder="Full name"></div>
+                </div>
+                <div class="field"><label for="email" class="control-label">Email</label>
+
+                    <div class="controls"><input id="email" type="text" name="email" placeholder="Email"></div>
+                </div>
+                <div class="field"><label for="username" class="control-label">Username</label>
+
+                    <div class="controls"><input id="username" type="text" name="username" placeholder="Username"></div>
+                </div>
+                <div class="field"><label for="password" class="control-label">Password</label>
+
+                    <div class="controls"><input id="password" type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-succes">Sign up</button>
+                    &nbsp;
+                    or&nbsp;<a href="/login" class="show-login">login</a></div>
+            </form>
+
+        </div>
+     </div>
+</div>
+
+<% include ../includes/footer %>
+
+</body>
+</html>

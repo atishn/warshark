@@ -1,56 +1,52 @@
-/**
- * Requirements
+/*!
+ * nodejs-express-mongoose-demo
+ * Copyright(c) 2013 Madhusudhan Srinivasa <madhums8@gmail.com>
+ * MIT Licensed
  */
-var express = require('express'),
-    map = require('./routes/maps');
-
-/** 
- *	Create app
- */ 
-var app = express.createServer();
 
 /**
- * Configuration
+ * Module dependencies.
  */
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
-app.set('view options', { layout: false });
+
+var express = require('express')
+    , fs = require('fs')
+    , passport = require('passport')
 
 /**
- *	Look for static files in the public folder
- */ 
-app.use( express.static(__dirname + '/public') );
-
-app.use ( express.bodyParser() );
-/**
- * Routes
+ * Main application entry file.
+ * Please note that the order of loading is important.
  */
-app.get('/', function(req, res, next) {
-	res.render('index');
-});
 
-app.get('/home', function(req, res, next) {
-	var games = require('./public/mock/game-list.json');	
-	res.render('home', { games: games } );
-});
+// Load configurations
+// if test env, load example file
+var env = process.env.NODE_ENV || 'development'
+    , config = require('./config/config')[env]
+    , auth = require('./config/middlewares/authorization')
+    , mongoose = require('mongoose')
 
-app.get('/game/:id', function(req, res, next) {
-	res.render('game', { id: req.params.id } );
-});
+// Bootstrap db connection
+mongoose.connect(config.db)
 
-app.get('/mapmaker', function(req, res, next) {
-	res.render('map-maker');
-});
+// Bootstrap models
+var models_path = __dirname + '/app/models'
+fs.readdirSync(models_path).forEach(function (file) {
+    require(models_path+'/'+file)
+})
 
-app.get('/api/map/:name', map.findByName);
-app.post('/api/map', map.addMap);
+// bootstrap passport config
+require('./config/passport')(passport, config)
 
-// handle everything else that a route can't be found for
-app.get('*', function(req, res){
-	res.render('error');
-});
+var app = express()
+// express settings
+require('./config/express')(app, config, passport)
 
-/**
- * Listen
- */
-app.listen(3000);
+// Bootstrap routes
+require('./config/routes')(app, passport, auth)
+
+// Start the app by listening on <port>
+var port = process.env.PORT || 3000
+app.listen(port)
+console.log('Express app started on port '+port)
+
+// expose app
+exports = module.exports = app

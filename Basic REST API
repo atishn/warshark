@@ -1,0 +1,33 @@
+http://localhost:3000/node
+GET
+put{
+    "name": "NodeTest3",
+    "color": "Black",
+    "units": 3
+}
+
+http://localhost:3000/node/51dac61fe450ed0000000001
+GET
+POST{
+    "name": "NodeTest3",
+    "color": "Black",
+    "units": 3
+}
+DELETE
+
+Neighbor
+http://localhost:3000/node/51dac61fe450ed0000000001/neighbor
+POST
+{
+"id":["51dd667c12bad0742d000001"]
+}
+
+POST
+{
+"id":"51dd667c12bad0742d000001"
+}
+
+DELETE
+http://localhost:3000/node/51dac61fe450ed0000000001/neighbor/51dd667c12bad0742d000001
+
+
