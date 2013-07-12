@@ -12,7 +12,7 @@ var mongoose = require('mongoose')
 
 var BoardStatusSchema = new Schema({
     name: String,
-    boardTypeId: { type: Schema.ObjectId, ref: 'BoardType' },
+    boardTypeId: { type: Schema.ObjectId, ref: 'Map' },
     nodesState:[{ type: Schema.ObjectId, ref: 'NodeStatus' }],
     users:[{ type: Schema.ObjectId, ref: 'User' }],
     currentUser:{ type: Schema.ObjectId, ref: 'User'},

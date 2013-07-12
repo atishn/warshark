@@ -11,8 +11,10 @@ var mongoose = require('mongoose')
  */
 
 var MapSchema = new Schema({
-    name: String
- })
+    name: String,
+    regionId: [{ type: Schema.ObjectId, ref: 'Region' }]
+
+})
 
 /**
  * Validations

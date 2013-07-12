@@ -10,14 +10,13 @@ var mongoose = require('mongoose')
  * User Schema
  */
 
-var BoardGroupSchema = new Schema({
+var RegionSchema = new Schema({
     name: String,
     color: String,
-    boardTypeId: { type: Schema.ObjectId, ref: 'BoardType' },
     nodeCount: Number
 })
 
-mongoose.model('BoardGroup', BoardGroupSchema)
+mongoose.model('Region', RegionSchema)
 
 
 
