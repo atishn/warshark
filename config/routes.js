@@ -55,8 +55,16 @@ module.exports = function (app, passport, auth) {
 
 
     // Map
-    app.get('/api/map/:name',auth.requiresLogin, map.findByName);
-    app.post('/api/map', auth.requiresLogin, map.addMap);
+
+    app.get('/map/:mapId', auth.requiresLogin, map.show);
+
+    app.get('/api/map/:mapName',auth.requiresLogin, map.show);
+    app.post('/api/map', auth.requiresLogin, map.update);
+    app.put('/api/map', auth.requiresLogin, map.create);
+
+    app.param('mapId', map.map);
+    app.param('mapName',map.findByName);
+
 
 // handle everything else that a route can't be found for
     app.get('*', function (req, res) {

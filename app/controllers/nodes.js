@@ -24,12 +24,15 @@ exports.create = function (req, res) {
 
 exports.update = function (req, res) {
 
-    var node = req.node;
     var reqNode = new Node(req.body);
 
-    node.name = reqNode.name;
-    node.color = reqNode.color;
-    node.units = reqNode.units;
+    var node = req.node;
+    if(node){
+        node.name = reqNode.name;
+        node.color = reqNode.color;
+        node.units = reqNode.units;
+
+    }else node = reqNode;
 
     node.save(function (err) {
         if (err) {
