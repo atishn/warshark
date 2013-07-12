@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
  * User Schema
  */
 
-var BoardStatusSchema = new Schema({
+var GameStatusSchema = new Schema({
     name: String,
     boardTypeId: { type: Schema.ObjectId, ref: 'Map' },
     nodesState:[{ type: Schema.ObjectId, ref: 'NodeStatus' }],
@@ -22,7 +22,7 @@ var BoardStatusSchema = new Schema({
 
 })
 
-mongoose.model('BoardStatus', BoardStatusSchema)
+mongoose.model('BoardStatus', GameStatusSchema)
 
 
 //
