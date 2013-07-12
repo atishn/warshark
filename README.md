@@ -15,11 +15,13 @@ After checkout/clone type 'npm install' this will install all dependencies.
 5. goto localhost:3000
 
 
-You should also install nodemon and start the application with
 
-nodemon server.js
+You should also install supervisor. This will monitor your codebase for changes and restart the context.
 
-This will monitor your codebase for changes and restart the context.
+npm install supervisor -g
+
+start the application with
+sh start.sh
 
 
 Initial Version of API
