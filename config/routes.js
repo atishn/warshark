@@ -60,7 +60,11 @@ module.exports = function (app, passport, auth) {
 
     app.get('/api/map/:mapName',auth.requiresLogin, map.show);
     app.post('/api/map', auth.requiresLogin, map.update);
+    app.post('/map', auth.requiresLogin, map.update);
+
     app.put('/api/map', auth.requiresLogin, map.create);
+    app.put('/map', auth.requiresLogin, map.create);
+
 
     app.param('mapId', map.map);
     app.param('mapName',map.findByName);

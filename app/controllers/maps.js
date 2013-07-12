@@ -59,7 +59,10 @@ exports.remove = function (req, res) {
 
 exports.show = function (req, res) {
     var map = req.map
-    res.send(map)
+    if(map)
+        res.send(map)
+    else
+        res.send(404, "Resource not found")
 }
 
 
@@ -86,7 +89,7 @@ exports.findByName = function (req, res, next, name) {
     Map
         .findOne({ name: name })
         .exec(function (err, map) {
-            if (err || !map) return new Error('Failed to load Map ' + name)
+            if (err || !map) return next(new Error('Failed to load Map ' + name))
             req.map = map
             next()
         })
