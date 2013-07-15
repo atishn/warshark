@@ -8,6 +8,7 @@ module.exports = function (app, passport, auth) {
     var game = require('../app/controllers/game')
 
     var nodes = require('../app/controllers/nodes')
+    var regions = require('../app/controllers/regions')
     var map = require('../app/controllers/maps');
 
 
@@ -20,6 +21,7 @@ module.exports = function (app, passport, auth) {
     app.param('userId', users.user)
 
 
+    // Nodes
     app.get('/node', nodes.index)
     app.get('/node/:nodeId', nodes.show)
     app.put('/node', nodes.create)
@@ -34,6 +36,16 @@ module.exports = function (app, passport, auth) {
     app.param('neighborNodeId', nodes.neighborNode)
 
 
+    // Regions
+    app.get('/region', regions.index)
+    app.get('/region/:regionId', regions.show)
+    app.put('/region', regions.create)
+    app.post('/region/:regionId', regions.update)
+    app.delete('/region/:regionId', regions.remove)
+
+    app.put('/region/:regionId/node', regions.addNode)
+
+    app.param('regionId', regions.region)
 
 
     app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
