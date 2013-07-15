@@ -1,27 +1,49 @@
-module.exports = function (app, passport, auth) {
+/**
+ * Module dependencies.
+ */
+
+var users = require('../app/controllers/users')
+  , game = require('../app/controllers/game')
+  , nodes = require('../app/controllers/nodes')
+  , map = require('../app/controllers/maps');;
+
+module.exports = function (app, passport, auth, swagger) {
 
     /**
      * Routes
      */
 
-    var users = require('../app/controllers/users')
-    var game = require('../app/controllers/game')
+  app.get('/login', users.login)
+  app.get('/signup', users.signup)
+  app.get('/logout', users.logout)
+  app.post('/users', users.create)
+  app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
+  app.get('/users/:userId', users.show)
+  app.param('userId', users.user)
 
-    var nodes = require('../app/controllers/nodes')
-    var map = require('../app/controllers/maps');
+  swagger.addGet({
+    spec: {
+      path: '/node',
+      summary : 'Get all nodes',
+      responseClass: 'Node',
+      nickname: 'getNodeList'
+    },
+    action: nodes.index
+  });
 
+  swagger.addGet({
+    spec: {
+      path: '/node/{nodeId}',
+      summary : 'Get a node by ID',
+      params : [swagger.pathParam('nodeId', 'ID of node', 'string')],
+      responseClass: 'Node',
+      nickname: 'getNodeById'
+    },
+    action: nodes.show
+  });
 
-    app.get('/login', users.login)
-    app.get('/signup', users.signup)
-    app.get('/logout', users.logout)
-    app.post('/users', users.create)
-    app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
-    app.get('/users/:userId', users.show)
-    app.param('userId', users.user)
-
-
-    app.get('/node', nodes.index)
-    app.get('/node/:nodeId', nodes.show)
+    //app.get('/node', nodes.index)
+    //app.get('/node/:nodeId', nodes.show)
     app.put('/node', nodes.create)
     app.post('/node/:nodeId', nodes.update)
     app.delete('/node/:nodeId', nodes.remove)
@@ -71,9 +93,9 @@ module.exports = function (app, passport, auth) {
 
 
 // handle everything else that a route can't be found for
-    app.get('*', function (req, res) {
+    /*app.get('*', function (req, res) {
         res.render('error');
-    });
+    });*/
 }
 
 
