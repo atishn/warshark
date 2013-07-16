@@ -8,7 +8,7 @@ var users = require('../app/controllers/users')
     , map = require('../app/controllers/maps');
 ;
 
-module.exports = function (app, swagger, passport, auth) {
+module.exports = function (app, api, passport, auth) {
 
     /**
      * Routes
@@ -31,57 +31,6 @@ module.exports = function (app, swagger, passport, auth) {
     app.get('/users/:userId', users.show)
     app.param('userId', users.user)
 
-    // Game
-    app.get('/', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
-    app.get('/home', auth.requiresLogin, game.home);
-    app.get('/game/:id', auth.requiresLogin, game.game);
-    app.get('/mapmaker', auth.requiresLogin, game.mapmaker);
-
-
-    // Node
-    swagger.addGet({
-        spec: {
-            path: '/api/node',
-            summary: 'Get all nodes',
-            responseClass: 'Node',
-            nickname: 'getNodeList'
-        },
-        action: nodes.index
-    });
-
-    swagger.addGet({
-        spec: {
-            path: '/api/node/{nodeId}',
-            summary: 'Get a node by ID',
-            params: [swagger.pathParam('nodeId', 'ID of node', 'string')],
-            responseClass: 'Node',
-            nickname: 'getNodeById'
-        },
-        action: nodes.show
-    });
-
-    app.put('/node', nodes.create)
-    app.post('/node/:nodeId', nodes.update)
-    app.delete('/node/:nodeId', nodes.remove)
-
-    app.post('/node/:nodeId/neighbor', nodes.addNeighbors)
-    app.delete('/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
-
-
-    app.param('nodeId', nodes.node)
-    app.param('neighborNodeId', nodes.neighborNode)
-
-
-    // Regions
-    app.get('/region', regions.index)
-    app.get('/region/:regionId', regions.show)
-    app.put('/region', regions.create)
-    app.post('/region/:regionId', regions.update)
-    app.delete('/region/:regionId', regions.remove)
-
-    app.put('/region/:regionId/node', regions.addNode)
-
-    app.param('regionId', regions.region)
 
     app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
@@ -93,16 +42,68 @@ module.exports = function (app, swagger, passport, auth) {
     app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.authCallback)
 
 
+    // Game
+    app.get('/', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
+    app.get('/home', auth.requiresLogin, game.home);
+    app.get('/game/:id', auth.requiresLogin, game.game);
+    app.get('/mapmaker', auth.requiresLogin, game.mapmaker);
+
+
+    // Node
+    api.addGet({
+        spec: {
+            path: '/api/node',
+            summary: 'Get all nodes',
+            responseClass: 'Node',
+            nickname: 'getNodeList'
+        },
+        action: nodes.index
+    });
+
+    api.addGet({
+        spec: {
+            path: '/api/node/{nodeId}',
+            summary: 'Get a node by ID',
+            params: [swagger.pathParam('nodeId', 'ID of node', 'string')],
+            responseClass: 'Node',
+            nickname: 'getNodeById'
+        },
+        action: nodes.show
+    });
+
+    app.put('/api/node', nodes.create)
+    app.post('/api/node/:nodeId', nodes.update)
+    app.delete('/api/node/:nodeId', nodes.remove)
+
+    app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
+    app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
+
+
+    app.param('nodeId', nodes.node)
+    app.param('neighborNodeId', nodes.neighborNode)
+
+
+    // Regions
+    app.get('/api/region', regions.index)
+    app.get('/api/region/:regionId', regions.show)
+    app.put('/api/region', regions.create)
+    app.post('/api/region/:regionId', regions.update)
+    app.delete('/api/region/:regionId', regions.remove)
+
+    app.put('/api/region/:regionId/node', regions.addNode)
+
+    app.param('regionId', regions.region)
+
     // Map
 
-    app.get('/map/:mapId', auth.requiresLogin, map.show);
+    app.get('/api/map/:mapId', auth.requiresLogin, map.show);
 
-    app.get('/api/map/:mapName', auth.requiresLogin, map.show);
+    //app.get('/api/map/:mapName', auth.requiresLogin, map.show);
     app.post('/api/map', auth.requiresLogin, map.update);
-    app.post('/map', auth.requiresLogin, map.update);
+    app.post('/api/map', auth.requiresLogin, map.update);
 
     app.put('/api/map', auth.requiresLogin, map.create);
-    app.put('/map', auth.requiresLogin, map.create);
+    //app.put('/map', auth.requiresLogin, map.create);
 
 
     app.param('mapId', map.map);
