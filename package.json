@@ -29,7 +29,8 @@
     "gzippo": "latest",
     "async": "latest",
     "view-helpers": "latest",
-    "forever": "latest"
+    "forever": "latest",
+    "swagger-node-express": "1.2.x"
 }, "devDependencies": {
     "supertest": "latest",
     "should": "latest",

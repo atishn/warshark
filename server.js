@@ -11,6 +11,7 @@
 var express = require('express')
     , fs = require('fs')
     , passport = require('passport')
+    , swagger = require('swagger-node-express');
 
 /**
  * Main application entry file.
@@ -36,12 +37,18 @@ fs.readdirSync(models_path).forEach(function (file) {
 // bootstrap passport config
 require('./config/passport')(passport, config)
 
-var app = express()
+var app = express();
+
 // express settings
-require('./config/express')(app, config, passport)
+require('./config/express')(app, config, passport);
+
+swagger.setAppHandler(app);
 
 // Bootstrap routes
-require('./config/routes')(app, passport, auth)
+require('./config/routes')(app, passport, auth, swagger);
+
+// swagger settings
+require('./config/swagger')(swagger, config);
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000

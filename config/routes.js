@@ -1,8 +1,19 @@
-module.exports = function (app, passport, auth) {
+/**
+ * Module dependencies.
+ */
+
+var users = require('../app/controllers/users')
+    , game = require('../app/controllers/game')
+    , nodes = require('../app/controllers/nodes')
+    , map = require('../app/controllers/maps');
+;
+
+module.exports = function (app, passport, auth, swagger) {
 
     /**
      * Routes
      */
+
 
     var users = require('../app/controllers/users')
     var game = require('../app/controllers/game')
@@ -11,7 +22,7 @@ module.exports = function (app, passport, auth) {
     var regions = require('../app/controllers/regions')
     var map = require('../app/controllers/maps');
 
-
+    // Login/Admin
     app.get('/login', users.login)
     app.get('/signup', users.signup)
     app.get('/logout', users.logout)
@@ -20,10 +31,36 @@ module.exports = function (app, passport, auth) {
     app.get('/users/:userId', users.show)
     app.param('userId', users.user)
 
+    // Game
+    app.get('/', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
+    app.get('/home', auth.requiresLogin, game.home);
+    app.get('/game/:id', auth.requiresLogin, game.game);
+    app.get('/mapmaker', auth.requiresLogin, game.mapmaker);
 
-    // Nodes
-    app.get('/node', nodes.index)
-    app.get('/node/:nodeId', nodes.show)
+
+
+    // Node
+    swagger.addGet({
+        spec: {
+            path: '/node',
+            summary: 'Get all nodes',
+            responseClass: 'Node',
+            nickname: 'getNodeList'
+        },
+        action: nodes.index
+    });
+
+    swagger.addGet({
+        spec: {
+            path: '/node/{nodeId}',
+            summary: 'Get a node by ID',
+            params: [swagger.pathParam('nodeId', 'ID of node', 'string')],
+            responseClass: 'Node',
+            nickname: 'getNodeById'
+        },
+        action: nodes.show
+    });
+
     app.put('/node', nodes.create)
     app.post('/node/:nodeId', nodes.update)
     app.delete('/node/:nodeId', nodes.remove)
@@ -58,19 +95,11 @@ module.exports = function (app, passport, auth) {
     app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.authCallback)
 
 
-
-    // Game
-    app.get('/', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), game.home);
-    app.get('/home', auth.requiresLogin, game.home);
-    app.get('/game/:id', auth.requiresLogin, game.game);
-    app.get('/mapmaker', auth.requiresLogin,  game.mapmaker);
-
-
     // Map
 
     app.get('/map/:mapId', auth.requiresLogin, map.show);
 
-    app.get('/api/map/:mapName',auth.requiresLogin, map.show);
+    app.get('/api/map/:mapName', auth.requiresLogin, map.show);
     app.post('/api/map', auth.requiresLogin, map.update);
     app.post('/map', auth.requiresLogin, map.update);
 
@@ -79,13 +108,8 @@ module.exports = function (app, passport, auth) {
 
 
     app.param('mapId', map.map);
-    app.param('mapName',map.findByName);
+    app.param('mapName', map.findByName);
 
-
-// handle everything else that a route can't be found for
-    app.get('*', function (req, res) {
-        res.render('error');
-    });
 }
 
 
