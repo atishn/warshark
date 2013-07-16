@@ -7,7 +7,7 @@ var express = require('express')
   , flash = require('connect-flash')
   , helpers = require('view-helpers')
 
-module.exports = function (app, config, passport) {
+module.exports = function (app, passport, config) {
 
   app.set('showStackError', true)
   // should be placed before express.static

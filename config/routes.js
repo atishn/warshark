@@ -8,7 +8,7 @@ var users = require('../app/controllers/users')
     , map = require('../app/controllers/maps');
 ;
 
-module.exports = function (app, passport, auth, swagger) {
+module.exports = function (app, swagger, passport, auth) {
 
     /**
      * Routes
@@ -38,11 +38,10 @@ module.exports = function (app, passport, auth, swagger) {
     app.get('/mapmaker', auth.requiresLogin, game.mapmaker);
 
 
-
     // Node
     swagger.addGet({
         spec: {
-            path: '/node',
+            path: '/api/node',
             summary: 'Get all nodes',
             responseClass: 'Node',
             nickname: 'getNodeList'
@@ -52,7 +51,7 @@ module.exports = function (app, passport, auth, swagger) {
 
     swagger.addGet({
         spec: {
-            path: '/node/{nodeId}',
+            path: '/api/node/{nodeId}',
             summary: 'Get a node by ID',
             params: [swagger.pathParam('nodeId', 'ID of node', 'string')],
             responseClass: 'Node',
@@ -83,7 +82,6 @@ module.exports = function (app, passport, auth, swagger) {
     app.put('/region/:regionId/node', regions.addNode)
 
     app.param('regionId', regions.region)
-
 
     app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)

@@ -2,30 +2,33 @@
  * Module dependencies.
  */
 
-module.exports = function (swagger, config) {
+module.exports = function (app, swagger, config) {
 
-  swagger.addModels({
-    models: {
-      "Node":{
-        "id":"Node",
-        "properties":{
-          "id": { "type":"string" },
-          "name":{ "type":"string" },
-          "color":{ "type":"string" },
-          "units":{ "type":"int" },
+
+    swagger.addModels({
+        models: {
+            "Node": {
+                "id": "Node",
+                "properties": {
+                    "id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "color": { "type": "string" },
+                    "units": { "type": "int" }
+                }
+            }
         }
-      }
-    }
-  });
+    });
 
-  /*swagger.addValidator(
-    function validate(req, path, httpMethod) {
-      return true;
-    }
-  );*/
+    /*swagger.addValidator(
+     function validate(req, path, httpMethod) {
+     return true;
+     }
+     );*/
 
-  swagger.configureSwaggerPaths("", "/api-docs", "");
+    swagger.setAppHandler(app);
 
-  swagger.configure("http://localhost:3000", "0.1"); //TODO: from config
-  
+    swagger.configureSwaggerPaths("", "/api-docs", "");
+
+    swagger.configure("http://localhost:3000", "0.1"); //TODO: from config
+
 }

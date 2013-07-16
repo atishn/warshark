@@ -38,17 +38,14 @@ fs.readdirSync(models_path).forEach(function (file) {
 require('./config/passport')(passport, config)
 
 var app = express();
-
 // express settings
-require('./config/express')(app, config, passport);
-
-swagger.setAppHandler(app);
-
-// Bootstrap routes
-require('./config/routes')(app, passport, auth, swagger);
+require('./config/express')(app, passport, config );
 
 // swagger settings
-require('./config/swagger')(swagger, config);
+require('./config/swagger')(app, swagger, config);
+
+// Bootstrap routes
+require('./config/routes')(app, swagger, passport, auth);
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000
