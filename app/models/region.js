@@ -48,34 +48,6 @@ RegionSchema.path('unitBonus').validate(function (unitBonus) {
 
 RegionSchema.statics = {
 
-    /**
-     * Add Node
-     *
-     * @param {Object} Node
-     * @param {Function} cb
-     * @api private
-     */
-
-    addNode: function (node, cb) {
-
-        this.node.push(node)
-        this.save(cb)
-    },
-
-    /**
-     * Remove Node
-     *
-     * @param {Object} Node
-     * @param {Function} cb
-     * @api private
-     */
-
-    removeNode: function (node, cb) {
-
-        this.node.pull(node);
-        this.save(cb)
-    },
-
 
     /**
      * Find Region by id

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
     , Map = mongoose.model('Map')
+    , Region = mongoose.model('Region')
 
 /**
  * Create Node
@@ -59,7 +60,7 @@ exports.remove = function (req, res) {
 
 exports.show = function (req, res) {
     var map = req.map
-    if(map)
+    if (map)
         res.send(map)
     else
         res.send(404, "Resource not found")
@@ -93,6 +94,53 @@ exports.findByName = function (req, res, next, name) {
             req.map = map
             next()
         })
+}
+
+
+/**
+ * Add Region
+ * @param req
+ * @param res
+ */
+
+exports.addRegion = function (req, res) {
+
+    var map = req.map;
+    var region = new Region(req.body)
+
+    region.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.send(500, region);
+        }
+        map.region.push(region._id)
+        map.save()
+        res.send(201, region)
+    })
+}
+
+
+/**
+ * Remove Region
+ * @param req
+ * @param res
+ */
+
+exports.removeRegion = function (req, res) {
+
+    var map = req.map;
+    var region = req.region;
+
+
+    map.region.pull(region._id);
+
+    map.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.send(500, map);
+        }
+        res.send(200, map)
+    })
 }
 
 

@@ -12,7 +12,7 @@ var mongoose = require('mongoose')
 
 var MapSchema = new Schema({
     name: String,
-    regionId: [{ type: Schema.ObjectId, ref: 'Region' }]
+    region: [{ type: Schema.ObjectId, ref: 'Region' }]
 
 })
 
@@ -39,8 +39,9 @@ MapSchema.path('name').validate(function (name) {
 
 MapSchema.statics = {
 
+
     /**
-     * Find article by id
+     * Find Map by id
      *
      * @param {ObjectId} id
      * @param {Function} cb
@@ -53,7 +54,7 @@ MapSchema.statics = {
     },
 
     /**
-     * List articles
+     * List Maps
      *
      * @param {Object} options
      * @param {Function} cb
