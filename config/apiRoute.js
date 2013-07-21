@@ -45,9 +45,8 @@ module.exports = function (app, api, passport, auth) {
     app.post('/api/map', map.update);
     app.put('/api/map', map.create);
 
-
     app.param('mapId', map.map);
-    app.param('mapName', map.findByName);
+    //app.param('mapName', map.findByName);
 
 }
 

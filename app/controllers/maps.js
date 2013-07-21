@@ -74,6 +74,7 @@ exports.show = function (req, res) {
 exports.map = function (req, res, next, id) {
     Map
         .findOne({ _id: id })
+        .populate('region')
         .exec(function (err, map) {
             if (err) return next(err)
             if (!map) return next(new Error('Failed to load User ' + id))
