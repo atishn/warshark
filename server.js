@@ -45,7 +45,8 @@ require('./config/express')(app, passport, config );
 require('./config/swagger')(app, swagger, config);
 
 // Bootstrap routes
-require('./config/routes')(app, swagger, passport, auth);
+require('./config/appRoute')(app, passport, auth);
+require('./config/apiRoute')(app, swagger, passport, auth);
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000

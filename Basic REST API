@@ -1,4 +1,4 @@
-http://localhost:3000/node
+http://localhost:3000/api/node
 GET
 put{
     "name": "NodeTest3",
@@ -6,7 +6,7 @@ put{
     "units": 3
 }
 
-http://localhost:3000/node/51dac61fe450ed0000000001
+http://localhost:3000/api/node/51dac61fe450ed0000000001
 GET
 POST{
     "name": "NodeTest3",
@@ -16,7 +16,7 @@ POST{
 DELETE
 
 Neighbor
-http://localhost:3000/node/51dac61fe450ed0000000001/neighbor
+http://localhost:3000/api/node/51dac61fe450ed0000000001/neighbor
 POST
 {
 "id":["51dd667c12bad0742d000001"]
@@ -28,6 +28,6 @@ POST
 }
 
 DELETE
-http://localhost:3000/node/51dac61fe450ed0000000001/neighbor/51dd667c12bad0742d000001
+http://localhost:3000/api/node/51dac61fe450ed0000000001/neighbor/51dd667c12bad0742d000001
 
 

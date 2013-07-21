@@ -14,7 +14,6 @@ module.exports = function (app, api, passport, auth) {
      * Routes
      */
 
-
     var users = require('../app/controllers/users')
     var game = require('../app/controllers/game')
 
@@ -49,35 +48,15 @@ module.exports = function (app, api, passport, auth) {
     app.get('/mapmaker', auth.requiresLogin, game.mapmaker);
 
 
-    // Node
-    api.addGet({
-        spec: {
-            path: '/api/node',
-            summary: 'Get all nodes',
-            responseClass: 'Node',
-            nickname: 'getNodeList'
-        },
-        action: nodes.index
-    });
 
-    api.addGet({
-        spec: {
-            path: '/api/node/{nodeId}',
-            summary: 'Get a node by ID',
-            params: [swagger.pathParam('nodeId', 'ID of node', 'string')],
-            responseClass: 'Node',
-            nickname: 'getNodeById'
-        },
-        action: nodes.show
-    });
-
+    // Nodes
+    app.get('/api/node', nodes.index)
+    app.get('/api/node/:nodeId', nodes.show)
     app.put('/api/node', nodes.create)
     app.post('/api/node/:nodeId', nodes.update)
     app.delete('/api/node/:nodeId', nodes.remove)
-
     app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
     app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
-
 
     app.param('nodeId', nodes.node)
     app.param('neighborNodeId', nodes.neighborNode)

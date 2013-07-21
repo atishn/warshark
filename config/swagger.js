@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-module.exports = function (app, swagger, config) {
+module.exports = function (app, api, config) {
 
 
-    swagger.addModels({
+    api.addModels({
         models: {
             "Node": {
                 "id": "Node",
@@ -19,16 +19,16 @@ module.exports = function (app, swagger, config) {
         }
     });
 
-    /*swagger.addValidator(
+    api.addValidator(
      function validate(req, path, httpMethod) {
      return true;
      }
-     );*/
+     );
 
-    swagger.setAppHandler(app);
+    api.setAppHandler(app);
 
-    swagger.configureSwaggerPaths("", "/api-docs", "");
+    api.configureSwaggerPaths("", "/api-docs", "");
 
-    swagger.configure("http://localhost:3000", "0.1"); //TODO: from config
+    api.configure("http://localhost:3000", "0.1"); //TODO: from config
 
 }
