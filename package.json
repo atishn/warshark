@@ -2,7 +2,7 @@
     "name": "warshark",
     "version": "0.0.1",
     "private": false,
-    "author": "Atish Narlawar <anarlawar@hugeinc.com>",
+    "author": "Atish Narlawar <atish@atish.info>",
     "engines": {
         "node": "0.10.x",
         "npm": "1.2.x"
@@ -15,6 +15,7 @@
     "ejs": "latest",
     "superagent":"latest",
     "mongoose": "latest",
+    "assert":"latest",
     "connect-mongo": "latest",
     "connect-flash": "latest",
     "passport": "latest",

@@ -5,7 +5,8 @@
 
 var nodes = require('../app/controllers/nodes')
     , map = require('../app/controllers/maps')
-    , regions = require('../app/controllers/regions');
+    , regions = require('../app/controllers/regions')
+    , recursiveSchmePopulationExample = require('../app/controllers/recursiveSchmePopulationExample');
 
 module.exports = function (app, api, passport, auth) {
 
