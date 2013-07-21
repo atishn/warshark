@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
     , Region = mongoose.model('Region')
 
 /**
- * Create Node
+ * Create Map
  */
 
 exports.create = function (req, res) {
@@ -19,7 +19,7 @@ exports.create = function (req, res) {
 
 
 /**
- * Update Node
+ * Update Map
  */
 
 exports.update = function (req, res) {
@@ -67,8 +67,29 @@ exports.show = function (req, res) {
 }
 
 
+
 /**
- * Find node by id
+ * List of Maps.
+ * @param req
+ * @param res
+ */
+
+exports.index = function(req, res){
+    var page = req.param('page') > 0 ? req.param('page') : 0
+    var perPage = 15
+    var options = {
+        perPage: perPage,
+        page: page
+    }
+
+    Map.list(options, function(err, maps) {
+        if (err) return res.render('500');
+        res.send(maps);
+    })
+}
+
+/**
+ * Find Map by id
  */
 
 exports.map = function (req, res, next, id) {
@@ -83,8 +104,10 @@ exports.map = function (req, res, next, id) {
         })
 }
 
+
+
 /**
- * Find node by name
+ * Find Map by name
  */
 
 exports.findByName = function (req, res, next, name) {
@@ -132,7 +155,6 @@ exports.removeRegion = function (req, res) {
     var map = req.map;
     var region = req.region;
 
-
     map.region.pull(region._id);
 
     map.save(function (err) {
@@ -143,53 +165,3 @@ exports.removeRegion = function (req, res) {
         res.send(200, map)
     })
 }
-
-
-//
-//
-//env = process.env.NODE_ENV || 'development',
-//    config = require('../../config/config')[env];
-//
-//var Server = mongo.Server,
-//    Db = mongo.Db;
-//
-//var server = new Server('localhost', 27017, {auto_reconnect: true});
-////var server = new Server(config.db);
-//
-//db = new Db('maps', server);
-//
-//db.open(function (err, db) {
-//    if (!err) {
-//        console.log("Connected to 'maps' database");
-//        db.collection('maps', {strict: true}, function (err, collection) {
-//            if (err) {
-//                console.log("The 'maps' collection doesn't exist");
-//            }
-//        });
-//    }
-//});
-//
-//exports.findByName = function (req, res) {
-//    var name = req.params.name;
-//    console.log('Retrieving map: ' + name);
-//    db.collection('maps', function (err, collection) {
-//        collection.findOne({'name': name}, function (err, item) {
-//            res.send(item);
-//        });
-//    });
-//};
-//
-//exports.addMap = function (req, res) {
-//    var map = req.body;
-//    console.log('Adding map: ' + JSON.stringify(map));
-//    db.collection('maps', function (err, collection) {
-//        collection.insert(map, {safe: true}, function (err, result) {
-//            if (err) {
-//                res.send({'error': 'An error has occurred'});
-//            } else {
-//                console.log('Success: ' + JSON.stringify(result[0]));
-//                res.send(result[0]);
-//            }
-//        });
-//    });
-//}

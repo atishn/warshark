@@ -40,10 +40,15 @@ module.exports = function (app, api, passport, auth) {
     app.param('regionId', regions.region)
 
     // Map
+    app.get('/api/map', map.index);
     app.get('/api/map/:mapId', map.show);
     //app.get('/api/map/:mapName',  map.show);
+
     app.post('/api/map', map.update);
     app.put('/api/map', map.create);
+
+    app.put('/api/map/:mapId/region', map.addRegion); // Create Region through this API CALL
+    app.delete('/api/map/:mapId/region/:regionId', map.removeRegion); // Create Region through this API CALL
 
     app.param('mapId', map.map);
     //app.param('mapName', map.findByName);
