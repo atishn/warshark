@@ -93,9 +93,32 @@ exports.addNode = function (req, res) {
             console.log(err);
             res.send(500, node);
         }
-        region.addNode(node)
+        region.node.push(node._id)
         region.save()
         res.send(201, node)
+    })
+}
+
+
+/**
+ * Remove Node
+ * @param req
+ * @param res
+ */
+
+exports.removeNode = function (req, res) {
+
+    var region = req.region;
+    var node = req.node;
+
+    region.node.pull(node._id);
+
+    node.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.send(500, node);
+        }
+        res.send(200, region)
     })
 }
 
@@ -115,9 +138,10 @@ exports.show = function (req, res) {
 exports.region = function (req, res, next, id) {
     Region
         .findOne({ _id: id })
+        .populate('node')
         .exec(function (err, region) {
             if (err) return next(err)
-            if (!node) return next(new Error('Failed to load User ' + id))
+            if (!region) return next(new Error('Failed to load Region ' + id))
             req.region = region
             next()
         })

@@ -3,20 +3,22 @@
  * Not Used yet.
  */
 
-var  nodes = require('../app/controllers/nodes')
+var nodes = require('../app/controllers/nodes')
     , map = require('../app/controllers/maps')
-    ,regions = require('../app/controllers/regions');
+    , regions = require('../app/controllers/regions');
 
 module.exports = function (app, api, passport, auth) {
 
     /**
-     * Routes
+     * API Routes
      */
 
         // Nodes
     app.get('/api/node', nodes.index)
     app.get('/api/node/:nodeId', nodes.show)
-    app.put('/api/node', nodes.create)
+
+    //app.put('/api/node', nodes.create) // Node needs to be created only through Region API.
+
     app.post('/api/node/:nodeId', nodes.update)
     app.delete('/api/node/:nodeId', nodes.remove)
     app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
@@ -25,7 +27,6 @@ module.exports = function (app, api, passport, auth) {
     app.param('nodeId', nodes.node)
     app.param('neighborNodeId', nodes.neighborNode)
 
-
     // Regions
     app.get('/api/region', regions.index)
     app.get('/api/region/:regionId', regions.show)
@@ -33,27 +34,22 @@ module.exports = function (app, api, passport, auth) {
     app.post('/api/region/:regionId', regions.update)
     app.delete('/api/region/:regionId', regions.remove)
 
-    app.put('/api/region/:regionId/node', regions.addNode)
+    app.put('/api/region/:regionId/node', regions.addNode)  // Create node through this API CALL.
+    app.delete('/api/region/:regionId/node/:nodeId', regions.removeNode)
 
     app.param('regionId', regions.region)
 
     // Map
-
-    app.get('/api/map/:mapId', auth.requiresLogin, map.show);
-
-    //app.get('/api/map/:mapName', auth.requiresLogin, map.show);
-    app.post('/api/map', auth.requiresLogin, map.update);
-    app.post('/api/map', auth.requiresLogin, map.update);
-
-    app.put('/api/map', auth.requiresLogin, map.create);
-    //app.put('/map', auth.requiresLogin, map.create);
+    app.get('/api/map/:mapId', map.show);
+    //app.get('/api/map/:mapName',  map.show);
+    app.post('/api/map', map.update);
+    app.put('/api/map', map.create);
 
 
     app.param('mapId', map.map);
     app.param('mapName', map.findByName);
 
 }
-
 
 
 // Swagger Entries. Try to add later when Swagger entries gets fixed.

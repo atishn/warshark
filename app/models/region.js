@@ -14,7 +14,7 @@ var RegionSchema = new Schema({
     name: String,
     color: String,
     unitBonus: Number,
-    nodeCount: Number,
+    nodeCount: {type:Number},
     node: [
         { type: Schema.ObjectId, ref: 'Node' }
     ]
@@ -51,7 +51,6 @@ RegionSchema.statics = {
     /**
      * Add Node
      *
-     * @param {User} user
      * @param {Object} Node
      * @param {Function} cb
      * @api private
@@ -60,6 +59,20 @@ RegionSchema.statics = {
     addNode: function (node, cb) {
 
         this.node.push(node)
+        this.save(cb)
+    },
+
+    /**
+     * Remove Node
+     *
+     * @param {Object} Node
+     * @param {Function} cb
+     * @api private
+     */
+
+    removeNode: function (node, cb) {
+
+        this.node.pull(node);
         this.save(cb)
     },
 

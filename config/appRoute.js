@@ -9,7 +9,7 @@ var users = require('../app/controllers/users')
 module.exports = function (app, passport, auth) {
 
     /**
-     * Routes
+     * APP Routes
      */
 
     var users = require('../app/controllers/users')
