@@ -5,15 +5,15 @@
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , _ = require('underscore')
-
 /**
  * User Schema
  */
 
 var MapSchema = new Schema({
     name: String,
-    region: [{ type: Schema.ObjectId, ref: 'Region' }]
-
+    region: [
+        { type: Schema.ObjectId, ref: 'Region' }
+    ]
 })
 
 /**
@@ -49,9 +49,24 @@ MapSchema.statics = {
      */
 
     load: function (id, cb) {
-        this.findOne({ _id : id })
-            .exec(cb)
+
+        var Node = mongoose.model('Node');
+        this.findOne({ _id: id })
+            .populate({
+                path: 'region'
+            })
+            .exec(function (err, map) {
+                if (map) {
+                    Node.populate(map, {
+                        path: 'region.node',
+                        model: 'Node'
+                    }, cb);
+                } else {
+                    cb();
+                }
+            })
     },
+
 
     /**
      * List Maps

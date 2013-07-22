@@ -93,7 +93,7 @@ exports.addNode = function (req, res) {
             console.log(err);
             res.send(500, node);
         }
-        region.node.push(node._id)
+        region.node.push(node)
         region.save()
         res.send(201, node)
     })

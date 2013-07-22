@@ -20,6 +20,8 @@ var RegionSchema = new Schema({
     ]
 })
 
+exports.RegionSchema = RegionSchema;
+
 /**
  * Validations
  */

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
     , Map = mongoose.model('Map')
     , Region = mongoose.model('Region')
+    , Node = mongoose.model('Node')
 
 /**
  * Create Map
@@ -60,12 +61,12 @@ exports.remove = function (req, res) {
 
 exports.show = function (req, res) {
     var map = req.map
+
     if (map)
         res.send(map)
     else
         res.send(404, "Resource not found")
 }
-
 
 
 /**
@@ -74,7 +75,7 @@ exports.show = function (req, res) {
  * @param res
  */
 
-exports.index = function(req, res){
+exports.index = function (req, res) {
     var page = req.param('page') > 0 ? req.param('page') : 0
     var perPage = 15
     var options = {
@@ -82,7 +83,7 @@ exports.index = function(req, res){
         page: page
     }
 
-    Map.list(options, function(err, maps) {
+    Map.list(options, function (err, maps) {
         if (err) return res.render('500');
         res.send(maps);
     })
@@ -93,18 +94,17 @@ exports.index = function(req, res){
  */
 
 exports.map = function (req, res, next, id) {
-    Map
-        .findOne({ _id: id })
-        .populate('region')
-        //.populate('region.node')
-        .exec(function (err, map) {
-            if (err) return next(err)
-            if (!map) return next(new Error('Failed to load User ' + id))
-            req.map = map
-            next()
-        })
-}
 
+    Map
+        .load(id, function (err, map) {
+            if (err) return next(err)
+            if (!map) return next(new Error('Failed to load Map ' + id))
+            req.map = map;
+            console.log(req.map);
+
+            next();
+    })
+}
 
 
 /**
@@ -138,7 +138,7 @@ exports.addRegion = function (req, res) {
             console.log(err);
             res.send(500, region);
         }
-        map.region.push(region._id)
+        map.region.push(region)
         map.save()
         res.send(201, region)
     })
