@@ -1,3 +1,27 @@
+PUT http://localhost:3000/api/map/
+{
+"name": "India"
+}
+
+PUT http://localhost:3000/api/map/51ee8a616d3b790000000002/region
+
+{
+"name": "West India",
+"color":"Saffron",
+"unitBonus":5
+}
+
+
+PUT http://localhost:3000/api/region/51ee8ab96d3b790000000003/node
+
+{
+"name": "Maharshtra",
+"color":"Black",
+"units":3
+}
+
+
+
 http://localhost:3000/api/node
 GET
 put{
@@ -13,6 +37,7 @@ POST{
     "color": "Black",
     "units": 3
 }
+
 DELETE
 
 Neighbor

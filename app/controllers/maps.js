@@ -103,24 +103,8 @@ exports.map = function (req, res, next, id) {
             console.log(req.map);
 
             next();
-    })
-}
-
-
-/**
- * Find Map by name
- */
-
-exports.findByName = function (req, res, next, name) {
-    Map
-        .findOne({ name: name })
-        .exec(function (err, map) {
-            if (err || !map) return next(new Error('Failed to load Map ' + name))
-            req.map = map
-            next()
         })
 }
-
 
 /**
  * Add Region
@@ -156,13 +140,14 @@ exports.removeRegion = function (req, res) {
     var map = req.map;
     var region = req.region;
 
-    map.region.pull(region._id);
+    map.region.pull(region);
+    region.remove();
 
     map.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500, map);
+            res.send(500);
         }
-        res.send(200, map)
+        res.send(200)
     })
 }

@@ -32,7 +32,6 @@ MapSchema.path('name').validate(function (name) {
     return name.length > 0
 }, 'Name cannot be blank')
 
-
 /**
  * Statics
  */
@@ -66,7 +65,6 @@ MapSchema.statics = {
                 }
             })
     },
-
 
     /**
      * List Maps

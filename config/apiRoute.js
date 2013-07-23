@@ -6,7 +6,6 @@
 var nodes = require('../app/controllers/nodes')
     , map = require('../app/controllers/maps')
     , regions = require('../app/controllers/regions')
-    , recursiveSchmePopulationExample = require('../app/controllers/recursiveSchmePopulationExample');
 
 module.exports = function (app, api, passport, auth) {
 
@@ -31,7 +30,7 @@ module.exports = function (app, api, passport, auth) {
     // Regions
     app.get('/api/region', regions.index)
     app.get('/api/region/:regionId', regions.show)
-    app.put('/api/region', regions.create)
+    //app.put('/api/region', regions.create)
     app.post('/api/region/:regionId', regions.update)
     app.delete('/api/region/:regionId', regions.remove)
 
@@ -49,6 +48,8 @@ module.exports = function (app, api, passport, auth) {
     app.put('/api/map', map.create);
 
     app.put('/api/map/:mapId/region', map.addRegion); // Create Region through this API CALL
+    app.get('/api/map/:mapId/region/:regionId', regions.show);
+
     app.delete('/api/map/:mapId/region/:regionId', map.removeRegion); // Create Region through this API CALL
 
     app.param('mapId', map.map);
