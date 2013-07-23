@@ -27,12 +27,12 @@ exports.update = function (req, res) {
     var reqNode = new Node(req.body);
 
     var node = req.node;
-    if(node){
+    if (node) {
         node.name = reqNode.name;
         node.color = reqNode.color;
         node.units = reqNode.units;
 
-    }else node = reqNode;
+    } else node = reqNode;
 
     node.save(function (err) {
         if (err) {
@@ -63,7 +63,7 @@ exports.remove = function (req, res) {
  * @param res
  */
 
-exports.index = function(req, res){
+exports.index = function (req, res) {
     var page = req.param('page') > 0 ? req.param('page') : 0
     var perPage = 15
     var options = {
@@ -71,7 +71,7 @@ exports.index = function(req, res){
         page: page
     }
 
-    Node.list(options, function(err, articles) {
+    Node.list(options, function (err, articles) {
         if (err) return res.render('500');
         res.send(articles);
     })

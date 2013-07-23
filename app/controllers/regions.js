@@ -137,9 +137,7 @@ exports.show = function (req, res) {
 
 exports.region = function (req, res, next, id) {
     Region
-        .findOne({ _id: id })
-        .populate('node')
-        .exec(function (err, region) {
+        .load(id, function (err, region) {
             if (err) return next(err)
             if (!region) return next(new Error('Failed to load Region ' + id))
             req.region = region
