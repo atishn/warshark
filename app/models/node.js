@@ -14,11 +14,13 @@ var NodeSchema = new Schema({
     name: String,
     color: String,
     units: Number,
-//    boardTypeId: { type: Schema.ObjectId, ref: 'BoardType' },
+    coordinates: {
+        x: {type: String},
+        y: {type: String}
+    },
     neighbors: [
         { type: String}
     ]
-//    groupId: { type: Schema.ObjectId, ref: 'BoardGroup' }
 })
 
 /**
@@ -58,7 +60,7 @@ NodeSchema.statics = {
      */
 
     load: function (id, cb) {
-        this.findOne({ _id : id })
+        this.findOne({ _id: id })
 //            .populate('user', 'name email')
 //            .populate('comments.user')
             .exec(cb)

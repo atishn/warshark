@@ -17,17 +17,11 @@ PUT http://localhost:3000/api/region/51ee8ab96d3b790000000003/node
 {
 "name": "Maharshtra",
 "color":"Black",
-"units":3
+"units":3,
+"coordinates":{
+"x":"23",
+"y":"25"
 }
-
-
-
-http://localhost:3000/api/node
-GET
-put{
-    "name": "NodeTest3",
-    "color": "Black",
-    "units": 3
 }
 
 http://localhost:3000/api/node/51dac61fe450ed0000000001

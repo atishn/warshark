@@ -31,6 +31,7 @@ exports.update = function (req, res) {
         node.name = reqNode.name;
         node.color = reqNode.color;
         node.units = reqNode.units;
+        node.coordinates = reqNode.coordinates;
 
     } else node = reqNode;
 
