@@ -3,9 +3,9 @@
  * Not Used yet.
  */
 
-var nodes = require('../app/controllers/nodes')
-    , map = require('../app/controllers/maps')
-    , regions = require('../app/controllers/regions')
+var nodes = require('../app/controllers/api/nodes')
+    , map = require('../app/controllers/api/maps')
+    , regions = require('../app/controllers/api/regions')
 
 module.exports = function (app, api, passport, auth) {
 

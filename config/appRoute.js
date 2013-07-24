@@ -3,8 +3,8 @@
  * NOT USED YET.
  */
 
-var users = require('../app/controllers/users')
-    , game = require('../app/controllers/game');
+var users = require('../app/controllers/api/users')
+    , game = require('../app/controllers/app/game');
 
 module.exports = function (app, passport, auth) {
 
@@ -12,8 +12,8 @@ module.exports = function (app, passport, auth) {
      * APP Routes
      */
 
-    var users = require('../app/controllers/users')
-    var game = require('../app/controllers/game')
+    var users = require('../app/controllers/api/users')
+    var game = require('../app/controllers/app/game')
 
     // Login/Admin
     app.get('/login', users.login)

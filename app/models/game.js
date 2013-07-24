@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
  * User Schema
  */
 
-var GameStatusSchema = new Schema({
+var GameSchema = new Schema({
     name: String,
     mapId: { type: Schema.ObjectId, ref: 'Map' },
     nodesState: [
@@ -26,7 +26,17 @@ var GameStatusSchema = new Schema({
 
 })
 
-mongoose.model('BoardStatus', GameStatusSchema)
+mongoose.model('Game', GameSchema)
+
+
+/**
+ * Pre-save hook
+ */
+
+GameSchema.pre('save', function (next) {
+    this.updatedAt = Date.now
+    next()
+})
 
 
 //

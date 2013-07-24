@@ -20,4 +20,14 @@ var NodeStateSchema = new Schema({
 
 })
 
+/**
+ * Pre-save hook
+ */
+
+NodeStateSchema.pre('save', function (next) {
+    this.updatedAt = Date.now
+    next()
+})
+
+
 mongoose.model('NodeState', NodeStateSchema)

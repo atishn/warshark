@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-var users = require('../app/controllers/users')
-    , game = require('../app/controllers/game')
-    , nodes = require('../app/controllers/nodes')
-    , map = require('../app/controllers/maps');
+var users = require('../app/controllers/api/users')
+    , game = require('../app/controllers/app/game')
+    , nodes = require('../app/controllers/api/nodes')
+    , map = require('../app/controllers/api/maps');
 ;
 
 module.exports = function (app, api, passport, auth) {
@@ -14,12 +14,12 @@ module.exports = function (app, api, passport, auth) {
      * Routes
      */
 
-    var users = require('../app/controllers/users')
-    var game = require('../app/controllers/game')
+    var users = require('../app/controllers/api/users')
+    var game = require('../app/controllers/app/game')
 
-    var nodes = require('../app/controllers/nodes')
-    var regions = require('../app/controllers/regions')
-    var map = require('../app/controllers/maps');
+    var nodes = require('../app/controllers/api/nodes')
+    var regions = require('../app/controllers/api/regions')
+    var map = require('../app/controllers/api/maps');
 
     // Login/Admin
     app.get('/login', users.login)

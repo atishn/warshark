@@ -4,7 +4,7 @@
  */
 
 exports.home = function (req, res) {
-    var games = require('../../public/mock/game-list.json');
+    var games = require('../../../public/mock/game-list.json');
     res.render('game/home', {
         games: games
     });
