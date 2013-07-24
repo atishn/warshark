@@ -14,7 +14,7 @@ var RegionSchema = new Schema({
     name: String,
     color: String,
     unitBonus: Number,
-    nodeCount: {type:Number},
+    nodeCount: Number,
     node: [
         { type: Schema.ObjectId, ref: 'Node' }
     ]
@@ -22,9 +22,6 @@ var RegionSchema = new Schema({
 
 exports.RegionSchema = RegionSchema;
 
-/**
- * Validations
- */
 
 var validatePresenceOf = function (value) {
     return value && value.length
@@ -43,6 +40,16 @@ RegionSchema.path('unitBonus').validate(function (unitBonus) {
     return unitBonus != null
 }, 'unit Bonus cannot be blank')
 
+//
+//RegionSchema.pre('save', function (next) {
+//    this.nodeCount = this.node ? this.node.length : 0;
+//    next();
+//});
+
+RegionSchema.pre('init', function(next, data) {
+    data.nodeCount = data.node ? data.node.length : 0;
+    next();
+});
 
 /**
  * Statics
