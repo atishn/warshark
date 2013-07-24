@@ -20,14 +20,13 @@ var GameSchema = new Schema({
         { type: Schema.ObjectId, ref: 'User' }
     ],
     currentUser: { type: Schema.ObjectId, ref: 'User'},
-    status: String,
+    status: { type: String, enum:['Start', 'InProgress', 'End'] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
 
 })
 
 mongoose.model('Game', GameSchema)
-
 
 /**
  * Pre-save hook
