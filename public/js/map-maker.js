@@ -344,8 +344,8 @@ Mapmaker.controller('MapmakerCtrl', function(MapmakerService, $scope, $resource,
 	$scope.listenForSave = function() {
 
 		var boardData = {
-			'name': $scope.mapName,
-			'nodes': $scope.nodes
+			'name': $scope.mapName
+			//'nodes': $scope.nodes
 		}
 
 		console.log('BOARD DATA', boardData);

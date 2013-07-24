@@ -1,9 +1,9 @@
-PUT http://localhost:3000/api/map/
+POST http://localhost:3000/api/map/
 {
 "name": "India"
 }
 
-PUT http://localhost:3000/api/map/51ee8a616d3b790000000002/region
+POST http://localhost:3000/api/map/51ee8a616d3b790000000002/region
 
 {
 "name": "West India",
@@ -12,7 +12,7 @@ PUT http://localhost:3000/api/map/51ee8a616d3b790000000002/region
 }
 
 
-PUT http://localhost:3000/api/region/51ee8ab96d3b790000000003/node
+POST http://localhost:3000/api/region/51ee8ab96d3b790000000003/node
 
 {
 "name": "Maharshtra",
