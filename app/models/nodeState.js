@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
  * User Schema
  */
 
-var NodeStatusSchema = new Schema({
+var NodeStateSchema = new Schema({
     name: String,
     nodeId: { type: Schema.ObjectId, ref: 'Node' },
     ownerId: { type: Schema.ObjectId, ref: 'User' },
@@ -20,4 +20,4 @@ var NodeStatusSchema = new Schema({
 
 })
 
-mongoose.model('NodeStatus', NodeStatusSchema)
+mongoose.model('NodeState', NodeStateSchema)

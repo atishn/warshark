@@ -21,6 +21,7 @@ module.exports = function (app, api, passport, auth) {
 
     app.post('/api/node/:nodeId', nodes.update)
     app.delete('/api/node/:nodeId', nodes.remove)
+
     app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
     app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
 
@@ -30,11 +31,13 @@ module.exports = function (app, api, passport, auth) {
     // Regions
     app.get('/api/region', regions.index)
     app.get('/api/region/:regionId', regions.show)
-    //app.put('/api/region', regions.create)
+   // app.post('/api/region', regions.create)         // Region will be created by Map API
+
     app.post('/api/region/:regionId', regions.update)
+
     app.delete('/api/region/:regionId', regions.remove)
 
-    app.put('/api/region/:regionId/node', regions.addNode)  // Create node through this API CALL.
+    app.post('/api/region/:regionId/node', regions.addNode)  // Create node through this API CALL.
     app.delete('/api/region/:regionId/node/:nodeId', regions.removeNode)
 
     app.param('regionId', regions.region)
@@ -44,10 +47,10 @@ module.exports = function (app, api, passport, auth) {
     app.get('/api/map/:mapId', map.show);
     //app.get('/api/map/:mapName',  map.show);
 
-    app.post('/api/map', map.update);
-    app.put('/api/map', map.create);
+    app.post('/api/map', map.create);
+    app.post('/api/map/:mapId', map.update);
 
-    app.put('/api/map/:mapId/region', map.addRegion); // Create Region through this API CALL
+    app.post('/api/map/:mapId/region', map.addRegion); // Create Region through this API CALL
     app.get('/api/map/:mapId/region/:regionId', regions.show);
 
     app.delete('/api/map/:mapId/region/:regionId', map.removeRegion); // Create Region through this API CALL

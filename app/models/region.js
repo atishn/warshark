@@ -40,13 +40,7 @@ RegionSchema.path('unitBonus').validate(function (unitBonus) {
     return unitBonus != null
 }, 'unit Bonus cannot be blank')
 
-//
-//RegionSchema.pre('save', function (next) {
-//    this.nodeCount = this.node ? this.node.length : 0;
-//    next();
-//});
-
-RegionSchema.pre('init', function(next, data) {
+RegionSchema.pre('init', function (next, data) {
     data.nodeCount = data.node ? data.node.length : 0;
     next();
 });

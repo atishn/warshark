@@ -13,12 +13,16 @@ var mongoose = require('mongoose')
 var GameStatusSchema = new Schema({
     name: String,
     mapId: { type: Schema.ObjectId, ref: 'Map' },
-    nodesState:[{ type: Schema.ObjectId, ref: 'NodeStatus' }],
-    users:[{ type: Schema.ObjectId, ref: 'User' }],
-    currentUser:{ type: Schema.ObjectId, ref: 'User'},
-    status:String,
-    createdAt:{ type: Date, default: Date.now },
-    updatedAt:{ type: Date, value: Date.now }
+    nodesState: [
+        { type: Schema.ObjectId, ref: 'NodeState' }
+    ],
+    users: [
+        { type: Schema.ObjectId, ref: 'User' }
+    ],
+    currentUser: { type: Schema.ObjectId, ref: 'User'},
+    status: String,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, value: Date.now }
 
 })
 
