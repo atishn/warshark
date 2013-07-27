@@ -20,7 +20,7 @@ var GameSchema = new Schema({
         { type: Schema.ObjectId, ref: 'User' }
     ],
     currentUser: { type: Schema.ObjectId, ref: 'User'},
-    status: { type: String, enum:['Start', 'InProgress', 'End'] },
+    status: { type: String, enum: ['Start', 'InProgress', 'End'] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
 
@@ -36,16 +36,3 @@ GameSchema.pre('save', function (next) {
     this.updatedAt = Date.now
     next()
 })
-
-
-//
-//BoardStatus{
-//    id : (Unique to each game)
-//    boardTypeId:[ Id of BoardType. Eg. America Map, World Map, Box View Map]
-//    nodesState:[Array of nodesState object]
-//    users:[Array of Users Object]
-//    currentUser:
-//        status:(New, In Progress, Finished)
-//    createdAt:
-//        updatedAt:
-//            }

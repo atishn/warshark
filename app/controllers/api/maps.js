@@ -100,7 +100,6 @@ exports.map = function (req, res, next, id) {
             if (err) return next(err)
             if (!map) return next(new Error('Failed to load Map ' + id))
             req.map = map;
-            console.log(req.map);
 
             next();
         })

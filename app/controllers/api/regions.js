@@ -11,7 +11,6 @@ exports.create = function (req, res) {
     var region = new Region(req.body)
     region.save(function (err) {
         if (err) {
-            console.log(err);
             res.send(500, region);
         }
         res.send(201, region);
@@ -37,7 +36,6 @@ exports.update = function (req, res) {
 
     region.save(function (err) {
         if (err) {
-            console.log(err);
             res.send(500, region);
         }
         res.send(region);

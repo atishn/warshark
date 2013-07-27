@@ -104,7 +104,6 @@ exports.addNeighbors = function (req, res) {
 function addNeighborId(node, neighborId) {
 
     node.neighbors.addToSet(neighborId);
-    node.save();
 
     // Update the neighbor node also with current node is as a neighbor.
     Node
@@ -114,6 +113,7 @@ function addNeighborId(node, neighborId) {
             if (!neighborNode) return
             neighborNode.neighbors.addToSet(node._id)
             neighborNode.save()
+            node.save();
         })
 }
 /**
@@ -155,7 +155,7 @@ exports.node = function (req, res, next, id) {
         .findOne({ _id: id })
         .exec(function (err, node) {
             if (err) return next(err)
-            if (!node) return next(new Error('Failed to load User ' + id))
+            if (!node) return next(new Error('Failed to load Node ' + id))
             req.node = node
             next()
         })

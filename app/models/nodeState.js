@@ -20,6 +20,19 @@ var NodeStateSchema = new Schema({
 
 })
 
+NodeStateSchema.statics = {
+
+    create: function (user, node, cb) {
+
+        var NodeState = mongoose.model('NodeState')
+        nodeState = new NodeState();
+
+        nodeState.nodeId = node._id;
+        nodeState.currentUnits = node.units;
+        nodeState.ownerId = user._id;
+        nodeState.save(cb)
+    }
+}
 /**
  * Pre-save hook
  */
