@@ -26,13 +26,28 @@ var GameSchema = new Schema({
 
 })
 
-mongoose.model('Game', GameSchema)
+GameSchema.statics = {
+    /**
+     * Find Game by id
+     *
+     * @param {ObjectId} id
+     * @param {Function} cb
+     * @api private
+     */
 
+    load: function (id, cb) {
+        this.findOne({ _id: id })
+            .exec(cb)
+    }
+}
 /**
  * Pre-save hook
  */
 
 GameSchema.pre('save', function (next) {
-    this.updatedAt = Date.now
+    this.updatedAt = Date.now()
     next()
 })
+
+
+mongoose.model('Game', GameSchema)

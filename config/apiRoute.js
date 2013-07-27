@@ -6,6 +6,7 @@
 var nodes = require('../app/controllers/api/nodes')
     , map = require('../app/controllers/api/maps')
     , regions = require('../app/controllers/api/regions')
+    , game = require('../app/controllers/api/games')
 
 module.exports = function (app, api, passport, auth) {
 
@@ -31,7 +32,7 @@ module.exports = function (app, api, passport, auth) {
     // Regions
     app.get('/api/region', regions.index)
     app.get('/api/region/:regionId', regions.show)
-   // app.post('/api/region', regions.create)         // Region will be created by Map API
+    // app.post('/api/region', regions.create)         // Region will be created by Map API
 
     app.post('/api/region/:regionId', regions.update)
 
@@ -57,6 +58,16 @@ module.exports = function (app, api, passport, auth) {
 
     app.param('mapId', map.map);
     //app.param('mapName', map.findByName);
+
+    // Game
+
+    app.get('/api/game/:gameId', game.show);
+    app.post('/api/game', game.create);
+    app.param('gameId', game.game);
+
+    app.get('/api/game/:gameId/start', game.startGame);
+
+
 
 }
 

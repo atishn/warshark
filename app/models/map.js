@@ -83,8 +83,24 @@ MapSchema.statics = {
             .limit(options.perPage)
             .skip(options.perPage * options.page)
             .exec(cb)
-    }
+    },
 
+    /**
+     * List of nodes
+     */
+
+    getNodes: function (id, cb) {
+
+        this.load(id, function (err, map) {
+
+            var nodes = []
+            for (i = 0; i < map.region.length; i++) {
+                nodes.push(map.region[i].node);
+            }
+            cb(err, nodes);
+        })
+
+    }
 }
 
 

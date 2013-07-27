@@ -13,7 +13,7 @@ var mongoose = require('mongoose')
 
 exports.create = function (req, res) {
     var game = new Game(req.body)
-    game.createdAt = Date.now;
+    game.createdAt = Date.now();
 
     game.save(function (err) {
         if (err) {
@@ -102,9 +102,13 @@ function unsubscribeUser(game, userid) {
 }
 
 
-exports.startGame = function(req, res){
+exports.startGame = function (req, res) {
     var game = req.game;
 
+    Map.getNodes(game.mapId, function (err, nodes) {
+        console.log(nodes);
+        res.send(200, nodes);
+    })
 }
 
 /**
