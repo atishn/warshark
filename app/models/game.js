@@ -37,6 +37,9 @@ GameSchema.statics = {
 
     load: function (id, cb) {
         this.findOne({ _id: id })
+            .populate('users', 'name')
+            .populate('nodesState')
+
             .exec(cb)
     }
 }

@@ -94,7 +94,7 @@ MapSchema.statics = {
         this.load(id, function (err, map) {
 
             var nodes = []
-            for (i = 0; i < map.region.length; i++) {
+            for (var i = 0; i < map.region.length; i++) {
                 nodes.push(map.region[i].node);
             }
             cb(err, nodes);

@@ -1,8 +1,10 @@
 var mongoose = require('mongoose')
+    , async = require('async')
     , Game = mongoose.model('Game')
     , Map = mongoose.model('Map')
     , Region = mongoose.model('Region')
     , Node = mongoose.model('Node')
+    , NodeState = mongoose.model('NodeState')
     , User = mongoose.model('User')
     , UserGame = mongoose.model('UserGame')
 
@@ -45,6 +47,10 @@ exports.addUser = function (req, res) {
 
 }
 
+
+exports.showUsers = function (req, res) {
+
+}
 
 /**
  * Remove User from Game
@@ -105,12 +111,54 @@ function unsubscribeUser(game, userid) {
 exports.startGame = function (req, res) {
     var game = req.game;
 
-    Map.getNodes(game.mapId, function (err, nodes) {
-        console.log(nodes);
-        res.send(200, nodes);
-    })
-}
+    if (game.users.length <= 1) {
+        return new Error('Not Sufficient users to start a game.')
+    }
 
+    Map.getNodes(game.mapId, function (err, nodes) {
+
+        for (var i = 0; i < nodes.length; i++) {
+            var nodeState = new NodeState();
+            nodeState.nodeId = nodes[i]._id;
+            nodeState.currentUnits = nodes[i].units;
+            nodeState.ownerId = user._id;
+            nodeState.save(function (err) {
+                if (!err) {
+                    game.nodesState.push(nodeState);
+                    game.save();
+                }
+            })
+        }
+
+        res.send(game);
+
+
+        //       res.send(200, nodes);
+//        var nodeStates = []
+//
+//        var functions = [];
+//
+//        for (var i = 0; i < nodes.length; i++) {
+//            functions.push((function (node) {
+//                return function (callback) {
+//                    NodeState.create(node, user, function (err, nodeState) {
+//                        if (err) return callback(err);
+//                        nodeStates.push(nodeState);
+//                        callback()
+//                    })
+//
+//                };
+//            })(nodes[i]));
+//        }
+//
+//        async.parallel(functions, function (err, results) {
+//            console.log(err);
+//            console.log(nodeStates);
+//        });
+
+    })
+
+}
 /**
  * Delete Game
  */

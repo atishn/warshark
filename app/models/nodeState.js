@@ -25,7 +25,7 @@ NodeStateSchema.statics = {
     create: function (user, node, cb) {
 
         var NodeState = mongoose.model('NodeState')
-        nodeState = new NodeState();
+        var nodeState = new NodeState();
 
         nodeState.nodeId = node._id;
         nodeState.currentUnits = node.units;

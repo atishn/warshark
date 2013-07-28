@@ -25,6 +25,7 @@
     "passport-github": "latest",
     "passport-google-oauth": "latest",
     "imager": "latest",
+    "string": "latest",
     "notifier": "latest",
     "underscore": "latest",
     "gzippo": "latest",

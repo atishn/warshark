@@ -7,6 +7,7 @@ var nodes = require('../app/controllers/api/nodes')
     , map = require('../app/controllers/api/maps')
     , regions = require('../app/controllers/api/regions')
     , game = require('../app/controllers/api/games')
+    , user = require('../app/controllers/api/users')
 
 module.exports = function (app, api, passport, auth) {
 
@@ -67,8 +68,13 @@ module.exports = function (app, api, passport, auth) {
 
     app.get('/api/game/:gameId/start', game.startGame);
 
+    app.get('/api/game/:gameId/user', game.showUsers);
+    app.post('/api/game/:gameId/user', game.addUser);
+    app.delete('/api/game/:gameId/user/:userId', game.removeUser);
 
 
+    //User
+    app.get('/api/user', user.index)
 }
 
 

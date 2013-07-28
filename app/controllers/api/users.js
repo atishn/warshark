@@ -1,19 +1,21 @@
-
 /**
  * Module dependencies.
  */
 
 var mongoose = require('mongoose')
-  , User = mongoose.model('User')
+    , User = mongoose.model('User')
+    , ModelMapper = require('../modelMapper.js')
 
-exports.signin = function (req, res) {}
+
+exports.signin = function (req, res) {
+}
 
 /**
  * Auth callback
  */
 
 exports.authCallback = function (req, res, next) {
-  res.redirect('/home')
+    res.redirect('/home')
 }
 
 /**
@@ -21,10 +23,10 @@ exports.authCallback = function (req, res, next) {
  */
 
 exports.login = function (req, res) {
-  res.render('users/login', {
-    title: 'Login',
-    message: req.flash('error')
-  })
+    res.render('users/login', {
+        title: 'Login',
+        message: req.flash('error')
+    })
 }
 
 /**
@@ -32,10 +34,10 @@ exports.login = function (req, res) {
  */
 
 exports.signup = function (req, res) {
-  res.render('users/signup', {
-    title: 'Sign up',
-    user: new User()
-  })
+    res.render('users/signup', {
+        title: 'Sign up',
+        user: new User()
+    })
 }
 
 /**
@@ -43,8 +45,8 @@ exports.signup = function (req, res) {
  */
 
 exports.logout = function (req, res) {
-  req.logout()
-  res.redirect('/login')
+    req.logout()
+    res.redirect('/login')
 }
 
 /**
@@ -52,7 +54,7 @@ exports.logout = function (req, res) {
  */
 
 exports.session = function (req, res) {
-  res.redirect('/')
+    res.redirect('/')
 }
 
 /**
@@ -60,17 +62,17 @@ exports.session = function (req, res) {
  */
 
 exports.create = function (req, res) {
-  var user = new User(req.body)
-  user.provider = 'local'
-  user.save(function (err) {
-    if (err) {
-      return res.render('users/signup', { errors: err.errors, user: user })
-    }
-    req.logIn(user, function(err) {
-      if (err) return next(err)
-      return res.redirect('/')
+    var user = new User(req.body)
+    user.provider = 'local'
+    user.save(function (err) {
+        if (err) {
+            return res.render('users/signup', { errors: err.errors, user: user })
+        }
+        req.logIn(user, function (err) {
+            if (err) return next(err)
+            return res.redirect('/')
+        })
     })
-  })
 }
 
 /**
@@ -78,11 +80,11 @@ exports.create = function (req, res) {
  */
 
 exports.show = function (req, res) {
-  var user = req.user
-  res.render('users/show', {
-    title: user.name,
-    user: user
-  })
+    var user = req.user
+    res.render('users/show', {
+        title: user.name,
+        user: user
+    })
 }
 
 /**
@@ -90,12 +92,44 @@ exports.show = function (req, res) {
  */
 
 exports.user = function (req, res, next, id) {
-  User
-    .findOne({ _id : id })
-    .exec(function (err, user) {
-      if (err) return next(err)
-      if (!user) return next(new Error('Failed to load User ' + id))
-      req.profile = user
-      next()
-    })
+    User
+        .findOne({ _id: id })
+        .exec(function (err, user) {
+            if (err) return next(err)
+            if (!user) return next(new Error('Failed to load User ' + id))
+            req.profile = user
+            next()
+        })
+}
+
+
+/**
+ * List of user.  Added for testing. Will remove sooner
+ * @param req
+ * @param res
+ */
+
+exports.index = function (req, res) {
+    var page = req.param('page') > 0 ? req.param('page') : 0
+    var perPage = 15
+    var options = {
+        perPage: perPage,
+        page: page
+    }
+
+    var criteria = options.criteria || {}
+
+    User.find(criteria)
+        .sort({'createdAt': -1}) // sort by date
+        .limit(options.perPage)
+        .skip(options.perPage * options.page)
+        .exec(function (err, users) {
+            if (err) return res.render('500');
+
+            var responseUsers = []
+            for (var i = 0; i < users.length; i++) {
+                responseUsers.push(ModelMapper.userResponse(users[i]));
+            }
+            res.send(responseUsers);
+        })
 }
