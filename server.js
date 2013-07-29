@@ -1,3 +1,4 @@
+
 /*!
  * nodejs-express-mongoose-demo
  * Copyright(c) 2013 Madhusudhan Srinivasa <madhums8@gmail.com>
@@ -31,27 +32,39 @@ mongoose.connect(config.db)
 // Bootstrap models
 var models_path = __dirname + '/app/models'
 fs.readdirSync(models_path).forEach(function (file) {
-    require(models_path+'/'+file)
+    require(models_path + '/' + file)
 })
 
 // bootstrap passport config
 require('./config/passport')(passport, config)
 
 var app = express();
-// express settings
-require('./config/express')(app, passport, config );
+//var apiapp = express();
 
-// swagger settings
-require('./config/swagger')(app, swagger, config);
+// express settings
+require('./config/express')(app, passport, config);
+
+//
+swagger.setAppHandler(app);
+//app.use('/api', apiapp);
+
 
 // Bootstrap routes
 require('./config/appRoute')(app, passport, auth);
 require('./config/apiRoute')(app, swagger, passport, auth);
 
+// swagger settings
+require('./config/swagger')(app, swagger, config);
+
+
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000
 app.listen(port)
-console.log('Express app started on port '+port)
+console.log('Express app started on port ' + port)
 
 // expose app
 exports = module.exports = app
+
+
+
+

@@ -15,9 +15,31 @@ module.exports = function (app, api, passport, auth) {
      * API Routes
      */
 
-        // Nodes
-    app.get('/api/node', nodes.index)
-    app.get('/api/node/:nodeId', nodes.show)
+    api.addGet({
+        spec: {
+            path: '/api/node',
+            summary: 'Get all nodes',
+            responseClass: 'Node',
+            nickname: 'getNodeList'
+        },
+        action: nodes.index
+    });
+
+    api.addGet({
+        spec: {
+            path: '/api/node/{nodeId}',
+            summary: 'Get a node by ID',
+            params: [api.pathParam('nodeId', 'ID of node', 'string')],
+            responseClass: 'Node',
+            nickname: 'getNodeById'
+        },
+        action: nodes.show
+    });
+
+
+    // Nodes
+//    app.get('/api/node', nodes.index)
+//    app.get('/api/node/:nodeId', nodes.show)
 
     //app.put('/api/node', nodes.create) // Node needs to be created only through Region API.
 
@@ -172,9 +194,4 @@ module.exports = function (app, api, passport, auth) {
 //});
 //
 ////app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
-
-
-
-
-
 
