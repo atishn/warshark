@@ -12,8 +12,8 @@ var mongoose = require('mongoose')
 
 var NodeStateSchema = new Schema({
     name: String,
-    nodeId: { type: Schema.ObjectId, ref: 'Node' },
-    ownerId: { type: Schema.ObjectId, ref: 'User' },
+    nodeId: String,
+    ownerId: String,
     currentUnits: Number,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
@@ -21,17 +21,17 @@ var NodeStateSchema = new Schema({
 })
 
 NodeStateSchema.statics = {
-
-    create: function (user, node, cb) {
-
-        var NodeState = mongoose.model('NodeState')
-        var nodeState = new NodeState();
-
-        nodeState.nodeId = node._id;
-        nodeState.currentUnits = node.units;
-        nodeState.ownerId = user._id;
-        nodeState.save(cb)
-    }
+//
+//    create: function (user, node, cb) {
+//
+//        var NodeState = mongoose.model('NodeState')
+//        var nodeState = new NodeState();
+//
+//        nodeState.nodeId = node._id;
+//        nodeState.currentUnits = node.units;
+//        nodeState.ownerId = user._id;
+//        nodeState.save(cb)
+//    }
 }
 /**
  * Pre-save hook

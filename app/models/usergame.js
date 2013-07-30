@@ -20,8 +20,6 @@ var UserGameSchema = new Schema({
 
 })
 
-mongoose.model('UserGame', UserGameSchema)
-
 /**
  * Pre-save hook
  */
@@ -41,11 +39,13 @@ UserGameSchema.statics = {
      * @api private
      */
 
-    load: function (id, cb) {
+    findByUserid: function (id, cb) {
 
         this.findOne({ user: id })
-            .populate('game', 'name')
+            .populate('game', 'name status')
             .exec(cb)
     }
-
 }
+
+mongoose.model('UserGame', UserGameSchema)
+

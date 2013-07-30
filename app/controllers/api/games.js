@@ -16,6 +16,7 @@ var mongoose = require('mongoose')
 exports.create = function (req, res) {
     var game = new Game(req.body)
     game.createdAt = Date.now();
+    game.status = 'Start';
 
     game.save(function (err) {
         if (err) {
@@ -117,20 +118,31 @@ exports.startGame = function (req, res) {
 
     Map.getNodes(game.mapId, function (err, nodes) {
 
+        var nodeStateArray = [];
+
         for (var i = 0; i < nodes.length; i++) {
+
             var nodeState = new NodeState();
             nodeState.nodeId = nodes[i]._id;
             nodeState.currentUnits = nodes[i].units;
-            nodeState.ownerId = user._id;
-            nodeState.save(function (err) {
-                if (!err) {
-                    game.nodesState.push(nodeState);
-                    game.save();
-                }
-            })
+            nodeState.ownerId = game.users[0]._id;
+            nodeStateArray.push(nodeState);
         }
 
-        res.send(game);
+//        res.send(200, nodeStateArray);
+
+        NodeState.create(nodeStateArray, function (err) {
+            if (!err) {
+                for (var i = 0; i < nodeStateArray.length; i++) {
+                    game.nodesState.addToSet(nodeStateArray[i]);
+                }
+                game.status = 'InProgress';
+
+                game.save(function (err, game) {
+                    res.send(game);
+                });
+            }
+        })
 
 
         //       res.send(200, nodes);
@@ -157,6 +169,18 @@ exports.startGame = function (req, res) {
 //        });
 
     })
+
+}
+
+exports.clearGame = function (req, res) {
+    var game = req.game;
+    game.nodesState = [];
+    game.status = 'Start';
+    game.save(function (err) {
+        if (err) return new Error(err);
+        res.send(200, game);
+    })
+
 
 }
 /**

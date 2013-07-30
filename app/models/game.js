@@ -52,5 +52,4 @@ GameSchema.pre('save', function (next) {
     next()
 })
 
-
 mongoose.model('Game', GameSchema)

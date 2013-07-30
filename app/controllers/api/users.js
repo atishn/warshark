@@ -5,6 +5,7 @@
 var mongoose = require('mongoose')
     , User = mongoose.model('User')
     , ModelMapper = require('../modelMapper.js')
+    , UserGame = mongoose.model('UserGame')
 
 
 exports.signin = function (req, res) {
@@ -132,4 +133,18 @@ exports.index = function (req, res) {
             }
             res.send(responseUsers);
         })
+}
+
+
+/**
+ *  Get games subscribed to users
+ */
+
+exports.getSubscribedGames = function (req, res) {
+    var user = req.user
+    UserGame.findByUserid(user._id, function (err, games) {
+        if (err) return new Error(err)
+        res.send(games.game);
+    })
+
 }

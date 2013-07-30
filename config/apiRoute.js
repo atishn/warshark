@@ -4,10 +4,10 @@
  */
 
 var nodes = require('../app/controllers/api/nodes')
-    , map = require('../app/controllers/api/maps')
+    , maps = require('../app/controllers/api/maps')
     , regions = require('../app/controllers/api/regions')
-    , game = require('../app/controllers/api/games')
-    , user = require('../app/controllers/api/users')
+    , games = require('../app/controllers/api/games')
+    , users = require('../app/controllers/api/users')
 
 module.exports = function (app, api, passport, auth) {
 
@@ -67,36 +67,44 @@ module.exports = function (app, api, passport, auth) {
     app.param('regionId', regions.region)
 
     // Map
-    app.get('/api/map', map.index);
-    app.get('/api/map/:mapId', map.show);
+    app.get('/api/map', maps.index);
+    app.get('/api/map/:mapId', maps.show);
     //app.get('/api/map/:mapName',  map.show);
 
-    app.post('/api/map', map.create);
-    app.post('/api/map/:mapId', map.update);
+    app.post('/api/map', maps.create);
+    app.post('/api/map/:mapId', maps.update);
 
-    app.post('/api/map/:mapId/region', map.addRegion); // Create Region through this API CALL
+    app.post('/api/map/:mapId/region', maps.addRegion); // Create Region through this API CALL
     app.get('/api/map/:mapId/region/:regionId', regions.show);
 
-    app.delete('/api/map/:mapId/region/:regionId', map.removeRegion); // Create Region through this API CALL
+    app.delete('/api/map/:mapId/region/:regionId', maps.removeRegion); // Create Region through this API CALL
 
-    app.param('mapId', map.map);
+    app.param('mapId', maps.map);
     //app.param('mapName', map.findByName);
 
     // Game
 
-    app.get('/api/game/:gameId', game.show);
-    app.post('/api/game', game.create);
-    app.param('gameId', game.game);
+    app.get('/api/game/:gameId', games.show);
+    app.post('/api/game', games.create);
+    app.param('gameId', games.game);
 
-    app.get('/api/game/:gameId/start', game.startGame);
+    app.get('/api/game/:gameId/start', games.startGame);
+    app.get('/api/game/:gameId/clear', games.clearGame);
 
-    app.get('/api/game/:gameId/user', game.showUsers);
-    app.post('/api/game/:gameId/user', game.addUser);
-    app.delete('/api/game/:gameId/user/:userId', game.removeUser);
+
+    app.get('/api/game/:gameId/user', games.showUsers);
+    app.post('/api/game/:gameId/user', games.addUser);
+    app.delete('/api/game/:gameId/user/:userId', games.removeUser);
 
 
     //User
-    app.get('/api/user', user.index)
+    app.get('/api/user', users.index)
+
+    //
+    app.get('/api/user/:userid/game', users.getSubscribedGames)
+
+    app.param('userid', users.user)
+
 }
 
 
