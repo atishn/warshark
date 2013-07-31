@@ -1,3 +1,5 @@
+http://localhost:3000/apidoc
+
 POST http://localhost:3000/api/map/
 {
 "name": "India"
