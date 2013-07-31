@@ -86,7 +86,6 @@ module.exports = function (app, api, passport, auth) {
     app.param('neighborNodeId', nodes.neighborNode)
 
 
-
     // Regions
 
     api.addGet({
@@ -107,7 +106,6 @@ module.exports = function (app, api, passport, auth) {
         },
         action: regions.show
     });
-
 
 
 //    app.get('/api/region', regions.index)
@@ -160,46 +158,234 @@ module.exports = function (app, api, passport, auth) {
         action: nodes.removeNode
     });
 
+    // TODO: Get all nodes belongs to the region
+
     app.param('regionId', regions.region)
 
+
     // Map
-    app.get('/api/map', maps.index);
-    app.get('/api/map/:mapId', maps.show);
+
+
+    api.addGet({
+        spec: {
+            path: '/api/map',
+            summary: 'Get all Maps',
+            nickname: 'getMapList'
+        },
+        action: maps.index
+    });
+
+    api.addGet({
+        spec: {
+            path: '/api/map/{mapId}',
+            summary: 'Get a Map by ID',
+            params: [api.pathParam('mapId', 'ID of map', 'string')],
+            nickname: 'getRegionById'
+        },
+        action: maps.show
+    });
+
     //app.get('/api/map/:mapName',  map.show);
 
-    app.post('/api/map', maps.create);
-    app.post('/api/map/:mapId', maps.update);
+    api.addPost({
+        spec: {
+            path: '/api/map',
+            summary: 'Create a Map',
+            method: 'POST',
+            params: [api.postParam('Map', 'Map object that needs to be created', ' ')],
+            nickname: 'createMapObject'
+        },
+        action: maps.create
+    });
 
-    app.post('/api/map/:mapId/region', maps.addRegion); // Create Region through this API CALL
-    app.get('/api/map/:mapId/region/:regionId', regions.show);
 
-    app.delete('/api/map/:mapId/region/:regionId', maps.removeRegion); // Create Region through this API CALL
+    api.addPost({
+        spec: {
+            path: '/api/map/{mapId}',
+            summary: 'Update a Map',
+            method: 'POST',
+            params: [api.pathParam('mapId', 'ID of Map', 'string'), api.postParam('Map', 'Map object that needs to be updated for the given id', ' ')],
+            nickname: 'postMapObject'
+        },
+        action: maps.update
+    });
+
+
+    // app.post('/api/map', maps.create);
+    //  app.post('/api/map/:mapId', maps.update);
+
+    api.addPost({
+        spec: {
+            path: '/api/map/{mapId}/region',
+            summary: 'Add a Region to the Map',
+            method: 'POST',
+            params: [api.pathParam('mapId', 'ID of Map', 'string'), api.postParam('Region', 'Region object that needs to be added in the Map', ' ')],
+            nickname: 'addRegionToMap'
+        },
+        action: maps.addRegion
+    });
+
+//    api.addDelete({
+//        spec: {
+//            path: '/api/map/{mapId}/region/{regionId}',
+//            summary: 'Delete a region from the map',
+//            method: 'DELETE',
+//            params: [api.pathParam('mapid', 'ID of Map', 'string'), api.pathParam('regionId', 'ID of Region', 'string')],
+//            nickname: 'deleteRegionFromMap'
+//        },
+//        action: maps.removeRegion
+//    });
+
+
+//  TODO
+//  api.addGet({
+//        spec: {
+//            path: '/api/map/{mapId}/region',
+//            summary: 'Get all regions belong to the map',
+//            method: 'GET',
+//            params: [api.pathParam('mapId', 'ID of Map', 'string')],
+//            nickname: 'getRegionFromMap'
+//        },
+//        action:  maps.regions
+//    });
+
+
+    //app.post('/api/map/:mapId/region', maps.addRegion); // Create Region through this API CALL
+    //app.get('/api/map/:mapId/region/:regionId', regions.show);
+
+    //app.delete('/api/map/:mapId/region/:regionId', maps.removeRegion); // Create Region through this API CALL
 
     app.param('mapId', maps.map);
     //app.param('mapName', map.findByName);
 
     // Game
+    api.addGet({
+        spec: {
+            path: '/api/game',
+            summary: 'Get all Games',
+            nickname: 'getGameList'
+        },
+        action: games.index
+    });
 
-    app.get('/api/game/:gameId', games.show);
-    app.post('/api/game', games.create);
+    api.addGet({
+        spec: {
+            path: '/api/game/{gameId}',
+            summary: 'Get a Game by ID',
+            params: [api.pathParam('gameId', 'ID of Game', 'string')],
+            nickname: 'getGameById'
+        },
+        action: games.show
+    });
+
+    //   app.get('/api/game', games.index);
+    //  app.get('/api/game/:gameId', games.show);
+
+    api.addPost({
+        spec: {
+            path: '/api/game',
+            summary: 'Create a Game',
+            method: 'POST',
+            params: [api.postParam('Game', 'Game object that needs to be created', ' ')],
+            nickname: 'createGameObject'
+        },
+        action: games.create
+    });
+
+
+    //app.post('/api/game', games.create);
+
+    api.addGet({
+        spec: {
+            path: '/api/game/{gameId}/start',
+            summary: 'Start a game by Id',
+            params: [api.pathParam('gameId', 'ID of Game', 'string')],
+            nickname: 'startGameById'
+        },
+        action: games.show
+    });
+
+
+    api.addGet({
+        spec: {
+            path: '/api/game/{gameId}/restart',
+            summary: 'Restart a game by Id',
+            params: [api.pathParam('gameId', 'ID of Game', 'string')],
+            nickname: 'restartGameById'
+        },
+        action: games.clearGame
+    });
+
+    api.addGet({
+        spec: {
+            path: '/api/game/{gameId}/user',
+            summary: 'Show all subscribed uses',
+            params: [api.pathParam('gameId', 'ID of Game', 'string')],
+            nickname: 'showSubscribedUsers'
+        },
+        action: games.showUsers
+    });
+
+    api.addPost({
+        spec: {
+            path: '/api/game/{gameId}/user',
+            summary: 'Subscribe a user to the Game',
+            method: 'POST',
+            params: [api.pathParam('gameId', 'ID of Game', 'string'), api.postParam('ID', 'ID of subscribed user', ' ')],
+            nickname: 'subscriberUser'
+        },
+        action: games.addUser
+    });
+
+    api.addDelete({
+        spec: {
+            path: '/api/game/{gameId}/user/{userid}',
+            summary: 'Unsubscribe a user to from the Game',
+            method: 'DELETE',
+            params: [api.pathParam('gameId', 'ID of Game', 'string'), api.pathParam('userid', 'ID of User', 'string')],
+            nickname: 'unsubscribeUser'
+        },
+        action: games.removeUser
+    });
+
+
+    // app.get('/api/game/:gameId/start', games.startGame);
+    // app.get('/api/game/:gameId/clear', games.clearGame);
+
+    //app.get('/api/game/:gameId/user', games.showUsers);
+
+    //app.post('/api/game/:gameId/user', games.addUser);
+    //app.delete('/api/game/:gameId/user/:userId', games.removeUser);
     app.param('gameId', games.game);
-
-    app.get('/api/game/:gameId/start', games.startGame);
-    app.get('/api/game/:gameId/clear', games.clearGame);
-
-
-    app.get('/api/game/:gameId/user', games.showUsers);
-    app.post('/api/game/:gameId/user', games.addUser);
-    app.delete('/api/game/:gameId/user/:userId', games.removeUser);
 
 
     //User
-    app.get('/api/user', users.index)
+
+    api.addGet({
+        spec: {
+            path: '/api/user',
+            summary: 'List of users',
+            nickname: 'ListOfUsers'
+        },
+        action: users.index
+    });
 
     //
-    app.get('/api/user/:userid/game', users.getSubscribedGames)
-
+    api.addGet({
+        spec: {
+            path: '/api/user/{userid}/game',
+            summary: 'List of Subscribed Games',
+            params: [api.pathParam('userid', 'ID of User', 'string')],
+            nickname: 'ListOfSubscribedGamesByUser'
+        },
+        action: users.getSubscribedGames
+    });
     app.param('userid', users.user)
+
+
+    //  app.get('/api/user', users.index)
+    // app.get('/api/user/:userid/game', users.getSubscribedGames)
+
 
 }
 

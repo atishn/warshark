@@ -41,6 +41,21 @@ module.exports = function (app, api, config) {
                 "properties": {
                     "id": { "type": "string"}
                 }
+            },
+            "MAP": {
+                "id": "MAP",
+                "properties": {
+                    "id": { "type": "string"},
+                    "name": { "type": "string"}
+                }
+            } ,
+            "GAME": {
+                "id": "GAME",
+                "properties": {
+                    "id": { "type": "string"},
+                    "name": { "type": "string"},
+                    "mapId": { "type": "string"}
+                }
             }
         }
     });

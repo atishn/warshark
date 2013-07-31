@@ -21,7 +21,7 @@ You should also install supervisor. This will monitor your codebase for changes 
 
 All Backend API Can be accessed through
 
-http://localhost:3000/apidoc
+http://localhost:3000/apidoc/#/api
 
 
 
