@@ -36,33 +36,129 @@ module.exports = function (app, api, passport, auth) {
         action: nodes.show
     });
 
+    api.addPost({
+        spec: {
+            path: '/api/node/{nodeId}',
+            summary: 'Update a node',
+            method: 'POST',
+            params: [api.pathParam('nodeId', 'ID of node', 'string'), api.postParam('Node', 'Node object that needs to be updated', ' ')],
+            responseClass: 'Node',
+            nickname: 'postNodeObject'
+        },
+        action: nodes.update
+    });
 
-    // Nodes
-//    app.get('/api/node', nodes.index)
-//    app.get('/api/node/:nodeId', nodes.show)
+    api.addDelete({
+        spec: {
+            path: '/api/node/{nodeId}',
+            summary: 'Delete a node by id',
+            method: 'DELETE',
+            params: [api.pathParam('nodeId', 'ID of node', 'string')],
+            nickname: 'deleteNodeObject'
+        },
+        action: nodes.remove
+    });
 
-    //app.put('/api/node', nodes.create) // Node needs to be created only through Region API.
+    api.addPost({
+        spec: {
+            path: '/api/node/{nodeId}/neighbor',
+            summary: 'Add neighbors',
+            method: 'POST',
+            params: [api.pathParam('nodeId', 'ID of node', 'string'), api.postParam('ID', 'Id of neighbor node', ' ')],
+            responseClass: 'Node',
+            nickname: 'addNeighbor'
+        },
+        action: nodes.addNeighbors
+    });
 
-    app.post('/api/node/:nodeId', nodes.update)
-    app.delete('/api/node/:nodeId', nodes.remove)
-
-    app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
-    app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
+    api.addDelete({
+        spec: {
+            path: '/api/node/{nodeId}/neighbor/{neighborNodeId}',
+            summary: 'Delete a neighbor node by id',
+            method: 'DELETE',
+            params: [api.pathParam('nodeId', 'ID of node', 'string'), api.pathParam('neighborNodeId', 'ID of neighbor node', 'string')],
+            nickname: 'deleteNeighbor'
+        },
+        action: nodes.removeNeighbor
+    });
 
     app.param('nodeId', nodes.node)
     app.param('neighborNodeId', nodes.neighborNode)
 
+
+
     // Regions
-    app.get('/api/region', regions.index)
-    app.get('/api/region/:regionId', regions.show)
+
+    api.addGet({
+        spec: {
+            path: '/api/region',
+            summary: 'Get all Regions',
+            nickname: 'getRegionList'
+        },
+        action: regions.index
+    });
+
+    api.addGet({
+        spec: {
+            path: '/api/region/{regionId}',
+            summary: 'Get a Regions by ID',
+            params: [api.pathParam('regionId', 'ID of region', 'string')],
+            nickname: 'getRegionById'
+        },
+        action: regions.show
+    });
+
+
+
+//    app.get('/api/region', regions.index)
+//    app.get('/api/region/:regionId', regions.show)
     // app.post('/api/region', regions.create)         // Region will be created by Map API
 
-    app.post('/api/region/:regionId', regions.update)
 
-    app.delete('/api/region/:regionId', regions.remove)
+    api.addPost({
+        spec: {
+            path: '/api/region/{regionId}',
+            summary: 'Update a Region',
+            method: 'POST',
+            params: [api.pathParam('regionId', 'ID of Region', 'string'), api.postParam('Region', 'Region object that needs to be updated to the map', ' ')],
+            nickname: 'postRegionObject'
+        },
+        action: nodes.update
+    });
 
-    app.post('/api/region/:regionId/node', regions.addNode)  // Create node through this API CALL.
-    app.delete('/api/region/:regionId/node/:nodeId', regions.removeNode)
+    api.addDelete({
+        spec: {
+            path: '/api/region/{regionId}',
+            summary: 'Delete a Region by id',
+            method: 'DELETE',
+            params: [api.pathParam('regionId', 'ID of Region', 'string')],
+            nickname: 'deleteRegionById'
+        },
+        action: nodes.remove
+    });
+
+    // Create node through this API CALL.
+    api.addPost({
+        spec: {
+            path: '/api/region/{regionId}/node',
+            summary: 'Add a node to the Region',
+            method: 'POST',
+            params: [api.pathParam('regionId', 'ID of Region', 'string'), api.postParam('Node', 'Node object that needs to be added in the Region', ' ')],
+            nickname: 'addNodeToRegion'
+        },
+        action: nodes.addNode
+    });
+
+    api.addDelete({
+        spec: {
+            path: '/api/region/{regionId}/node/{nodeId}',
+            summary: 'Delete a node from given Region',
+            method: 'DELETE',
+            params: [api.pathParam('regionId', 'ID of Region', 'string'), api.pathParam('nodeId', 'ID of Node', 'string')],
+            nickname: 'deleteNodeFromRegion'
+        },
+        action: nodes.removeNode
+    });
 
     app.param('regionId', regions.region)
 
