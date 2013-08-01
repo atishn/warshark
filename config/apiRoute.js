@@ -121,7 +121,7 @@ module.exports = function (app, api, passport, auth) {
             params: [api.pathParam('regionId', 'ID of Region', 'string'), api.postParam('Region', 'Region object that needs to be updated to the map', ' ')],
             nickname: 'postRegionObject'
         },
-        action: nodes.update
+        action: regions.update
     });
 
     api.addDelete({
@@ -132,7 +132,7 @@ module.exports = function (app, api, passport, auth) {
             params: [api.pathParam('regionId', 'ID of Region', 'string')],
             nickname: 'deleteRegionById'
         },
-        action: nodes.remove
+        action: regions.remove
     });
 
     // Create node through this API CALL.
@@ -144,21 +144,22 @@ module.exports = function (app, api, passport, auth) {
             params: [api.pathParam('regionId', 'ID of Region', 'string'), api.postParam('Node', 'Node object that needs to be added in the Region', ' ')],
             nickname: 'addNodeToRegion'
         },
-        action: nodes.addNode
-    });
-
-    api.addDelete({
-        spec: {
-            path: '/api/region/{regionId}/node/{nodeId}',
-            summary: 'Delete a node from given Region',
-            method: 'DELETE',
-            params: [api.pathParam('regionId', 'ID of Region', 'string'), api.pathParam('nodeId', 'ID of Node', 'string')],
-            nickname: 'deleteNodeFromRegion'
-        },
-        action: nodes.removeNode
+        action: regions.addNode
     });
 
     // TODO: Get all nodes belongs to the region
+
+    api.addGet({
+        spec: {
+            path: '/api/region/{regionId}/node',
+            summary: 'Get all nodes belongs to Regions',
+            params: [api.pathParam('regionId', 'ID of region', 'string')],
+            nickname: 'getNodesbyRegionById'
+        },
+        action: regions.node
+    });
+
+
 
     app.param('regionId', regions.region)
 
@@ -225,29 +226,16 @@ module.exports = function (app, api, passport, auth) {
         action: maps.addRegion
     });
 
-//    api.addDelete({
-//        spec: {
-//            path: '/api/map/{mapId}/region/{regionId}',
-//            summary: 'Delete a region from the map',
-//            method: 'DELETE',
-//            params: [api.pathParam('mapid', 'ID of Map', 'string'), api.pathParam('regionId', 'ID of Region', 'string')],
-//            nickname: 'deleteRegionFromMap'
-//        },
-//        action: maps.removeRegion
-//    });
-
-
-//  TODO
-//  api.addGet({
-//        spec: {
-//            path: '/api/map/{mapId}/region',
-//            summary: 'Get all regions belong to the map',
-//            method: 'GET',
-//            params: [api.pathParam('mapId', 'ID of Map', 'string')],
-//            nickname: 'getRegionFromMap'
-//        },
-//        action:  maps.regions
-//    });
+    api.addGet({
+        spec: {
+            path: '/api/map/{mapId}/region',
+            summary: 'Get all regions belong to the map',
+            method: 'GET',
+            params: [api.pathParam('mapId', 'ID of Map', 'string')],
+            nickname: 'getRegionFromMap'
+        },
+        action:  maps.region
+    });
 
 
     //app.post('/api/map/:mapId/region', maps.addRegion); // Create Region through this API CALL

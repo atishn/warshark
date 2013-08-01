@@ -121,6 +121,19 @@ exports.removeNode = function (req, res) {
 }
 
 /**
+ * List Node
+ * @param req
+ * @param res
+ */
+
+exports.node = function (req, res) {
+
+    var region = req.region;
+    res.send(region.node);
+}
+
+
+/**
  *  Show Node
  */
 

@@ -150,3 +150,15 @@ exports.removeRegion = function (req, res) {
         res.send(200)
     })
 }
+
+/**
+ * Remove Region
+ * @param req
+ * @param res
+ */
+
+exports.region = function (req, res) {
+
+    var map = req.map;
+    res.send(map.region);
+}
