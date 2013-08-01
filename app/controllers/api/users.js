@@ -130,10 +130,8 @@ exports.getSubscribedGames = function (req, res) {
     UserGame.findByUserid(user._id, function (err, usergame) {
         if (err) return new Error(err)
         if (!usergame) res.send(404)
-        else res.send(200, usergame.game)
-        //res.send(usergame.game);
+        else res.send(usergame.game)
     })
-
 }
 
 /**
