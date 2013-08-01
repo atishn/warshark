@@ -20,7 +20,7 @@ var GameSchema = new Schema({
         { type: Schema.ObjectId, ref: 'User' }
     ],
     currentUser: { type: Schema.ObjectId, ref: 'User'},
-    status: { type: String, enum: ['Start', 'InProgress', 'End'] },
+    status: { type: String, enum: ['New', 'InProgress', 'End'] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
 
@@ -41,7 +41,27 @@ GameSchema.statics = {
             .populate('nodesState')
 
             .exec(cb)
+    },
+
+    /**
+     * List Games
+     *
+     * @param {Object} options
+     * @param {Function} cb
+     * @api private
+     */
+
+    list: function (options, cb) {
+        var criteria = options.criteria || {}
+
+        this.find(criteria)
+            .populate('user', 'name')
+            .sort({'createdAt': -1}) // sort by date
+            .limit(options.perPage)
+            .skip(options.perPage * options.page)
+            .exec(cb)
     }
+
 }
 /**
  * Pre-save hook

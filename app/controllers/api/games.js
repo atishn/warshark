@@ -16,7 +16,7 @@ var mongoose = require('mongoose')
 exports.create = function (req, res) {
     var game = new Game(req.body)
     game.createdAt = Date.now();
-    game.status = 'Start';
+    game.status = 'New';
 
     game.save(function (err) {
         if (err) {
@@ -175,7 +175,7 @@ exports.startGame = function (req, res) {
 exports.clearGame = function (req, res) {
     var game = req.game;
     game.nodesState = [];
-    game.status = 'Start';
+    game.status = 'New';
     game.save(function (err) {
         if (err) return new Error(err);
         res.send(200, game);

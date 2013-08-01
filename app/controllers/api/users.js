@@ -88,21 +88,6 @@ exports.show = function (req, res) {
     })
 }
 
-/**
- * Find user by id
- */
-
-exports.user = function (req, res, next, id) {
-    User
-        .findOne({ _id: id })
-        .exec(function (err, user) {
-            if (err) return next(err)
-            if (!user) return next(new Error('Failed to load User ' + id))
-            req.profile = user
-            next()
-        })
-}
-
 
 /**
  * List of user.  Added for testing. Will remove sooner
@@ -142,9 +127,27 @@ exports.index = function (req, res) {
 
 exports.getSubscribedGames = function (req, res) {
     var user = req.user
-    UserGame.findByUserid(user._id, function (err, games) {
+    UserGame.findByUserid(user._id, function (err, usergame) {
         if (err) return new Error(err)
-        res.send(games.game);
+        if (!usergame) res.send(404)
+        else res.send(200, usergame.game)
+        //res.send(usergame.game);
     })
 
 }
+
+/**
+ * Find user by id
+ */
+
+exports.user = function (req, res, next, id) {
+    User
+        .findOne({ _id: id })
+        .exec(function (err, user) {
+            if (err) return next(err)
+            if (!user) return next(new Error('Failed to load User ' + id))
+            req.user = user
+            next()
+        })
+}
+
