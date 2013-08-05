@@ -32,12 +32,12 @@
     "async": "latest",
     "view-helpers": "latest",
     "forever": "latest",
-    "supervisor": "latest",
     "swagger-node-express": "1.2.x"
 }, "devDependencies": {
     "supertest": "latest",
     "should": "latest",
     "mocha": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "supervisor": "latest"
 }
 }

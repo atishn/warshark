@@ -11,12 +11,13 @@ var mongoose = require('mongoose')
  */
 
 var NodeSchema = new Schema({
+    index: Number,
     name: String,
     color: String,
     units: Number,
     coordinates: {
-        x: {type: String},
-        y: {type: String}
+        x: {type: Number},
+        y: {type: Number}
     },
     neighbors: [
         { type: String}

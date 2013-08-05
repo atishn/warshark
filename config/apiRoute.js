@@ -160,7 +160,6 @@ module.exports = function (app, api, passport, auth) {
     });
 
 
-
     app.param('regionId', regions.region)
 
 
@@ -234,7 +233,7 @@ module.exports = function (app, api, passport, auth) {
             params: [api.pathParam('mapId', 'ID of Map', 'string')],
             nickname: 'getRegionFromMap'
         },
-        action:  maps.region
+        action: maps.region
     });
 
 
@@ -337,13 +336,6 @@ module.exports = function (app, api, passport, auth) {
     });
 
 
-    // app.get('/api/game/:gameId/start', games.startGame);
-    // app.get('/api/game/:gameId/clear', games.clearGame);
-
-    //app.get('/api/game/:gameId/user', games.showUsers);
-
-    //app.post('/api/game/:gameId/user', games.addUser);
-    //app.delete('/api/game/:gameId/user/:userId', games.removeUser);
     app.param('gameId', games.game);
 
 
@@ -368,108 +360,18 @@ module.exports = function (app, api, passport, auth) {
         },
         action: users.getSubscribedGames
     });
+
+    //
+    api.addDelete({
+        spec: {
+            path: '/api/user/{userid}',
+            summary: 'Delete user by userid',
+            params: [api.pathParam('userid', 'ID of User', 'string')],
+            nickname: 'deleteUserById'
+        },
+        action: users.remove
+    });
+
     app.param('userid', users.user)
 
-
-    //  app.get('/api/user', users.index)
-    // app.get('/api/user/:userid/game', users.getSubscribedGames)
-
-
 }
-
-
-// Swagger Entries. Try to add later when Swagger entries gets fixed.
-//// Node
-//app.addGet({
-//    spec: {
-//        path: '/api/node',
-//        summary: 'Get all nodes',
-//        responseClass: 'Node',
-//        nickname: 'getNodeList'
-//    },
-//    action: nodes.index
-//});
-//
-//app.addGet({
-//    spec: {
-//        path: '/api/node/{nodeId}',
-//        summary: 'Get a node by ID',
-//        params: [app.pathParam('nodeId', 'ID of node', 'string')],
-//        responseClass: 'Node',
-//        nickname: 'getNodeById'
-//    },
-//    action: nodes.show
-//});
-//
-//app.addPut({
-//    spec: {
-//        path: '/api/node',
-//        summary: 'Create a node',
-//        method: 'PUT',
-//        params: [app.postParam('Node', 'Node object that needs to be added to the map', 'Node')],
-//        responseClass: 'Node',
-//        nickname: 'putNodeObject'
-//    },
-//    action: nodes.create
-//});
-//
-////    app.put('/api/node', nodes.create)
-//
-//app.addPost({
-//    spec: {
-//        path: '/api/node/{nodeId}',
-//        summary: 'Create or Update a node',
-//        method: 'POST',
-//        params: [app.pathParam('nodeId', 'ID of node', 'string'), app.postParam('Node', 'Node object that needs to be added to the map', 'Node')],
-//        responseClass: 'Node',
-//        nickname: 'postNodeObject'
-//    },
-//    action: nodes.update
-//});
-//
-////app.put('/api/node', nodes.create)
-////app.post('/api/node/:nodeId', nodes.update)
-//
-//app.addDelete({
-//    spec: {
-//        path: '/api/node/{nodeId}',
-//        summary: 'Delete a node',
-//        method: 'DELETE',
-//        params: [app.pathParam('nodeId', 'ID of node to be delete', 'string')],
-//        responseClass: 'Node',
-//        nickname: 'deleteNodeById'
-//    },
-//    action: nodes.remove
-//});
-//
-//
-////app.delete('/api/node/:nodeId', nodes.remove)
-//
-//
-//app.addPost({
-//    spec: {
-//        path: '/api/node/{nodeId}/neighbor',
-//        summary: 'Add a neighbor node',
-//        method: 'POST',
-//        params: [app.pathParam('nodeId', 'ID of node', 'string'), app.postParam('id', 'Id of node that needs to be added as a neighbor', 'string')],
-//        responseClass: 'Node',
-//        nickname: 'postNodeObject'
-//    },
-//    action: nodes.addNeighbors
-//});
-//
-////app.post('/api/node/:nodeId/neighbor', nodes.addNeighbors)
-//
-//app.addDelete({
-//    spec: {
-//        path: '/api/node/{nodeId}/neighbor/{neighborNodeId}',
-//        summary: 'Remove a neighbor node',
-//        method: 'DELETE',
-//        params: [app.pathParam('nodeId', 'ID of node', 'string'), app.pathParam('neighborNodeId', 'ID of neighborNode', 'string')],
-//        nickname: 'removeNeighborById'
-//    },
-//    action: nodes.removeNeighbor
-//});
-//
-////app.delete('/api/node/:nodeId/neighbor/:neighborNodeId', nodes.removeNeighbor)
-

@@ -149,3 +149,15 @@ exports.user = function (req, res, next, id) {
         })
 }
 
+/**
+ * Remove the user
+ */
+exports.remove = function (req, res) {
+    var user = req.user
+    user.remove(function (err) {
+        if (err) res.send(400)
+        else res.send(200)
+    });
+
+}
+
