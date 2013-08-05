@@ -8,6 +8,8 @@ var nodes = require('../app/controllers/api/nodes')
     , regions = require('../app/controllers/api/regions')
     , games = require('../app/controllers/api/games')
     , users = require('../app/controllers/api/users')
+    , db_content = require('../app/controllers/api/populatedb')
+
 
 module.exports = function (app, api, passport, auth) {
 
@@ -373,5 +375,20 @@ module.exports = function (app, api, passport, auth) {
     });
 
     app.param('userid', users.user)
+
+
+    // Populate DB
+    api.addPost({
+        spec: {
+            path: '/api/populate/{gameName}',
+            summary: 'Populate DB with dummy database',
+            method: 'POST',
+            params: [api.pathParam('gameName', 'Name of Game', 'string')],
+            nickname: 'populateGameDatabase'
+        },
+        action: db_content.populate
+    });
+
+    app.param('gameName', db_content.db)
 
 }

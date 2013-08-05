@@ -11,7 +11,6 @@ var mongoose = require('mongoose')
 
 exports.populate = function (req, res) {
 
-
     var NODES_REGION_COUNT = 10;
     var mapName = req.mapName;
     var map = new Map();
@@ -30,6 +29,7 @@ exports.populate = function (req, res) {
 
     // Create Nodes
     var nodes = [];
+
     for (var i = 1; i <= regions.length; i++) {
         for (var j = 1; j <= NODES_REGION_COUNT; j++) {
             var node = new Node();
@@ -40,6 +40,8 @@ exports.populate = function (req, res) {
             nodes.push(node);
         }
     }
+
+    res.send(200);
 
 //
 //    Region.create(regions, function (err, regions) {
@@ -71,12 +73,12 @@ exports.populate = function (req, res) {
 //    })
 }
 
-
 function getRandomColor() {
-    var color = color[Math.floor(Math.random() * color.length)];
+    var colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Brown', 'Black', 'Grey', 'White' ];
+
+    var color = colors[Math.floor(Math.random() * colors.length)];
     return color;
 }
-var color = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Brown', 'Black', 'Grey', 'White' ];
 
 
 function getRandomNodeUnits() {
@@ -100,5 +102,5 @@ function getRandomInt(min, max) {
 
 exports.db = function (req, res, next, name) {
     req.gamename = name;
-
+    next()
 }
