@@ -11,66 +11,98 @@ var mongoose = require('mongoose')
 
 exports.populate = function (req, res) {
 
-    var NODES_REGION_COUNT = 10;
-    var mapName = req.mapName;
-    var map = new Map();
-    map.name = mapName;
-    //map.save();
+    var NODES_PER_REGION_COUNT = 5;
+    var REGION_PER_MAP_COUNT = 2;
+
+    // Create Nodes
+    var nodes = [];
+
+    for (var i = 1; i <= REGION_PER_MAP_COUNT; i++) {
+        for (var j = 1; j <= NODES_PER_REGION_COUNT; j++) {
+
+            var node = new Node();
+            node.index = (i - 1) * NODES_PER_REGION_COUNT + j;
+            node.color = j;
+            node.units = getRandomNodeUnits();
+            node.coordinates.x = i;
+            node.coordinates.y = j;
+            nodes.push(node);
+        }
+    }
+
+    for (var i = 1; i <= nodes.length; i++) {
+        if (i + 1 <= nodes.length) {
+            if (i % NODES_PER_REGION_COUNT != 0) {
+                addNeighbor(nodes, i - 1, i);
+            }
+            if (i + NODES_PER_REGION_COUNT <= nodes.length) {
+                addNeighbor(nodes, i - 1, i + NODES_PER_REGION_COUNT - 1);
+            }
+        }
+    }
 
     var regions = []
-    for (var i = 1; i <= 15; i++) {
+    for (var i = 1; i <= REGION_PER_MAP_COUNT; i++) {
         var region = new Region();
 
         region.name = "region" + i;
         region.unitBonus = getRandomBonusUnits();
         region.color = getRandomColor();
         regions.push(region);
+
     }
 
-    // Create Nodes
-    var nodes = [];
+    var mapName = req.mapName;
+    var map = new Map();
+    map.name = mapName;
 
-    for (var i = 1; i <= regions.length; i++) {
-        for (var j = 1; j <= NODES_REGION_COUNT; j++) {
-            var node = new Node();
-            node.index = (i - 1) * 10 + j;
-            node.units = getRandomNodeUnits();
-            node.coordinates.x = i * 10;
-            node.coordinates.y = j * 10;
-            nodes.push(node);
+    for (var i = 0; i < regions.length; i++) {
+        var start = i * NODES_PER_REGION_COUNT;
+        var end = start + NODES_PER_REGION_COUNT;
+
+        for (var index = start; index < end; index++) {
+            regions[i].node.push(nodes[index]);
         }
+        map.region.push(regions[i]);
     }
 
-    res.send(200);
+    var game = new Game();
+    game.name = "Game_" + mapName;
+    game.mapId = map;
+    game.users.push("51ddbcedaa9be60000000002");  // Wicks
+    game.users.push("51fd2269c0e13251a0000002");  // Atish
+    game.users.push("5204cc38beb9ad0000000002");  // Rob
+    game.users.push("5204cc7ebeb9ad0000000004");  // Cho
 
-//
-//    Region.create(regions, function (err, regions) {
-//        for (var i = 0; i < regions.length; i++) {
-//            map.region.push(regions[i]);
-//        }
-//        map.save();
-//
-//        // Create Nodes
-//        var nodes = [];
-//        for (var i = 1; i <= regions.length(); i++) {
-//            for (var j = 1; j <= NODES_REGION_COUNT; j++) {
-//                var node = new Node();
-//                node.index = (i - 1) * 10 + j;
-//                node.units = getRandomNodeUnits();
-//                node.coordinates.x = i * 10;
-//                node.coordinates.y = j * 10;
-//                nodes.push(node);
-//            }
-//        }
+    async.waterfall([
+        function (cb) {
+            Node.create(nodes, function (err) {
+                cb()
+            })
+        },
+        function (cb) {
+            Region.create(regions, function (err) {
+                cb();
+            })
+        },
+        function (cb) {
+            map.save(cb)
+        },
+        function (cb) {
+            game.save(function () {
+                res.send(game);
+            })
+        }
 
-//            units: Number,
-//                coordinates: {
-//                x: {type: Number},
-//                y: {type: Number}
-//            },
-//            neighbors: [
-//                { type: String}
-//    })
+    ], function (err, status) {
+        console.log(status);
+        res.send(game);
+    })
+}
+
+function addNeighbor(nodes, first, second) {
+    nodes[first].neighbors.addToSet(nodes[second]._id);
+    nodes[second].neighbors.addToSet(nodes[first]._id);
 }
 
 function getRandomColor() {
@@ -101,6 +133,6 @@ function getRandomInt(min, max) {
  */
 
 exports.db = function (req, res, next, name) {
-    req.gamename = name;
+    req.mapName = name;
     next()
 }

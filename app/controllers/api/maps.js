@@ -18,7 +18,6 @@ exports.create = function (req, res) {
     })
 }
 
-
 /**
  * Update Map
  */

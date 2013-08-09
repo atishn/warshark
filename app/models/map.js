@@ -11,6 +11,7 @@ var mongoose = require('mongoose')
 
 var MapSchema = new Schema({
     name: String,
+    createdAt: { type: Date, default: Date.now },
     region: [
         { type: Schema.ObjectId, ref: 'Region' }
     ]
@@ -90,15 +91,12 @@ MapSchema.statics = {
      */
 
     getNodes: function (id, cb) {
-
         this.load(id, function (err, map) {
-
             var nodes = []
             for (var i = 0; i < map.region.length; i++) {
                 for (var j = 0; j < map.region[i].node.length; j++) {
                     nodes.push(map.region[i].node[j]);
                 }
-
             }
             cb(err, nodes);
         })

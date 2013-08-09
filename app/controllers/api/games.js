@@ -129,8 +129,6 @@ exports.startGame = function (req, res) {
             nodeStateArray.push(nodeState);
         }
 
-//        res.send(200, nodeStateArray);
-
         NodeState.create(nodeStateArray, function (err) {
             if (!err) {
                 for (var i = 0; i < nodeStateArray.length; i++) {
@@ -143,31 +141,6 @@ exports.startGame = function (req, res) {
                 });
             }
         })
-
-
-        //       res.send(200, nodes);
-//        var nodeStates = []
-//
-//        var functions = [];
-//
-//        for (var i = 0; i < nodes.length; i++) {
-//            functions.push((function (node) {
-//                return function (callback) {
-//                    NodeState.create(node, user, function (err, nodeState) {
-//                        if (err) return callback(err);
-//                        nodeStates.push(nodeState);
-//                        callback()
-//                    })
-//
-//                };
-//            })(nodes[i]));
-//        }
-//
-//        async.parallel(functions, function (err, results) {
-//            console.log(err);
-//            console.log(nodeStates);
-//        });
-
     })
 
 }
