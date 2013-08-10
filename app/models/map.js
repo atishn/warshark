@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
  */
 
 var MapSchema = new Schema({
-    name: String,
+    name: {type: String, unique: true},
     createdAt: { type: Date, default: Date.now },
     region: [
         { type: Schema.ObjectId, ref: 'Region' }

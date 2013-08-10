@@ -213,6 +213,17 @@ module.exports = function (app, api, passport, auth) {
     });
 
 
+    api.addDelete({
+        spec: {
+            path: '/api/map/{mapId}',
+            summary: 'Delete a Map by id',
+            method: 'DELETE',
+            params: [api.pathParam('mapId', 'ID of Map', 'string')],
+            nickname: 'deleteMapById'
+        },
+        action: maps.remove
+    });
+
     // app.post('/api/map', maps.create);
     //  app.post('/api/map/:mapId', maps.update);
 
@@ -291,7 +302,7 @@ module.exports = function (app, api, passport, auth) {
             params: [api.pathParam('gameId', 'ID of Game', 'string')],
             nickname: 'startGameById'
         },
-        action: games.show
+        action: games.startGame
     });
 
 
@@ -337,12 +348,9 @@ module.exports = function (app, api, passport, auth) {
         action: games.removeUser
     });
 
-
     app.param('gameId', games.game);
 
-
     //User
-
     api.addGet({
         spec: {
             path: '/api/user',

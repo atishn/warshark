@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
     , async = require('async')
+    , _ = require('underscore')
     , Game = mongoose.model('Game')
     , Map = mongoose.model('Map')
     , Region = mongoose.model('Region')
@@ -8,12 +9,12 @@ var mongoose = require('mongoose')
     , User = mongoose.model('User')
     , UserGame = mongoose.model('UserGame')
 
-
 /**
  * Create Game
  */
 
 exports.create = function (req, res) {
+
     var game = new Game(req.body)
     game.createdAt = Date.now();
     game.status = 'New';
@@ -21,7 +22,7 @@ exports.create = function (req, res) {
     game.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500, game);
+            return res.send(500, err);
         }
         res.send(201, game);
     })
@@ -118,14 +119,17 @@ exports.startGame = function (req, res) {
 
     Map.getNodes(game.mapId, function (err, nodes) {
 
+
+        var shuffledNodes = _.shuffle(nodes);
+
         var nodeStateArray = [];
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0; i < shuffledNodes.length; i++) {
 
             var nodeState = new NodeState();
             nodeState.nodeId = nodes[i]._id;
             nodeState.currentUnits = nodes[i].units;
-            nodeState.ownerId = game.users[0]._id;
+            nodeState.ownerId = game.users[i%game.users.length]._id;
             nodeStateArray.push(nodeState);
         }
 
@@ -177,9 +181,8 @@ exports.show = function (req, res) {
     var game = req.game
 
     if (game)
-        res.send(game)
-    else
-        res.send(404, "Resource not found")
+        return res.send(game)
+    res.send(404, "Resource not found")
 }
 
 
@@ -208,7 +211,6 @@ exports.index = function (req, res) {
  */
 
 exports.game = function (req, res, next, id) {
-
     Game
         .load(id, function (err, game) {
             if (err) return next(err)

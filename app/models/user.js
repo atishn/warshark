@@ -14,8 +14,8 @@ var mongoose = require('mongoose')
 
 var UserSchema = new Schema({
     name: String,
-    email: String,
-    username: String,
+    email: {type: String, unique: true},
+    username: {type: String, unique: true},
     provider: String,
     hashed_password: String,
     salt: String,
@@ -137,12 +137,12 @@ UserSchema.methods = {
      * @param cb
      */
 
-    load: function(id, cb){
+    load: function (id, cb) {
 
-        this.findOne({_id:id})
+        this.findOne({_id: id})
             .populate('-passwordHash')
 
-            .exec(function(err, user){
+            .exec(function (err, user) {
 
             })
     },

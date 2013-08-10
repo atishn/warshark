@@ -11,7 +11,8 @@ exports.create = function (req, res) {
     var region = new Region(req.body)
     region.save(function (err) {
         if (err) {
-            res.send(500, region);
+            return  res.send(500, err);
+
         }
         res.send(201, region);
     })
@@ -36,7 +37,9 @@ exports.update = function (req, res) {
 
     region.save(function (err) {
         if (err) {
-            res.send(500, region);
+            return res.send(500, err);
+
+
         }
         res.send(region);
     })
@@ -71,7 +74,9 @@ exports.index = function (req, res) {
     }
 
     Region.list(options, function (err, regions) {
-        if (err) return res.render('500');
+        if (err) {
+            return  res.render('500',err);
+        }
         res.send(regions);
     })
 }
@@ -88,8 +93,7 @@ exports.addNode = function (req, res) {
     var node = new Node(req.body)
     node.save(function (err) {
         if (err) {
-            console.log(err);
-            res.send(500, node);
+            return res.send(500, err);
         }
         region.node.push(node)
         region.save()
@@ -114,7 +118,7 @@ exports.removeNode = function (req, res) {
     node.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500, node);
+            return res.send(500, err);
         }
         res.send(200, region)
     })

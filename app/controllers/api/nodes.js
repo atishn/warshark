@@ -11,7 +11,8 @@ exports.create = function (req, res) {
     node.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500, node);
+            return  res.send(500, node);
+
         }
         res.send(201, node);
     })
@@ -38,7 +39,8 @@ exports.update = function (req, res) {
     node.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500, node);
+            return res.send(500, node);
+
         }
         res.send(node);
     })
@@ -109,7 +111,7 @@ function addNeighborId(node, neighborId) {
     Node
         .findOne({ _id: neighborId })
         .exec(function (err, neighborNode) {
-            if (err) return
+            if (err) return (500, err)
             if (!neighborNode) return
             neighborNode.neighbors.addToSet(node._id)
             neighborNode.save()

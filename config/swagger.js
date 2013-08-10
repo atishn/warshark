@@ -42,14 +42,14 @@ module.exports = function (app, api, config) {
                     "id": { "type": "string"}
                 }
             },
-            "MAP": {
+            "Map": {
                 "id": "MAP",
                 "properties": {
                     "id": { "type": "string"},
                     "name": { "type": "string"}
                 }
             } ,
-            "GAME": {
+            "Game": {
                 "id": "GAME",
                 "properties": {
                     "id": { "type": "string"},

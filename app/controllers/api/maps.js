@@ -11,10 +11,9 @@ exports.create = function (req, res) {
     var map = new Map(req.body)
     map.save(function (err) {
         if (err) {
-            console.log(err);
-            res.send(500, map);
+            return res.send(500, err);
         }
-        res.send(201, map);
+        return res.send(201, map);
     })
 }
 
@@ -28,21 +27,20 @@ exports.update = function (req, res) {
     var map = req.map;
     if (map) {
         map.name = reqMap.name;
-
     } else
         map = reqMap;
     map.save(function (err) {
         if (err) {
-            console.log(err);
-            res.send(500, map);
+            console.log();
+            return res.send(500, err);
         }
-        res.send(map);
+        return res.send(map);
     })
 }
 
 
 /**
- * Delete Node
+ * Delete Map
  */
 
 exports.remove = function (req, res) {
@@ -51,6 +49,15 @@ exports.remove = function (req, res) {
     map.remove()
 
     res.send(200)
+}
+
+/**
+ * Delete All Maps
+ */
+
+exports.remove = function (req, res) {
+
+
 }
 
 
@@ -62,9 +69,8 @@ exports.show = function (req, res) {
     var map = req.map
 
     if (map)
-        res.send(map)
-    else
-        res.send(404, "Resource not found")
+        return res.send(map)
+    return res.send(404, "Resource not found")
 }
 
 
@@ -83,8 +89,8 @@ exports.index = function (req, res) {
     }
 
     Map.list(options, function (err, maps) {
-        if (err) return res.render('500');
-        res.send(maps);
+        if (err) return res.render('500', err);
+        return res.send(maps);
     })
 }
 
@@ -117,12 +123,11 @@ exports.addRegion = function (req, res) {
 
     region.save(function (err) {
         if (err) {
-            console.log(err);
-            res.send(500, region);
+            return res.send(500, err);
         }
         map.region.push(region)
         map.save()
-        res.send(201, region)
+        return res.send(201, region)
     })
 }
 
@@ -144,9 +149,11 @@ exports.removeRegion = function (req, res) {
     map.save(function (err) {
         if (err) {
             console.log(err);
-            res.send(500);
+            return res.send(500);
+
+
         }
-        res.send(200)
+        return res.send(200)
     })
 }
 
