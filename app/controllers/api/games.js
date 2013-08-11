@@ -61,7 +61,6 @@ exports.showUsers = function (req, res) {
 
 exports.removeUser = function (req, res) {
     var game = req.game;
-
     var userId = req.body.id;
 
     if (userId instanceof Array) {
@@ -77,7 +76,6 @@ exports.removeUser = function (req, res) {
 }
 
 function subscribeUser(game, userid) {
-
     Game.subscribeUser(game, userid);
     game.save();
 }

@@ -41,9 +41,8 @@ GameSchema.statics = {
 
     load: function (id, cb) {
         this.findOne({ _id: id })
-            .populate('users', 'name')
+            .populate('users.user', 'name')
             .populate('nodesState')
-
             .exec(cb)
     },
 
@@ -59,7 +58,7 @@ GameSchema.statics = {
         var criteria = options.criteria || {}
 
         this.find(criteria)
-            .populate('user', 'name')
+            .populate('users.user', 'name')
             .sort({'createdAt': -1}) // sort by date
             .limit(options.perPage)
             .skip(options.perPage * options.page)
@@ -91,9 +90,18 @@ GameSchema.statics = {
             })
     },
 
-    // This functionality is broken. need to implement properly.
+    // TODO : This functionality is broken. need to implement properly.
     unsubscribeUser: function (game, userid) {
-        game.users.pull(userid);
+
+        for (var i = 0; i < game.users.length; i++) {
+            var userEntry = game.users[i];
+            if (userEntry.user == userid) {
+                game.users.pull(userEntry);
+                break;
+            }
+        }
+
+        //game.users.pull(userid);
 
         var UserGame = mongoose.model('UserGame')
 
