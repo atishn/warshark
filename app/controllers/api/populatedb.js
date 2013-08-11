@@ -13,8 +13,8 @@ exports.populate = function (req, res) {
     var DEFAULT_REGION_PER_MAP_COUNT = 2;
     var DEFAULT_NODES_PER_REGION_COUNT = 5;
 
-    var regionCount = req.query.regionCount ? req.query.regionCount : DEFAULT_REGION_PER_MAP_COUNT;
-    var nodeCount = req.query.nodeCount ? req.query.nodeCount : DEFAULT_NODES_PER_REGION_COUNT;
+    var regionCount = req.query.regionCount ? req.query.regionCount * 1 : DEFAULT_REGION_PER_MAP_COUNT;
+    var nodeCount = req.query.nodeCount ? req.query.nodeCount * 1 : DEFAULT_NODES_PER_REGION_COUNT;
 
     // Create Nodes
     var nodes = [];
@@ -79,12 +79,12 @@ exports.populate = function (req, res) {
     async.waterfall([
         function (cb) {
             Node.create(nodes, function (err) {
-                cb()
+                cb(err)
             })
         },
         function (cb) {
             Region.create(regions, function (err) {
-                cb();
+                cb(err);
             })
         },
         function (cb) {
@@ -95,10 +95,9 @@ exports.populate = function (req, res) {
                 res.send(game);
             })
         }
-
-    ], function (err, status) {
-        console.log(status);
-        res.send(game);
+    ], function (err) {
+        if (err) return res.send(err);
+        return res.send(game);
     })
 }
 
