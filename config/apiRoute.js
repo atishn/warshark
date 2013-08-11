@@ -109,12 +109,6 @@ module.exports = function (app, api, passport, auth) {
         action: regions.show
     });
 
-
-//    app.get('/api/region', regions.index)
-//    app.get('/api/region/:regionId', regions.show)
-    // app.post('/api/region', regions.create)         // Region will be created by Map API
-
-
     api.addPost({
         spec: {
             path: '/api/region/{regionId}',
@@ -187,7 +181,6 @@ module.exports = function (app, api, passport, auth) {
         action: maps.show
     });
 
-    //app.get('/api/map/:mapName',  map.show);
 
     api.addPost({
         spec: {
@@ -224,9 +217,6 @@ module.exports = function (app, api, passport, auth) {
         action: maps.remove
     });
 
-    // app.post('/api/map', maps.create);
-    //  app.post('/api/map/:mapId', maps.update);
-
     api.addPost({
         spec: {
             path: '/api/map/{mapId}/region',
@@ -250,13 +240,8 @@ module.exports = function (app, api, passport, auth) {
     });
 
 
-    //app.post('/api/map/:mapId/region', maps.addRegion); // Create Region through this API CALL
-    //app.get('/api/map/:mapId/region/:regionId', regions.show);
-
-    //app.delete('/api/map/:mapId/region/:regionId', maps.removeRegion); // Create Region through this API CALL
-
     app.param('mapId', maps.map);
-    //app.param('mapName', map.findByName);
+
 
     // Game
     api.addGet({
@@ -278,8 +263,6 @@ module.exports = function (app, api, passport, auth) {
         action: games.show
     });
 
-    //   app.get('/api/game', games.index);
-    //  app.get('/api/game/:gameId', games.show);
 
     api.addPost({
         spec: {
@@ -292,8 +275,6 @@ module.exports = function (app, api, passport, auth) {
         action: games.create
     });
 
-
-    //app.post('/api/game', games.create);
 
     api.addGet({
         spec: {
