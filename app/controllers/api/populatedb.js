@@ -91,8 +91,9 @@ exports.populate = function (req, res) {
             map.save(cb)
         },
         function (cb) {
-            game.save(function () {
-                res.send(game);
+            game.save(function (err, game) {
+                if (err) return cb(err)
+                return res.send(game);
             })
         }
     ], function (err) {

@@ -119,7 +119,6 @@ exports.startGame = function (req, res) {
 
     Map.getNodes(game.mapId, function (err, nodes) {
 
-
         var shuffledNodes = _.shuffle(nodes);
 
         var nodeStateArray = [];
