@@ -75,7 +75,7 @@ exports.index = function (req, res) {
 
     Region.list(options, function (err, regions) {
         if (err) {
-            return  res.render('500',err);
+            return  res.render('500', err);
         }
         res.send(regions);
     })

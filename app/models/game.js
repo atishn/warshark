@@ -20,7 +20,7 @@ var GameSchema = new Schema({
         { type: Schema.ObjectId, ref: 'User' }
     ],
     currentUser: { type: Schema.ObjectId, ref: 'User'},
-    status: { type: String, enum: ['New', 'InProgress', 'End'], default:'New' },
+    status: { type: String, enum: ['New', 'InProgress', 'End'], default: 'New' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
 

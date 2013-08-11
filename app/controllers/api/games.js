@@ -179,7 +179,7 @@ exports.remove = function (req, res) {
  */
 
 exports.show = function (req, res) {
-   var game = req.game
+    var game = req.game
 
     if (game)
         return res.send(game)
