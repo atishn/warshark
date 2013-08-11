@@ -319,16 +319,17 @@ module.exports = function (app, api, passport, auth) {
 
     api.addDelete({
         spec: {
-            path: '/api/game/{gameId}/user/{userid}',
+            path: '/api/game/{gameId}/user/{subscriberid}',
             summary: 'Unsubscribe a user to from the Game',
             method: 'DELETE',
-            params: [api.pathParam('gameId', 'ID of Game', 'string'), api.pathParam('userid', 'ID of User', 'string')],
+            params: [api.pathParam('gameId', 'ID of Game', 'string'), api.pathParam('subscriberid', 'ID of User', 'string')],
             nickname: 'unsubscribeUser'
         },
         action: games.removeUser
     });
 
     app.param('gameId', games.game);
+    app.param('subscriberid', games.subscriber);
 
     //User
     api.addGet({

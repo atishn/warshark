@@ -95,7 +95,7 @@ GameSchema.statics = {
 
         for (var i = 0; i < game.users.length; i++) {
             var userEntry = game.users[i];
-            if (userEntry.user == userid) {
+            if (userEntry.user._id == userid) {
                 game.users.pull(userEntry);
                 break;
             }

@@ -61,7 +61,7 @@ exports.showUsers = function (req, res) {
 
 exports.removeUser = function (req, res) {
     var game = req.game;
-    var userId = req.body.id;
+    var userId = req.subscriberId;
 
     if (userId instanceof Array) {
         for (var i = 0; i < userId.length; i++) {
@@ -197,4 +197,15 @@ exports.game = function (req, res, next, id) {
             req.game = game;
             next();
         })
+}
+
+/**
+ * Note down subscriber id
+ */
+
+exports.subscriber = function (req, res, next, subscriberId) {
+
+    req.subscriberId = subscriberId;
+    next();
+
 }
