@@ -10,18 +10,20 @@ var mongoose = require('mongoose')
 
 
 exports.populate = function (req, res) {
+    var DEFAULT_REGION_PER_MAP_COUNT = 2;
+    var DEFAULT_NODES_PER_REGION_COUNT = 5;
 
-    var NODES_PER_REGION_COUNT = 5;
-    var REGION_PER_MAP_COUNT = 2;
+    var regionCount = req.query.regionCount ? req.query.regionCount : DEFAULT_REGION_PER_MAP_COUNT;
+    var nodeCount = req.query.nodeCount ? req.query.nodeCount : DEFAULT_NODES_PER_REGION_COUNT;
 
     // Create Nodes
     var nodes = [];
 
-    for (var i = 1; i <= REGION_PER_MAP_COUNT; i++) {
-        for (var j = 1; j <= NODES_PER_REGION_COUNT; j++) {
+    for (var i = 1; i <= regionCount; i++) {
+        for (var j = 1; j <= nodeCount; j++) {
 
             var node = new Node();
-            node.index = (i - 1) * NODES_PER_REGION_COUNT + j;
+            node.index = (i - 1) * nodeCount + j;
             node.color = j;
             node.units = getRandomNodeUnits();
             node.coordinates.x = i;
@@ -32,17 +34,17 @@ exports.populate = function (req, res) {
 
     for (var i = 1; i <= nodes.length; i++) {
         if (i + 1 <= nodes.length) {
-            if (i % NODES_PER_REGION_COUNT != 0) {
+            if (i % nodeCount != 0) {
                 addNeighbor(nodes, i - 1, i);
             }
-            if (i + NODES_PER_REGION_COUNT <= nodes.length) {
-                addNeighbor(nodes, i - 1, i + NODES_PER_REGION_COUNT - 1);
+            if (i + nodeCount <= nodes.length) {
+                addNeighbor(nodes, i - 1, i + nodeCount - 1);
             }
         }
     }
 
     var regions = []
-    for (var i = 1; i <= REGION_PER_MAP_COUNT; i++) {
+    for (var i = 1; i <= regionCount; i++) {
         var region = new Region();
 
         region.name = "region" + i;
@@ -57,8 +59,8 @@ exports.populate = function (req, res) {
     map.name = mapName;
 
     for (var i = 0; i < regions.length; i++) {
-        var start = i * NODES_PER_REGION_COUNT;
-        var end = start + NODES_PER_REGION_COUNT;
+        var start = i * nodeCount;
+        var end = start + nodeCount;
 
         for (var index = start; index < end; index++) {
             regions[i].node.push(nodes[index]);

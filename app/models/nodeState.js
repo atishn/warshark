@@ -12,6 +12,7 @@ var mongoose = require('mongoose')
 
 var NodeStateSchema = new Schema({
     name: String,
+    index: Number,
     nodeId: String,
     ownerId: String,
     currentUnits: Number,

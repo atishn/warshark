@@ -127,9 +127,10 @@ exports.startGame = function (req, res) {
         for (var i = 0; i < shuffledNodes.length; i++) {
 
             var nodeState = new NodeState();
-            nodeState.nodeId = nodes[i]._id;
-            nodeState.currentUnits = nodes[i].units;
-            nodeState.ownerId = game.users[i%game.users.length]._id;
+            nodeState.nodeId = shuffledNodes[i]._id;
+            nodeState.index = shuffledNodes[i].index;
+            nodeState.currentUnits = shuffledNodes[i].units;
+            nodeState.ownerId = game.users[i % game.users.length]._id;
             nodeStateArray.push(nodeState);
         }
 
@@ -178,7 +179,7 @@ exports.remove = function (req, res) {
  */
 
 exports.show = function (req, res) {
-    var game = req.game
+   var game = req.game
 
     if (game)
         return res.send(game)

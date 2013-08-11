@@ -391,7 +391,7 @@ module.exports = function (app, api, passport, auth) {
             path: '/api/populate/{gameName}',
             summary: 'Populate DB with dummy database',
             method: 'POST',
-            params: [api.pathParam('gameName', 'Name of Game', 'string')],
+            params: [api.pathParam('gameName', 'Name of Game', 'string'), api.queryParam('regionCount', 'Number of Regions', 'number'), api.queryParam('nodeCount', 'Number of Nodes per region', 'number')],
             nickname: 'populateGameDatabase'
         },
         action: db_content.populate
