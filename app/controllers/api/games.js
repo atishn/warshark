@@ -36,6 +36,10 @@ exports.create = function (req, res) {
 
 exports.addUser = function (req, res) {
     var game = req.game;
+
+    if (game.status != 'New') {
+        return res.send(new Error("You cannot add user to running game. Please reset the game."))
+    }
     var userId = req.body.id;
 
     if (userId instanceof Array) {
@@ -61,6 +65,10 @@ exports.showUsers = function (req, res) {
 
 exports.removeUser = function (req, res) {
     var game = req.game;
+
+    if (game.status != 'New') {
+        return res.send(new Error("You cannot remove user from running game. Please reset the game."))
+    }
     var userId = req.subscriberId;
 
     if (userId instanceof Array) {
