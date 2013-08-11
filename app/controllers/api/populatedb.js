@@ -4,8 +4,6 @@ var mongoose = require('mongoose')
     , Map = mongoose.model('Map')
     , Region = mongoose.model('Region')
     , Node = mongoose.model('Node')
-    , NodeState = mongoose.model('NodeState')
-    , User = mongoose.model('User')
     , UserGame = mongoose.model('UserGame')
 
 
@@ -71,10 +69,11 @@ exports.populate = function (req, res) {
     var game = new Game();
     game.name = "Game_" + mapName;
     game.mapId = map;
-    game.users.push("51ddbcedaa9be60000000002");  // Wicks
-    game.users.push("51fd2269c0e13251a0000002");  // Atish
-    game.users.push("5204cc38beb9ad0000000002");  // Rob
-    game.users.push("5204cc7ebeb9ad0000000004");  // Cho
+
+    Game.subscribeUser(game, "51ddbcedaa9be60000000002");  // Wicks
+    Game.subscribeUser(game, "51fd2269c0e13251a0000002"); // Atish
+    Game.subscribeUser(game, "5204cc38beb9ad0000000002"); // Rob
+    Game.subscribeUser(game, "5204cc7ebeb9ad0000000004");  // Cho
 
     async.waterfall([
         function (cb) {

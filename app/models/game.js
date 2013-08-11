@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , _ = require('underscore')
 
+
 /**
  * User Schema
  */
@@ -17,9 +18,12 @@ var GameSchema = new Schema({
         { type: Schema.ObjectId, ref: 'NodeState' }
     ],
     users: [
-        { type: Schema.ObjectId, ref: 'User' }
+        {seqId: Number,
+            user: { type: Schema.ObjectId, ref: 'User' }
+        }
     ],
     currentUser: { type: Schema.ObjectId, ref: 'User'},
+    movesLeft: Number,
     status: { type: String, enum: ['New', 'InProgress', 'End'], default: 'New' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, value: Date.now }
@@ -60,7 +64,50 @@ GameSchema.statics = {
             .limit(options.perPage)
             .skip(options.perPage * options.page)
             .exec(cb)
+    },
+
+    subscribeUser: function (game, userid) {
+
+        var userEntry = userEntry || {}
+
+        userEntry.seqId = game.users.length + 1;
+        userEntry.user = userid;
+
+        game.users.addToSet(userEntry);
+
+        // Updating reference to UserGame
+        var UserGame = mongoose.model('UserGame')
+
+        UserGame
+            .findOne({_id: userid})
+            .exec(function (err, userGame) {
+                if (err) return
+                if (!userGame) {
+                    userGame = new UserGame();
+                    userGame.user = userid;
+                }
+                userGame.game.addToSet(game._id)
+                userGame.save()
+            })
+    },
+
+    // This functionality is broken. need to implement properly.
+    unsubscribeUser: function (game, userid) {
+        game.users.pull(userid);
+
+        var UserGame = mongoose.model('UserGame')
+
+        // Updating reference to UserGame
+        UserGame
+            .findOne({_id: userid})
+            .exec(function (err, userGame) {
+                if (err) return
+                if (!userGame) return
+                userGame.game.pull(game._id)
+                userGame.save();
+            })
     }
+
 
 }
 /**

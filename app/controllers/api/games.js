@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
     , User = mongoose.model('User')
     , UserGame = mongoose.model('UserGame')
 
+var DEFAULT_USER_MOVES = 3;
 /**
  * Create Game
  */
@@ -76,37 +77,14 @@ exports.removeUser = function (req, res) {
 }
 
 function subscribeUser(game, userid) {
-    game.users.addToSet(userid);
+
+    Game.subscribeUser(game, userid);
     game.save();
-
-    // Updating reference to UserGame
-
-    UserGame
-        .findOne({_id: userid})
-        .exec(function (err, userGame) {
-            if (err) return
-            if (!userGame) {
-                userGame = new UserGame();
-                userGame.user = userid;
-            }
-            userGame.game.addToSet(game._id)
-            userGame.save()
-        })
 }
 
 function unsubscribeUser(game, userid) {
-    game.users.pull(userid);
+    Game.unsubscribeUser(game, userid);
     game.save();
-
-    // Updating reference to UserGame
-    UserGame
-        .findOne({_id: userid})
-        .exec(function (err, userGame) {
-            if (err) return
-            if (!userGame) return
-            userGame.game.pull(game._id)
-            userGame.save();
-        })
 }
 
 
@@ -116,6 +94,7 @@ exports.startGame = function (req, res) {
     if (game.users.length <= 1) {
         return new Error('Not Sufficient users to start a game.')
     }
+
 
     Map.getNodes(game.mapId, function (err, nodes) {
 
@@ -138,8 +117,10 @@ exports.startGame = function (req, res) {
                 for (var i = 0; i < nodeStateArray.length; i++) {
                     game.nodesState.addToSet(nodeStateArray[i]);
                 }
+                // Udpate the Game
                 game.status = 'InProgress';
-
+                game.movesLeft = DEFAULT_USER_MOVES;
+                game.currentUser = game.users[0];
                 game.save(function (err, game) {
                     res.send(game);
                 });

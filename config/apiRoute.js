@@ -286,11 +286,10 @@ module.exports = function (app, api, passport, auth) {
         action: games.startGame
     });
 
-
     api.addGet({
         spec: {
-            path: '/api/game/{gameId}/restart',
-            summary: 'Restart a game by Id',
+            path: '/api/game/{gameId}/clear',
+            summary: 'Clear a game by Id',
             params: [api.pathParam('gameId', 'ID of Game', 'string')],
             nickname: 'restartGameById'
         },
