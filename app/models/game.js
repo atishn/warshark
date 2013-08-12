@@ -94,11 +94,17 @@ GameSchema.statics = {
     // TODO : This functionality is broken. need to implement properly.
     unsubscribeUser: function (game, userid) {
 
+        var foundMatch = false;
+
         for (var i = 0; i < game.users.length; i++) {
             var userEntry = game.users[i];
             if (userEntry.user._id == userid) {
                 game.users.pull(userEntry);
-                break;
+                foundMatch = true;
+            }
+            if (foundMatch && i < game.users.length) {
+                userEntry = game.users[i];
+                userEntry.seqId = userEntry.seqId - 1;    // Shift the seqId by -1
             }
         }
 
