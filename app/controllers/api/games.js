@@ -108,13 +108,22 @@ exports.startGame = function (req, res) {
 
         var nodeStateArray = [];
 
+        var activeNodeCountPerUser = activeNodeCountPerUser || {}
         for (var i = 0; i < shuffledNodes.length; i++) {
 
             var nodeState = new NodeState();
             nodeState.nodeId = shuffledNodes[i]._id;
             nodeState.index = shuffledNodes[i].index;
             nodeState.currentUnits = shuffledNodes[i].units;
-            nodeState.ownerId = game.users[i % game.users.length]._id;
+
+            var userId = game.users[i % game.users.length].user._id;
+            nodeState.ownerId = userId;
+
+            if (activeNodeCountPerUser[userId]) {
+                activeNodeCountPerUser[userId] = activeNodeCountPerUser[userId] * 1 + 1;
+            } else {
+                activeNodeCountPerUser[userId] = 1;
+            }
             nodeStateArray.push(nodeState);
         }
 
@@ -123,10 +132,16 @@ exports.startGame = function (req, res) {
                 for (var i = 0; i < nodeStateArray.length; i++) {
                     game.nodesState.addToSet(nodeStateArray[i]);
                 }
-                // Udpate the Game
+                // Update the Game
                 game.status = 'InProgress';
                 game.movesLeft = DEFAULT_USER_MOVES;
-                game.currentUser = game.users[0];
+                game.currentUser = game.users[0].user;
+
+                for (var i = 0; i < game.users.length; i++) {
+                    var userEntry = game.users[i];
+                    userEntry.nodeCount = activeNodeCountPerUser[userEntry.user._id];
+                }
+
                 game.save(function (err, game) {
                     res.send(game);
                 });

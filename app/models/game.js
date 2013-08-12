@@ -19,6 +19,7 @@ var GameSchema = new Schema({
     ],
     users: [
         {seqId: Number,
+            nodeCount: {type: Number, default: 0},
             user: { type: Schema.ObjectId, ref: 'User' }
         }
     ],
